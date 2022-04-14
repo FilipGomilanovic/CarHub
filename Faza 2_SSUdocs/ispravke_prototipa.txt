@@ -1,0 +1,40 @@
+15.Korisniku koji nije ulogovan (gost) dozvoljeno je da pregleda oglase za prodaju i iznajmljivanje vozila, nije mu dozvoljeno da postavi oglas(klikom na dugme postavi oglas, sajt korisnika vodi na stranicu za registraciju, ako je korisnik vec registrovan u gornjem desnom uglu ima opciju za logovanje)
+
+16.ispravljeno
+
+17.Procitati tacku 15
+
+18.Korisnik nece birati tip korisnika pri registraciji, ulogovan korisnik ce imati otkljucane sve funkcionalnosti, pretpostavka je da moderator i administrator imaju posebne naloge i da nije moguce napraviti nalog tog tipa pri registraciji.
+
+19. ispravljeno
+
+20. bice implementirano, smatrali smo da nije toliko bitna opcija koju treba prikazati u prototipu
+
+21.ispravljeno
+
+22.ispravljeno
+
+28. ispravljeno (u finalnoj verziji ova opcija kao i uredjivanje profila ce verovatno biti implementirana nekom padajucom listom..)
+
+31.ispravljeno
+
+34.ispravljeno
+
+35. ispravljeno (u finalnoj verziji takodje ce biti realizovanu u podajucem meniju)
+
+38. ispravljeno
+
+39. napraviti cisto primer kako bi izgledalo brisanje korisnika(bice implementirano)
+
+41. ispravljeno
+
+42. ostaviti da vidimo da li je bolje menjati SSU ili prototip
+
+43. Menjanje imena, nije usaglaseno sa prototipom
+
+44. razmisliti da li je bolje menjati ssu ili prototip
+
+45. Nije moguce do kraja realizovati opciju zakazivanja u alatu Pencil, potrebna baza podataka..
+
+46.Na prototipu postoji opcija za ocenjivanje korisnika
+
