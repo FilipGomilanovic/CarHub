@@ -1,0 +1,60 @@
+15.Korisniku koji nije ulogovan (gost) dozvoljeno je da pregleda oglase za prodaju i iznajmljivanje vozila, nije mu dozvoljeno da postavi oglas(klikom na dugme postavi oglas, sajt korisnika vodi na stranicu za registraciju, ako je korisnik vec registrovan u gornjem desnom uglu ima opciju za logovanje)
+
+16.ispravljeno
+
+17.Procitati tacku 15
+
+18.Korisnik nece birati tip korisnika pri registraciji, ulogovan korisnik ce imati otkljucane sve funkcionalnosti, pretpostavka je da moderator i administrator imaju posebne naloge i da nije moguce napraviti nalog tog tipa pri registraciji.
+
+19. ispravljeno
+
+20. bice implementirano, smatrali smo da nije toliko bitna opcija koju treba prikazati u prototipu
+
+21.ispravljeno
+
+22.ispravljeno
+
+28. ispravljeno (u finalnoj verziji ova opcija kao i uredjivanje profila ce verovatno biti implementirana nekom padajucom listom..)
+
+31.ispravljeno
+
+34.ispravljeno
+
+35. ispravljeno (u finalnoj verziji takodje ce biti realizovanu u podajucem meniju)
+
+38. ispravljeno
+
+39. napraviti cisto primer kako bi izgledalo brisanje korisnika(bice implementirano)
+
+41. ispravljeno
+
+42. ostaviti da vidimo da li je bolje menjati SSU ili prototip
+
+43. Menjanje imena, nije usaglaseno sa prototipom
+
+44. razmisliti da li je bolje menjati ssu ili prototip
+
+45. Nije moguce do kraja realizovati opciju zakazivanja u alatu Pencil, potrebna baza podataka..
+
+46.Na prototipu postoji opcija za ocenjivanje korisnika
+
+===============================================================================================================
+
+1. namenjeno je za razvoj projektam, tj za nas tim (nije uvazen predlog)
+2. dodata reč - rednim
+3. uvazen predlog - izmenjeno u registrovan korisnik
+4. dodata opcija registrovanja kod gosta
+5. mala izmena, tj. preciziranje
+6. izmena nevezana za predlog kolega (uklonjene kategorije kod logovanja), obavezna polja ce biti pri implementaciji dogovorena
+7. nije uvazen predlog, predlog profila podrazumeva stranicu profila gde su osnovne informacije, i ono sto je vec navedeno
+8. nije uvazen predlog, korisnik brise svoj nalog nakon sto je vec ulogovan, tako da nema potrebe za daljom verfikacijom
+9. uvazen predlog, vezuje se za trecu tacku, Prodavac je zapravo registrovani korisnik
+10. nije uvazen predlog, detalji ce biti razradjni pri implementaciji
+11. nije uvazen predlog jer su moderatori zapravo registrovani korisnici, a administrator je jedan samo
+12. uvazen predlog 
+13.nije uvazen predlog
+14. nije uvazen predlog
+29. nije uvažen predlog, kolege nisu dobro razumeli projektni zadatak kao ni ssu 
+30. 31. samo dodat kratak opis u vezi toga ko briše oglase
+36. nije uvazen predlog, razradiće se nakon implementacije
+37. nije uvazen predlog, jeste posledica
