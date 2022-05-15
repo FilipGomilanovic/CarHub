@@ -38,3 +38,23 @@
 
 46.Na prototipu postoji opcija za ocenjivanje korisnika
 
+===============================================================================================================
+
+1. namenjeno je za razvoj projektam, tj za nas tim (nije uvazen predlog)
+2. dodata reč - rednim
+3. uvazen predlog - izmenjeno u registrovan korisnik
+4. dodata opcija registrovanja kod gosta
+5. mala izmena, tj. preciziranje
+6. izmena nevezana za predlog kolega (uklonjene kategorije kod logovanja), obavezna polja ce biti pri implementaciji dogovorena
+7. nije uvazen predlog, predlog profila podrazumeva stranicu profila gde su osnovne informacije, i ono sto je vec navedeno
+8. nije uvazen predlog, korisnik brise svoj nalog nakon sto je vec ulogovan, tako da nema potrebe za daljom verfikacijom
+9. uvazen predlog, vezuje se za trecu tacku, Prodavac je zapravo registrovani korisnik
+10. nije uvazen predlog, detalji ce biti razradjni pri implementaciji
+11. nije uvazen predlog jer su moderatori zapravo registrovani korisnici, a administrator je jedan samo
+12. uvazen predlog 
+13.nije uvazen predlog
+14. nije uvazen predlog
+29. nije uvažen predlog, kolege nisu dobro razumeli projektni zadatak kao ni ssu 
+30. 31. samo dodat kratak opis u vezi toga ko briše oglase
+36. nije uvazen predlog, razradiće se nakon implementacije
+37. nije uvazen predlog, jeste posledica
