@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
-
+from .models import *
 
 # from CarHub.forms import NewUserForm
 
@@ -30,14 +30,20 @@ def postavljanjeOglasa(request):
 
 def registracija(request):
     if request.method == "POST":
-        form = NewUserForm(request.POST)
+        form = KorisnikNovi(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
+            korIme = form.cleaned_data['username']
+            sifra = form.cleaned_data['password']
+            broj = form.cleaned_data['number']
+            mejl = form.cleaned_data['email']
+            korisnik = Korisnik(username=korIme, password=sifra, kontakt_telefon=broj, email=mejl)
+            korisnik.save()
+
+           # login(request, user)
             messages.success(request, "Registracija uspesna")
             return redirect("CarHub:pocetnaStranaUlogovan")
         messages.error(request, "Neuspesna registracija")
-    form = NewUserForm()
+    form = KorisnikNovi()
 
     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
