@@ -17,7 +17,7 @@ Pocetna strana-->
     
 	body {
       {% load static %}
-      background-image: url({% static "somikaubudvi.jpg" %});
+      background-image: url({% static "naslovniWall.jpg" %});
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;
@@ -34,9 +34,17 @@ Pocetna strana-->
                     {% load static %}
                     <img src= {% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
                 </a>
-                <a href="/prijava" class="navbar-brand">
-                    <img src={% static "logoAvatar.png" %} alt="Logo" style="width: 40px;" align="right">
-                </a>
+                <div class="dropdown">
+                <button type="button" class="btn-danger dropdown-toggle" data-bs-toggle="dropdown">
+                    {{user.username}}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="dropdown-item">Pregled profila</a></li>
+                    <li><a href="#" class="dropdown-item">Poruke</a></li>
+                    <li><a href="/logout" class="dropdown-item">Odjavi se</a></li>
+
+                </ul>
+            </div>
                 
 
             </div>
@@ -57,7 +65,7 @@ Pocetna strana-->
                     <center>
                         <td><button type="button" class="btn btn-danger" style="width: 100px;">BUY</button></td>
                          <td><button type="button" class="btn btn-danger" style="width: 100px;" >RENT</button></td>
-                         <td><button type="button" class="btn btn-danger disabled" style="width: 100px;">SELL</button></td>
+                         <td><button type="button" class="btn btn-danger " style="width: 100px;">SELL</button></td>
 
                     </center>
                     
