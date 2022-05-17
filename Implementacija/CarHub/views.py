@@ -12,4 +12,5 @@ def Test(request):
 def postavljanjeOglasa(request):
     return render(request, 'postavljanjeOglasa.html')
 
-
+def pretragaOglasa(request):
+    return render(request, 'pretragaOglasa.html')
