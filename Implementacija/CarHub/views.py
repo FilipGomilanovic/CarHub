@@ -31,6 +31,9 @@ def postavljanjeOglasa(request):
 def pretragaOglasa(request):
     return render(request, 'pretragaOglasa.html')
 
+def pregledOglasa(request):
+    return render(request, 'pregledOglasa.html')
+
 
 def registracija(request):
     if request.method == "POST":

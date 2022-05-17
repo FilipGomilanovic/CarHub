@@ -7,7 +7,8 @@ urlpatterns = [
     path('pathTest', views.Test),
     path('postavljanjeOglasa', views.postavljanjeOglasa),
 
-    path('pretragaOglasa', views.pretragaOglasa)
+    path('pretragaOglasa', views.pretragaOglasa),
+    path('pregledOglasa', views.pregledOglasa),
 
 
     path('pathTest', views.Test, name="pocetnaStrana"),
