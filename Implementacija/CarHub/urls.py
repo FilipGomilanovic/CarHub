@@ -11,6 +11,8 @@ urlpatterns = [
     path('pregledOglasa', views.pregledOglasa),
 
 
+
+
     path('pathTest', views.Test, name="pocetnaStrana"),
     path('pathTestUlogovan', views.Ulogovan, name="pocetnaStranaUlogovan"),
 
