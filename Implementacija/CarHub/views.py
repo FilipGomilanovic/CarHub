@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from .forms import *
 
 # Create your views here.
+
+
 
 def Test(request):
    # return HttpResponse("<h1> CarHub doktoriii</h1>")
@@ -11,5 +13,7 @@ def Test(request):
 
 def postavljanjeOglasa(request):
     return render(request, 'postavljanjeOglasa.html')
+
+
 
 
