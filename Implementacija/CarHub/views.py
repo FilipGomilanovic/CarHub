@@ -28,6 +28,10 @@ def postavljanjeOglasa(request):
     return render(request, 'postavljanjeOglasa.html')
 
 
+def pretragaOglasa(request):
+    return render(request, 'pretragaOglasa.html')
+
+
 def registracija(request):
     if request.method == "POST":
         form = KorisnikNovi(request.POST)
@@ -88,3 +92,4 @@ def prijava(request):
 def logout(request):
     messages.info(request, "Uspesno ste izlogovani")
     return redirect("CarHub:pocetnaStrana")
+
