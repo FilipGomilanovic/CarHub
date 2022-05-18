@@ -3,7 +3,7 @@ from dataclasses import field
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from .models import *
 
 
 
@@ -28,9 +28,9 @@ from django.contrib.auth.models import User
 #             return user
 
 
-class KorisnikNovi(forms.Form):
-    username = forms.CharField(max_length=36, required=True)
-    password = forms.CharField(max_length=36, required=True)
-    number= forms.CharField(max_length=12, required=True)
-    email = forms.EmailField(required=True)
 
+class KorisnikNoviForm(UserCreationForm):
+
+    class Meta:
+        model = Korisnik   #moramo definisati da ne koristimo default User model, vec nas redefinisan
+        fields = ("username", "email", "kontakt_telefon", "password1", "password2")

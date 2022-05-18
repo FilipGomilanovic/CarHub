@@ -4,6 +4,7 @@ from . import views
 app_name="CarHub"
 
 urlpatterns = [
+
     path('pathTest', views.Test),
     path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('profilKorisnika', views.profilKorisnika),
