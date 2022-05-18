@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `4HP`.`Korisnik` (
   `Email` VARCHAR(45) NOT NULL,
   `Kontakt telefon` VARCHAR(45) NOT NULL,
   `Slika` VARCHAR(100) NULL,
-  `Uloga` CHAR(1) NOT NULL DEFAULT 'U', 'M', 'A',
+  `Uloga` CHAR(1) NOT NULL,
   PRIMARY KEY (`idKorisnika`))
 ENGINE = InnoDB;
 
@@ -52,8 +52,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `4HP`.`Oglas` (
   `idOglas` INT NOT NULL AUTO_INCREMENT,
-  `Tip` CHAR(1) NOT NULL DEFAULT 'P', 'R',
-  `Cena` INT NULL COMMENT 'Ako je po dogovoru, onda za cenu ostaje NULL',
+  `Tip` CHAR(1) NOT NULL,
+  `Cena` INT NULL,
   `Boost` TINYINT NULL,
   `Grad` VARCHAR(45) NOT NULL,
   `Model_idModel` INT NOT NULL,
