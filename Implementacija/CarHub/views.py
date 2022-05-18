@@ -23,6 +23,12 @@ def Ulogovan(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStranaUlogovan.html')
 
+def profilKorisnika(request):
+    return render(request, 'profilKorisnika.html')
+
+def urediProfil(request):
+    return render(request, 'urediProfil.html')
+
 
 def postavljanjeOglasa(request):
     return render(request, 'postavljanjeOglasa.html')

@@ -6,10 +6,10 @@ app_name="CarHub"
 urlpatterns = [
     path('pathTest', views.Test),
     path('postavljanjeOglasa', views.postavljanjeOglasa),
-
+    path('profilKorisnika', views.profilKorisnika),
     path('pretragaOglasa', views.pretragaOglasa),
     path('pregledOglasa', views.pregledOglasa),
-
+    path('urediProfil', views.urediProfil),
 
 
 

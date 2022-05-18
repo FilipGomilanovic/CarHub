@@ -43,7 +43,7 @@
 .input-container input:focus{ 
  border:none;	
  outline:none;
- border-bottom:1px solid #e74c3c;	
+ border-bottom:1px solid #e74c3c;
 }
 .btn{
 	color:#fff;
