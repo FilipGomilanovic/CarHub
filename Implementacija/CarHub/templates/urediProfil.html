@@ -1,22 +1,46 @@
 {% extends 'base.html' %}
+
 {% block content%}
-<div class="container rounded mt-5 mb-5" style="background-color: rgba(0, 0, 0, 0.89)">
+    <style>
+        a:link {
+            color: red;
+            text-decoration: none;
+        }
+
+        a:visited{
+            color: red;
+        }
+
+        a:hover {
+            color: red;
+            font-size: larger;
+        }
+    </style>
+<div class="container rounded mb-5" style="background-color: rgba(0, 0, 0, 0.89); margin-top: 200px">
     <div class="row">
-        <div class="col-md-3 border-right">
+        <div class="col-md-4 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="text-white"><a href="prijava.html">Promeni sliku</a></span></div>
         </div>
-        <div class="col-md-9 border-right">
+        <div class="col-md-8 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right text-white-50">Profile Settings</h4>
                 </div>
                 <div class="row mt-3 text-white">
-                    <div class="col-md-12"><label class="labels">Filip Gomilanovic</label><input type="text" class="form-control" placeholder="enter new username" value=""></div>
-                    <div class="col-md-12"><label class="labels">filipgomilano@gmail.com</label><input type="text" class="form-control" placeholder="enter new email" value=""></div>
-                    <div class="col-md-12"><label class="labels">04534354545</label><input type="text" class="form-control" placeholder="enter new phone" value=""></div>
-                    <div class="col-md-12"><label class="labels">1234</label><input type="text" class="form-control" placeholder="enter new password" value=""></div>
+                    <div class ="col-md-5">
+                        <div class="col-md-12 mb-3"><label class="labels">Filip Gomilanovic</label></div>
+                        <div class="col-md-12 mb-3"><label class="labels">filipgomilano@gmail.com</label></div>
+                        <div class="col-md-12 mb-3"><label class="labels">04534354545</label></div>
+                    </div>
+                    <div class ="col-md-5">
+                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change username</a></div>
+                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change email</a></div>
+                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change phone</a></div>
+                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change password</a></div>
+                    </div>
                 </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+
+                <div class=" col-md-8 col-sm-12 mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
             </div>
         </div>
     </div>

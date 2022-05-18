@@ -27,7 +27,15 @@ def profilKorisnika(request):
     return render(request, 'profilKorisnika.html')
 
 def urediProfil(request):
-    return render(request, 'urediProfil.html')
+    # try:
+    #     profil = Korisnik
+    #
+    #     context = {
+    #         'profil': profil
+    #     }
+        return render(request, 'urediProfil.html')
+    # except Korisnik.DoesNotExist:
+    #     raise Http404("Korisnik not found")
 
 
 def postavljanjeOglasa(request):
