@@ -43,7 +43,7 @@
 .input-container input:focus{ 
  border:none;	
  outline:none;
- border-bottom:1px solid #e74c3c;	
+ border-bottom:1px solid #e74c3c;
 }
 .btn{
 	color:#fff;
@@ -72,4 +72,16 @@
 	top:-12px;
 	font-size:12px;
 	
+}
+.oglas{
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-top: 20px;
+	margin-right: 20px;
+	background-color: white;
+	height : 100px;
+	width : 150px;
+}
+.sortiranje{
+	background-color: white;
 }

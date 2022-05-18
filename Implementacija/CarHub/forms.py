@@ -11,13 +11,13 @@ from .models import *
 # class NewUserForm(UserCreationForm):
 #     email=forms.EmailField(required=True)
 #     number=forms.CharField(max_length=12, required=True)
-#
+
 #     class Meta:
 #         model=User
 #         fields=("username","email","number","password1","password2")
-#
+
 #         def __init__(self):
-#
+
 #         def save(self,commit=True):
 #             user=super(NewUserForm,self).save(commit=False)
 #             user.email=self.cleaned_data['email']
