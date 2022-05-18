@@ -23,9 +23,16 @@ def Ulogovan(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStranaUlogovan.html')
 
+def profilKorisnika(request):
+    return render(request, 'profilKorisnika.html')
+
+def urediProfil(request):
+    return render(request, 'urediProfil.html')
+
 
 def postavljanjeOglasa(request):
     return render(request, 'postavljanjeOglasa.html')
+
 
 
 # def registracija(request):
@@ -56,13 +63,18 @@ def registracija(request):
         return redirect("CarHub:pocetnaStranaUlogovan")
 
     form = KorisnikNoviForm()
-
     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
 
+def pretragaOglasa(request):
+    return render(request, 'pretragaOglasa.html')
+
+def pregledOglasa(request):
+    return render(request, 'pregledOglasa.html')
+
 
 def prijava(request):
-    if request.method == "POST":
+     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -75,11 +87,29 @@ def prijava(request):
             else:
                 messages.error(request, "Netacno ime ili lozinka.")
         else:
-            messages.error(request, "Netacno ime ili lozinka.")
-    form = AuthenticationForm()
-    return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
+             messages.error(request, "Netacno ime ili lozinka.")
+     form = AuthenticationForm()
+     return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
 
+# def prijava(request):
+#      if request.method == "POST":
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#              username = form.cleaned_data.get('username')
+#              password = form.cleaned_data.get('password')
+#              user = authenticate(username=username, password=password)
+#              if user is not None:
+#                  login(request, user)
+#                  messages.info(request, f"Ulogovani ste kao{username}.")
+#                  return redirect("CarHub:pocetnaStranaUlogovan")
+#              else:
+#                  messages.error(request, "Netacno ime ili lozinka.")
+#         else:
+#              messages.error(request, "Netacno ime ili lozinka.")
+#      form = AuthenticationForm()
+#      return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
 
 def logout(request):
     messages.info(request, "Uspesno ste izlogovani")
     return redirect("CarHub:pocetnaStrana")
+
