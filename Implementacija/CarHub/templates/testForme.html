@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 id="test"></h1>
+<form method="post">
+    {% csrf_token %}
+    {{ forma_postaviOglas }}
+    <select id="brend" onchange="ubaciModele()">
+        <option value="nemaIzbora">Izaberite brend</option>
+        {% for brend in brendovi %}
+            <option value="{{ brend.brend }}">{{ brend.brend }}</option>
+        {% endfor %}
+    </select>
+    <select id="modeli"></select>
+    <input type="submit" name="submit">
+</form>
+</body>
+</html>
+<script>
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+       for(i = L; i >= 0; i--) {
+          selectElement.remove(i);
+       }
+    }
+
+    function filtrirajModele(value){
+        var data = JSON.parse("{{ data|escapejs }}");
+        let niz = [];
+
+        for(var x in data){
+            if(value == data[x][0]){
+                niz.push(data[x][1]);
+            }
+        }
+        return niz;
+    }
+
+    function ubaciModele(){
+        var selectBrend = document.getElementById("brend");
+        var value = selectBrend.options[selectBrend.selectedIndex].value;
+        var selectModel = document.getElementById("modeli");
+        removeOptions(selectModel);
+        let naziviModela = filtrirajModele(value);
+        for(var i = 0; i < naziviModela.length; i++){
+            var opt = new Option(naziviModela[i], naziviModela[i])
+            selectModel.appendChild(opt);
+        }
+        naziviModela = [];
+    }
+</script>
