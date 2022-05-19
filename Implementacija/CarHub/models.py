@@ -10,10 +10,19 @@ class Korisnik(AbstractUser):
     kontakt_telefon = models.CharField(db_column='Kontakt telefon', max_length=45)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     slika = models.CharField(db_column='Slika', max_length=100, blank=True, null=True)  # Field name made lowercase.
     uloga = models.CharField(db_column='Uloga', max_length=1)  # Field name made lowercase.
-
     class Meta:
         db_table = 'korisnik'
 
+
+class Model(models.Model):
+    idmodel = models.AutoField(db_column='idModel', primary_key=True)  # Field name made lowercase.
+    carreviewlink = models.CharField(db_column='CarReviewLink', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    brend = models.CharField(db_column='Brend', max_length=100)  # Field name made lowercase.
+    naziv_modela = models.CharField(db_column='Naziv modela', max_length=100)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    godiste = models.IntegerField(db_column='Godiste')  # Field name made lowercase.
+
+    class Meta:
+        db_table = 'model'
 
 #
 # class Cet(models.Model):
@@ -36,15 +45,7 @@ class Korisnik(AbstractUser):
 #         db_table = 'komentar'
 #
 #
-# class Model(models.Model):
-#     idmodel = models.AutoField(db_column='idModel', primary_key=True)  # Field name made lowercase.
-#     carreviewlink = models.CharField(db_column='CarReviewLink', max_length=500, blank=True, null=True)  # Field name made lowercase.
-#     brend = models.CharField(db_column='Brend', max_length=100)  # Field name made lowercase.
-#     naziv_modela = models.CharField(db_column='Naziv modela', max_length=100)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     godiste = models.IntegerField(db_column='Godiste')  # Field name made lowercase.
-#
-#     class Meta:
-#         db_table = 'model'
+
 #
 #
 # class Mojioglasi(models.Model):
