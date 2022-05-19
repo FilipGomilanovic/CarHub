@@ -65,16 +65,22 @@
 
 
         </div>
-        <div class="col-sm-4">
+        
+        <div class="col-sm-4" style="background-color: rgba(0, 0, 0, 0.60);">
             <div class="dropdown">
                 <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
                     Brend automobila
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-item">Audi</a></li>
-                    <li><a href="#" class="dropdown-item">Bmw</a></li>
-                    <li><a href="#" class="dropdown-item">Benz</a></li>
-
+               
+               
+                {% for m in model%}
+                         
+                     <li><a href="#" class="dropdown-item">{{m.brend}}</a></li>      
+                   
+                {% endfor %}
+              
+                    
                 </ul>
             </div>
             <div class="dropdown">
@@ -82,7 +88,7 @@
                     Model automobila
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-item">Audi</a></li>
+                    <li><a href="#" class="dropdown-item">Mercedes</a></li>
                     <li><a href="#" class="dropdown-item">Bmw</a></li>
                     <li><a href="#" class="dropdown-item">Benz</a></li>
 

@@ -39,7 +39,12 @@ def urediProfil(request):
 
 
 def postavljanjeOglasa(request):
-    return render(request, 'postavljanjeOglasa.html')
+    model=Model.objects.values('brend').distinct();   
+    context={
+        'model':model,
+       
+    }
+    return render(request, 'postavljanjeOglasa.html',context)
 
 
 
