@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
 from .models import *
+from json import dumps
 
 # from CarHub.forms import NewUserForm
 
@@ -30,38 +31,28 @@ def urediProfil(request):
     # try:
     #     profil = Korisnik
     #
-    #     context = {
-    #         'profil': profil
-    #     }
+    #     context = {    #     }
         return render(request, 'urediProfil.html')
     # except Korisnik.DoesNotExist:
     #     raise Http404("Korisnik not found")
 
 
 def postavljanjeOglasa(request):
-    return render(request, 'postavljanjeOglasa.html')
+    brendovi = Model.objects.values("brend").distinct()
+    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
+    niz = []
+    for model in brendovi_modeli:
+        niz.append([str(model["brend"]), str(model["naziv_modela"])])
+    # print(niz)
+    # print(brendovi_modeli)
 
+    dataJSON = dumps(niz)
+    context = {
+        "data": dataJSON,
+        "brendovi" : brendovi
+    }
+    return render(request=request, template_name='testForme.html', context = context)
 
-
-# def registracija(request):
-#     if request.method == "POST":
-#         form = KorisnikNovi(request.POST)
-#         if form.is_valid():
-#             korIme = form.cleaned_data['username']
-#             sifra = form.cleaned_data['password']
-#             broj = form.cleaned_data['number']
-#             mejl = form.cleaned_data['email']
-#             korisnik = Korisnik(username=korIme, password=sifra, kontakt_telefon=broj, email=mejl)
-#             korisnik.save()
-#
-#            # login(request, user)
-#             messages.success(request, "Registracija uspesna")
-#             return redirect("CarHub:pocetnaStranaUlogovan")
-#         messages.error(request, "Neuspesna registracija")
-#     form = KorisnikNovi()
-#
-#     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
-#     # return render(request,"registracijaProbaDjango.html")
 
 def registracija(request):
     form = KorisnikNoviForm(request.POST or None)
@@ -99,23 +90,6 @@ def prijava(request):
      form = AuthenticationForm()
      return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
 
-# def prijava(request):
-#      if request.method == "POST":
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#              username = form.cleaned_data.get('username')
-#              password = form.cleaned_data.get('password')
-#              user = authenticate(username=username, password=password)
-#              if user is not None:
-#                  login(request, user)
-#                  messages.info(request, f"Ulogovani ste kao{username}.")
-#                  return redirect("CarHub:pocetnaStranaUlogovan")
-#              else:
-#                  messages.error(request, "Netacno ime ili lozinka.")
-#         else:
-#              messages.error(request, "Netacno ime ili lozinka.")
-#      form = AuthenticationForm()
-#      return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
 
 def logout(request):
     messages.info(request, "Uspesno ste izlogovani")

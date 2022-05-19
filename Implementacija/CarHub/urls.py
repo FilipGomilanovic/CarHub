@@ -17,9 +17,11 @@ urlpatterns = [
     path('pathTest', views.Test, name="pocetnaStrana"),
     path('pathTestUlogovan', views.Ulogovan, name="pocetnaStranaUlogovan"),
 
-    path('postavljanjeOglasa', views.postavljanjeOglasa),
+  # path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('prijava',views.prijava),
     path('registracija',views.registracija),
-    path('logout',views.logout,name="logout")
+    path('logout',views.logout,name="logout"),
+
+    path('postavljanjeOglasa', views.postavljanjeOglasa)
 
 ]
