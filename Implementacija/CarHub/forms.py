@@ -1,11 +1,21 @@
 
+from cgitb import text
+
 from dataclasses import field
+from hashlib import new
+from lib2to3.pgen2.token import NEWLINE
+from logging import PlaceHolder
 from tkinter.tix import Form
+from tkinter.ttk import Style
+from turtle import color
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ChoiceField
+from django.utils.safestring import mark_safe
+
+
 
 from .models import *
 
@@ -40,20 +50,30 @@ class KorisnikNoviForm(UserCreationForm):
         fields = ("username", "email", "kontakt_telefon", "password1", "password2")
 
 
-def popuniIzbore(izbor):
-    brendovi = Model.objects.values("brend").distinct()
-    izbor.append(('default', 'Izaberite brend'))
-    for brend in brendovi:
-        izbor.append((str(brend), str(brend)))
-    return izbor
+
 
 class PostavljanjeOglasa(forms.Form):
-    CHOICES = []
-    CHOICES = popuniIzbore(CHOICES)
+ 
+    CHOICES=[
+        ('izbor','Izaberi karoseriju'),
+        ('limuzina','Limuzina'),
+        ('karavan','Karavan'),
+        ('hedzbek','Hedzbek'),
+        ('dzip','SUV')
+    ]
 
-    brend = forms.ChoiceField(choices = CHOICES, required = True)
-    model = forms.ChoiceField(choices=CHOICES, required=True)
-    term = forms.CharField(max_length=100)
+   
+    godiste=forms.IntegerField(label="Godiste:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste'}))
+    kilometraza=forms.IntegerField(label="Kilometraza:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite kilometrazu'}))
+    snagaMotora=forms.IntegerField(label="Snaga motora:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite snagu motora'}))
+    karoserija=forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
+    slike=forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
+   
+    
+    
+    
+
+    
 
 
     # class Meta:
