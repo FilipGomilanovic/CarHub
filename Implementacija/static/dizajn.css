@@ -8,6 +8,7 @@
     text-align: center;
 }
 .box{
+	
 	position:absolute;
 	left:50%;
 	top:50%;
@@ -84,4 +85,13 @@
 }
 .sortiranje{
 	background-color: white;
+}
+
+#forma1
+{
+	width: 30%;
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
 }

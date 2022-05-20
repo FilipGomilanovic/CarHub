@@ -1,23 +1,134 @@
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="en">
+   
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="/static/dizajn.css">
+    {% load static %}
+    <script src={% static "skripta.js" %}></script>
+    <title>CarHub</title>
+    
 </head>
+
+<style>
+    body {
+      {% load static %}
+      background-image: url({% static 'naslovniWall.jpg' %});
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    </style>
 <body>
-<h1 id="test"></h1>
-<form method="post">
-    {% csrf_token %}
-    {{ forma_postaviOglas }}
-    <select id="brend" onchange="ubaciModele()">
-        <option value="nemaIzbora">Izaberite brend</option>
-        {% for brend in brendovi %}
-            <option value="{{ brend.brend }}">{{ brend.brend }}</option>
-        {% endfor %}
-    </select>
-    <select id="modeli"></select>
-    <input type="submit" name="submit">
-</form>
+
+   
+
+    <div class="row">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand">
+                    {% load static %}
+                    <img src={% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
+                </a>
+
+                    <div class="dropdown">
+                        <button type="button" style="margin-top: 10px; margin-bottom: 10px;" class="btn  dropdown-toggle" data-bs-toggle="dropdown">
+                            Ime korisnika
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-item">Moj Profil</a></li>
+                            <li><a href="#" class="dropdown-item">Poruke</a></li>
+                            <li><a href="#" class="dropdown-item">Odjavi se</a></li>
+
+                        </ul>
+                    </div>
+
+                
+
+            </div>
+            
+
+        </nav>
+        
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-3">
+        </div>
+
+        <div class=" col-sm-7 box" style="margin-top:30px ; height: 600px; ">
+            
+           
+         <div style="width:50%;float:left;">
+              {% csrf_token %}
+              <form  method="post" style="text-align:justify" enctype="multipart/form-data" >
+              <label for="" style="font-size:20px;">Brend:</label><select id="brend" style="margin-left:10px" onchange="ubaciModele() ">
+                <option value="nemaIzbora">Izaberite brend</option>
+                  {% for brend in brendovi %}
+                      <option value="{{ brend.brend }}">{{ brend.brend }}</option>
+                  {% endfor %}
+                   </select>
+                  <br>
+                  <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" id="modeli">
+                    <option value="nemaIzbora">Izaberite model</option>
+                  </select>
+                  <br>
+                  
+                 {{ forma_postaviOglas|crispy}}
+               
+        </div> 
+
+        <div style="width:50%;float:left ;padding-left: 20px;">
+                <div>
+                <input type="radio" id="radio1" name="izbor" style="margin-top: 20px"><font style="color: white; font-size: 18px">
+                PRODAJA</font>
+                </div>
+
+               <div id="sell">
+                <input type="text"  style="margin-top: 20px; align-self: center" placeholder="Cena">
+               </div>
+
+               <div>
+                <input type="radio" id="radio2" name="izbor" style="margin-top: 30px"><font style="color: white; font-size: 18px"> IZNAJMLJIVANJE</font>
+               </div>
+
+               <div id="rent">
+                <input type="text" style="margin-top:10px; align-self: center" placeholder="Cena po danu">
+
+                <input type="text" style="margin-top: 10px; align-self: center" placeholder="Grad">
+
+                <button type="button" class="btn" style="margin-top: 10px">
+                    Postavi slobodne datume
+                </button>
+               </div>
+
+
+               <div>
+                <textarea id="textarea" placeholder="Dodatne informacije" rows="2" cols="50" style="margin-top: 10px"></textarea>
+               </div>
+                    
+                  
+            
+                  <input type="submit" name="submit" class="btn" style="margin-top:10px ;">
+             </form>
+        </div>
+          
+            
+
+            
+</div>   
+</div>
+  
 </body>
 </html>
 <script>
@@ -47,6 +158,8 @@
         var selectModel = document.getElementById("modeli");
         removeOptions(selectModel);
         let naziviModela = filtrirajModele(value);
+        var opt = new Option("Izaberite model", "nijeIzabrano")
+        selectModel.appendChild(opt);
         for(var i = 0; i < naziviModela.length; i++){
             var opt = new Option(naziviModela[i], naziviModela[i])
             selectModel.appendChild(opt);
