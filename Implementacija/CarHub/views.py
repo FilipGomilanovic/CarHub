@@ -42,19 +42,30 @@ def postavljanjeOglasa(request):
     if form.is_valid():
         izbor = request.POST['izbor']
         brend = request.POST['dropdown_Brend']
-        model = request.POST['dropdown_Model']
+        naziv_model = request.POST['dropdown_Model']
         godiste = form.cleaned_data.get('godiste')
         kilometraza = form.cleaned_data.get('kilometraza')
         snaga = form.cleaned_data.get('snagaMotora')
         karoserija = form.cleaned_data.get('karoserija')
         slike = form.cleaned_data.get('slike')
+
+        model_id = Model.objects.filter(godisteOd__lte=godiste).filter(godisteDo__gte=godiste).filter(
+            brend=brend).filter(naziv_modela=naziv_model)  #filtriranje radi pronalaska id-ja modela
+        print(model_id)
         #proveriti sta vraca post request za izbor (da li vraca value od pritisnitog dugmeta)
         if (izbor == "prodaja"):
+            cena = request.POST["cenaProdaja"];
+
+            model = Oglas(tip = "p", cena = cena, boost = 0, grad = '', slike = slike,
+                          snaga = snaga, kilometraza=kilometraza, karoserija=karoserija,
+                          godiste=godiste, model_idmodel=model_id.first())
+            model.save()
+        else:
             pass
-
-        id_modela = Model.objects.get()
-
-       # Oglas = (,id_modela, )
+        #napraviti razlicite ifove za prodaju i iznajmljivanje
+        #ako je prodaja, moze odmag da se postavi oglas
+        #ako je iznajmljivanje, treba smisliti nacin za kupljenje datuma i za njihovubacivanje u bazu
+        #takodje, mora se naci id_Modela pomocu brenda, modela i godista
 
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))

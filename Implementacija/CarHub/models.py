@@ -19,8 +19,8 @@ class Model(models.Model):
     carreviewlink = models.CharField(db_column='CarReviewLink', max_length=500, blank=True, null=True)  # Field name made lowercase.
     brend = models.CharField(db_column='Brend', max_length=100)  # Field name made lowercase.
     naziv_modela = models.CharField(db_column='Naziv modela', max_length=100)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    godisteOd = models.IntegerField(db_column='GodisteOd')  #modeli su se pravili od nekog godista do drugog
-    godisteOd = models.IntegerField(db_column='GodisteDo')
+    godisteOd = models.IntegerField(db_column='GodisteOd', default=0)  #modeli su se pravili od nekog godista do drugog
+    godisteDo = models.IntegerField(db_column='GodisteDo' , default=0)
 
     class Meta:
         db_table = 'model'
@@ -35,8 +35,10 @@ class Oglas(models.Model):
     slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
+    godiste = models.IntegerField(db_column='Godiste', default=0)
     karoserija = models.CharField(db_column="Karoserija", max_length=20, null=False, blank=True, default="limuzina")
     model_idmodel = models.ForeignKey(Model, on_delete=models.CASCADE, db_column='Model_idModel')  # Field name made lowercase.
+
 
     class Meta:
         db_table = 'oglas'

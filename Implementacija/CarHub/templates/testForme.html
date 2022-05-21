@@ -70,7 +70,7 @@
             
            
          <div style="width:50%;float:left;">
-              {% csrf_token %}
+
               <form  method="post" style="text-align:justify" enctype="multipart/form-data" >
               <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
                 <option value="nemaIzbora">Izaberite brend</option>
@@ -83,7 +83,7 @@
                     <option value="nemaIzbora">Izaberite model</option>
                   </select>
                   <br>
-                  
+                  {% csrf_token %}
                  {{ forma_postaviOglas|crispy}}
                
         </div> 
@@ -95,7 +95,7 @@
                 </div>
 
                <div id="sell">
-                <input type="text"  style="margin-top: 20px; align-self: center" placeholder="Cena">
+                <input type="text" name="cenaProdaja"  style="margin-top: 20px; align-self: center" placeholder="Cena">
                </div>
 
                <div>
@@ -103,7 +103,7 @@
                </div>
 
                <div id="rent">
-                <input type="text" style="margin-top:10px; align-self: center" placeholder="Cena po danu">
+                <input type="text" name="cenaIznajmljivanje" style="margin-top:10px; align-self: center" placeholder="Cena po danu">
 
                 <input type="text" style="margin-top: 10px; align-self: center" placeholder="Grad">
 
