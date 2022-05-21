@@ -72,14 +72,14 @@
          <div style="width:50%;float:left;">
               {% csrf_token %}
               <form  method="post" style="text-align:justify" enctype="multipart/form-data" >
-              <label for="" style="font-size:20px;">Brend:</label><select id="brend" style="margin-left:10px" onchange="ubaciModele() ">
+              <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
                 <option value="nemaIzbora">Izaberite brend</option>
                   {% for brend in brendovi %}
                       <option value="{{ brend.brend }}">{{ brend.brend }}</option>
                   {% endfor %}
                    </select>
                   <br>
-                  <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" id="modeli">
+                  <label for="" style="font-size:20px;">Model:</label><select name="dropdown_Model" style="margin-left:10px" id="modeli">
                     <option value="nemaIzbora">Izaberite model</option>
                   </select>
                   <br>
@@ -90,7 +90,7 @@
 
         <div style="width:50%;float:left ;padding-left: 20px;">
                 <div>
-                <input type="radio" id="radio1" name="izbor" style="margin-top: 20px"><font style="color: white; font-size: 18px">
+                <input type="radio" id="radio1" name="izbor" style="margin-top: 20px" value="prodaja"><font style="color: white; font-size: 18px">
                 PRODAJA</font>
                 </div>
 
@@ -99,7 +99,7 @@
                </div>
 
                <div>
-                <input type="radio" id="radio2" name="izbor" style="margin-top: 30px"><font style="color: white; font-size: 18px"> IZNAJMLJIVANJE</font>
+                <input type="radio" id="radio2" name="izbor" style="margin-top: 30px"><font style="color: white; font-size: 18px" value="iznajmi"> IZNAJMLJIVANJE</font>
                </div>
 
                <div id="rent">

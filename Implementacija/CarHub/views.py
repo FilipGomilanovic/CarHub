@@ -38,7 +38,24 @@ def urediProfil(request):
 
 
 def postavljanjeOglasa(request):
-    forma=PostavljanjeOglasa(request.POST,request.FILES)
+    form=PostavljanjeOglasa(request.POST or None,request.FILES or None)
+    if form.is_valid():
+        izbor = request.POST['izbor']
+        brend = request.POST['dropdown_Brend']
+        model = request.POST['dropdown_Model']
+        godiste = form.cleaned_data.get('godiste')
+        kilometraza = form.cleaned_data.get('kilometraza')
+        snaga = form.cleaned_data.get('snagaMotora')
+        karoserija = form.cleaned_data.get('karoserija')
+        slike = form.cleaned_data.get('slike')
+        #proveriti sta vraca post request za izbor (da li vraca value od pritisnitog dugmeta)
+        if (izbor == "prodaja"):
+            pass
+
+        id_modela = Model.objects.get()
+
+       # Oglas = (,id_modela, )
+
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
@@ -51,7 +68,7 @@ def postavljanjeOglasa(request):
     context = {
         "data": dataJSON,
         "brendovi" : brendovi,
-        "forma_postaviOglas":forma
+        "forma_postaviOglas":form
     }
     return render(request=request, template_name='testForme.html', context = context)
 
