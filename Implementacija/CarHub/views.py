@@ -27,6 +27,11 @@ def Ulogovan(request):
 def profilKorisnika(request):
     return render(request, 'profilKorisnika.html')
 
+def konkretanOglasProdaja(request):
+    return render(request, 'konkretanOglasProdaja.html')
+def konkretanOglasRent(request):
+    return render(request, 'konkretanOglasRent.html')
+
 def urediProfil(request):
     # try:
     #     profil = Korisnik
@@ -36,6 +41,40 @@ def urediProfil(request):
     # except Korisnik.DoesNotExist:
     #     raise Http404("Korisnik not found")
 
+def PretragaOglasa(request):
+    forma=pretragaOglasa(request.POST or None)
+    brendovi = Model.objects.values("brend").distinct()
+    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
+    niz = []
+    for model in brendovi_modeli:
+        niz.append([str(model["brend"]), str(model["naziv_modela"])])
+    # print(niz)
+    # print(brendovi_modeli)
+
+    dataJSON = dumps(niz)
+    context = {
+        "data": dataJSON,
+        "brendovi" : brendovi,
+        "forma_pretraziOglas":forma
+    }
+    return render(request=request, template_name='pretragaOglasa.html', context = context)
+def PretragaOglasaRent(request):
+    forma=pretragaOglasaRent(request.POST or None)
+    brendovi = Model.objects.values("brend").distinct()
+    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
+    niz = []
+    for model in brendovi_modeli:
+        niz.append([str(model["brend"]), str(model["naziv_modela"])])
+    # print(niz)
+    # print(brendovi_modeli)
+
+    dataJSON = dumps(niz)
+    context = {
+        "data": dataJSON,
+        "brendovi" : brendovi,
+        "forma_pretraziOglasRent":forma
+    }
+    return render(request=request, template_name='pretragaOglasaRent.html', context = context)
 
 def postavljanjeOglasa(request):
     form=PostavljanjeOglasa(request.POST or None,request.FILES or None)
@@ -95,8 +134,7 @@ def registracija(request):
     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
 
-def pretragaOglasa(request):
-    return render(request, 'pretragaOglasa.html')
+
 
 def pregledOglasa(request):
     return render(request, 'pregledOglasa.html')
@@ -120,6 +158,8 @@ def prijava(request):
      form = AuthenticationForm()
      return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
 
+
+            
 
 def logout(request):
     messages.info(request, "Uspesno ste izlogovani")

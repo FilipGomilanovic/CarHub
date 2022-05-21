@@ -10,7 +10,8 @@ urlpatterns = [
     path('pathTest', views.Test),
     path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('profilKorisnika', views.profilKorisnika),
-    path('pretragaOglasa', views.pretragaOglasa),
+    path('pretragaOglasa', views.PretragaOglasa),
+    path('pretragaOglasaRent', views.PretragaOglasaRent),
     path('pregledOglasa', views.pregledOglasa),
     path('urediProfil', views.urediProfil),
 
@@ -24,7 +25,9 @@ urlpatterns = [
     path('registracija',views.registracija),
     path('logout',views.logout,name="logout"),
 
-    path('postavljanjeOglasa', views.postavljanjeOglasa)
+    path('postavljanjeOglasa', views.postavljanjeOglasa),
+    path('konkretanOglasProdaja',views.konkretanOglasProdaja),
+    path('konkretanOglasRent',views.konkretanOglasRent)
 
 
 ]
