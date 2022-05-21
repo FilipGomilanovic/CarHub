@@ -20,9 +20,24 @@ class Model(models.Model):
     brend = models.CharField(db_column='Brend', max_length=100)  # Field name made lowercase.
     naziv_modela = models.CharField(db_column='Naziv modela', max_length=100)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     godiste = models.IntegerField(db_column='Godiste')  # Field name made lowercase.
+    
 
     class Meta:
         db_table = 'model'
+
+
+class Oglas(models.Model):
+    idoglas = models.AutoField(db_column='idOglas', primary_key=True)  # Field name made lowercase.
+    tip = models.CharField(db_column='Tip', max_length=1)  # Field name made lowercase.
+    cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
+    boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
+    grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
+    slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
+    model_idmodel = models.ForeignKey(Model, models.DO_NOTHING, db_column='Model_idModel')  # Field name made lowercase.
+    
+
+#     class Meta:
+#         db_table = 'oglas'
 
 #
 # class Cet(models.Model):
@@ -68,16 +83,7 @@ class Model(models.Model):
 #         db_table = 'ocena'
 #
 #
-# class Oglas(models.Model):
-#     idoglas = models.AutoField(db_column='idOglas', primary_key=True)  # Field name made lowercase.
-#     tip = models.CharField(db_column='Tip', max_length=1)  # Field name made lowercase.
-#     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
-#     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
-#     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-#     model_idmodel = models.ForeignKey(Model, models.DO_NOTHING, db_column='Model_idModel')  # Field name made lowercase.
-#
-#     class Meta:
-#         db_table = 'oglas'
+
 #
 #
 # class Poruke(models.Model):

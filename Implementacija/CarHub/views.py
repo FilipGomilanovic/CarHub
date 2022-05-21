@@ -38,6 +38,7 @@ def urediProfil(request):
 
 
 def postavljanjeOglasa(request):
+    forma=PostavljanjeOglasa(request.POST,request.FILES)
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
@@ -49,7 +50,8 @@ def postavljanjeOglasa(request):
     dataJSON = dumps(niz)
     context = {
         "data": dataJSON,
-        "brendovi" : brendovi
+        "brendovi" : brendovi,
+        "forma_postaviOglas":forma
     }
     return render(request=request, template_name='testForme.html', context = context)
 
@@ -94,4 +96,5 @@ def prijava(request):
 def logout(request):
     messages.info(request, "Uspesno ste izlogovani")
     return redirect("CarHub:pocetnaStrana")
+
 

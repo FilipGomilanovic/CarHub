@@ -55,45 +55,42 @@
         
     </div>
     <div class="row">
+       
         <div class="col-sm-4">
             {% load static %}
                 <img src={% static "download.png" %}  alt="Default" style="width: 300px; height: 300px; margin-top: 50px;margin-left: 70px" class="rounded">
             <br>
-            <button type="button" class="btn" style="margin-top: 20px; margin-left: 150px;">
+            <button type="submit" class="btn" style="margin-top: 20px; margin-left: 150px;">
                     Dodaj slike
             </button>
 
 
         </div>
         
-        <div class="col-sm-4" style="background-color: rgba(0, 0, 0, 0.60);">
-            <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                    Brend automobila
-                </button>
-                <ul class="dropdown-menu">
-               
-               
-                {% for m in model%}
-                         
-                     <li><a href="#" class="dropdown-item">{{m.brend}}</a></li>      
-                   
+    <div class="col-sm-4">
+        <form action="POST" style="margin-top: 30px;">
+            <div >
+                <label for="" style="color: white;">Brend automobila</label>
+            <select class="Brend" name="listaBrend" id="izborBrenda">
+                {% for b in brend %}       
+                 <option value="">{{.brend}}</option>     
                 {% endfor %}
-              
-                    
-                </ul>
+            </select>
             </div>
-            <div class="dropdown">
-                <button type="button" style="margin-top: 20px" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                    Model automobila
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-item">Mercedes</a></li>
-                    <li><a href="#" class="dropdown-item">Bmw</a></li>
-                    <li><a href="#" class="dropdown-item">Benz</a></li>
 
-                </ul>
+            <div>
+                <label for="" style="color: white;">Brend automobila</label>
+            <select name="" id="izborModela">
+                {% for m in model %}       
+                 <option value="" id="model">{{m.naziv_modela}}</option>     
+                {% endfor %}
+            </select>
             </div>
+
+            
+            
+           
+            
             <div class="dropdown">
                 <button type="button" style="margin-top: 20px" class="btn dropdown-toggle" data-bs-toggle="dropdown">
                     Karoserija automobila
@@ -124,7 +121,11 @@
                 <input type="text" style="margin-top: 20px; align-self: center" placeholder="Adresa">
             </div>
 
-        </div>
+        
+        </form>
+
+
+    </div>
         <div class="col-sm-4">
             <div>
                 <input type="radio" id="radio1" name="izbor" style="margin-top: 50px"><font style="color: white; font-size: 18px">
@@ -142,12 +143,12 @@
 
                 <input type="text" style="margin-top: 20px; align-self: center" placeholder="Grad">
 
-                <button type="button" class="btn" style="margin-top: 20px">
+                <button type="button" class="btn" style="margin-top: 10px">
                     Postavi slobodne datume
                 </button>
             </div>
             <div>
-                <textarea id="textarea" placeholder="Dodatne informacije" rows="8" cols="50" style="margin-top: 30px"></textarea>
+                <textarea id="textarea" placeholder="Dodatne informacije" rows="8" cols="50" style="margin-top: 20px"></textarea>
             </div>
         </div>
         

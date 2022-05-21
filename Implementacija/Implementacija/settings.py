@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'CarHub.apps.CarhubConfig'
+   
+
 ]
 
 MIDDLEWARE = [
@@ -69,6 +73,8 @@ TEMPLATES = [
     },
 ]
 
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+MEDIA_URL="/media/"
 WSGI_APPLICATION = 'Implementacija.wsgi.application'
 
 
@@ -82,7 +88,7 @@ DATABASES = {
         'HOST' : 'localhost',
         'PORT' : '3306',
         'USER' : 'root',
-        'PASSWORD' : ''
+        'PASSWORD' : 'abakussukaba99'
     }
 }
 
@@ -138,5 +144,8 @@ STATIC_DIR,
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'CarHub.Korisnik'
+
+CRISPY_ALLOWED_TEMPLATE_PACK="bootsrap5"
+CRISPY_TEMPLATE_PACK="bootstrap5"
 
 
