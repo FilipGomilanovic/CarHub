@@ -42,7 +42,7 @@ class PostavljanjeOglasa(forms.Form):
     kilometraza = forms.IntegerField(label="Kilometraza:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite kilometrazu'}))
     snagaMotora = forms.IntegerField(label="Snaga motora:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite snagu motora'}))
     karoserija = forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
-    slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
+    #slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
    
 class pretragaOglasa(forms.Form):
      CHOICES=[

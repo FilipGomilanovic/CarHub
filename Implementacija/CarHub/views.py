@@ -24,13 +24,42 @@ def Ulogovan(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStranaUlogovan.html')
 
+
+
 def profilKorisnika(request):
     return render(request, 'profilKorisnika.html')
 
-def konkretanOglasProdaja(request):
-    return render(request, 'konkretanOglasProdaja.html')
+
+
+def konkretanOglasProdaja(request, oglas_id):
+    #namestiti
+    oglas = Oglas.objects.get(pk = oglas_id)
+    model_oglasa = oglas.model_idmodel
+    lista_slika = list(Slike.objects.filter(fk_oglas=oglas))
+    print(lista_slika[0].slike)
+    #slika1 = lista_slika[0]
+    oglas_dict = {
+        'brend' : model_oglasa.brend,
+        'model' : model_oglasa.naziv_modela,
+        'cena' : oglas.cena,
+        'boost' : oglas.boost,
+        'slike' : lista_slika,
+        'snaga' : oglas.snaga,
+        'kilometraza' : oglas.kilometraza,
+        'godiste' : oglas.godiste,
+        'karoserija' : oglas.karoserija,
+    }
+
+    return render(request, 'konkretanOglasProdaja.html', context={'oglas' : oglas_dict})
+
+
+
 def konkretanOglasRent(request):
+    #namestiti
     return render(request, 'konkretanOglasRent.html')
+
+
+
 
 def urediProfil(request):
     # try:
@@ -40,6 +69,8 @@ def urediProfil(request):
         return render(request, 'urediProfil.html')
     # except Korisnik.DoesNotExist:
     #     raise Http404("Korisnik not found")
+
+
 
 def PretragaOglasa(request):
     forma=pretragaOglasa(request.POST or None)
@@ -58,6 +89,8 @@ def PretragaOglasa(request):
         "forma_pretraziOglas":forma
     }
     return render(request=request, template_name='pretragaOglasa.html', context = context)
+
+
 def PretragaOglasaRent(request):
     forma=pretragaOglasaRent(request.POST or None)
     brendovi = Model.objects.values("brend").distinct()
@@ -76,6 +109,9 @@ def PretragaOglasaRent(request):
     }
     return render(request=request, template_name='pretragaOglasaRent.html', context = context)
 
+
+
+
 def postavljanjeOglasa(request):
     form=PostavljanjeOglasa(request.POST or None,request.FILES or None)
     if form.is_valid():
@@ -86,19 +122,22 @@ def postavljanjeOglasa(request):
         kilometraza = form.cleaned_data.get('kilometraza')
         snaga = form.cleaned_data.get('snagaMotora')
         karoserija = form.cleaned_data.get('karoserija')
-        slike = form.cleaned_data.get('slike')
+        slike = request.FILES.getlist('images')
 
         model_id = Model.objects.filter(godisteOd__lte=godiste).filter(godisteDo__gte=godiste).filter(
             brend=brend).filter(naziv_modela=naziv_model)  #filtriranje radi pronalaska id-ja modela
-        print(model_id)
+        #print(model_id)
         #proveriti sta vraca post request za izbor (da li vraca value od pritisnitog dugmeta)
         if (izbor == "prodaja"):
             cena = request.POST["cenaProdaja"];
-
-            model = Oglas(tip = "p", cena = cena, boost = 0, grad = '', slike = slike,
+            for img in slike:
+                print(img)
+            oglas = Oglas(tip = "p", cena = cena, boost = 0, grad = '', slike = slike,
                           snaga = snaga, kilometraza=kilometraza, karoserija=karoserija,
                           godiste=godiste, model_idmodel=model_id.first())
-            model.save()
+            oglas.save()
+            for img in slike:
+                photo = Slike.objects.create(slike = img, fk_oglas = oglas)
         else:
             pass
         #napraviti razlicite ifove za prodaju i iznajmljivanje
@@ -135,11 +174,6 @@ def registracija(request):
     form = KorisnikNoviForm()
     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
-
-
-
-def pregledOglasa(request):
-    return render(request, 'pregledOglasa.html')
 
 
 def prijava(request):
