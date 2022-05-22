@@ -83,8 +83,11 @@
                     <option value="nemaIzbora">Izaberite model</option>
                   </select>
                   <br>
+                  <label>Postavi slike</label>
+              <input required name="images" type="file" multiple class="form-control-file">
                   {% csrf_token %}
                  {{ forma_postaviOglas|crispy}}
+
                
         </div> 
 
