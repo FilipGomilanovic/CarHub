@@ -123,6 +123,8 @@ def postavljanjeOglasa(request):
     return render(request=request, template_name='testForme.html', context = context)
 
 
+
+
 def registracija(request):
     form = KorisnikNoviForm(request.POST or None)
     if form.is_valid():
