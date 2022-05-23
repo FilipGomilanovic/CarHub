@@ -74,16 +74,34 @@ def urediProfil(request):
 
 def PretragaOglasa(request):
     forma=pretragaOglasa(request.POST or None)
+    if forma.is_valid():
+        brend = request.POST['dropdown_Brend']
+        naziv_model = request.POST['dropdown_Model']
+        godiste1 = forma.cleaned_data.get('godiste1')
+        godiste2 = forma.cleaned_data.get('godiste2')
+        karoserija = forma.cleaned_data.get('karoserija')
+        cenaOd = forma.cleaned_data.get('cena1')
+        cenaDo = forma.cleaned_data.get('cena2')
+
+        print(godiste1)
+        oglasi = []
+        models_ids = Model.objects.filter(godisteOd__gte=godiste1).filter(godisteDo__lte=godiste2).filter(
+            brend=brend).filter(naziv_modela=naziv_model)
+        print(models_ids)
+        for model in models_ids:
+            oglasi.append(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo)))
+        print(oglasi)
+
+
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
-    # print(niz)
-    # print(brendovi_modeli)
 
     dataJSON = dumps(niz)
     context = {
+        "oglasi" : oglasi,
         "data": dataJSON,
         "brendovi" : brendovi,
         "forma_pretraziOglas":forma
