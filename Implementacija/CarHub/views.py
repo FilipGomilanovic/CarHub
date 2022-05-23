@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -24,19 +25,39 @@ def Ulogovan(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStranaUlogovan.html')
 
+@login_required(login_url='prijava.html')
 def profilKorisnika(request):
     return render(request, 'profilKorisnika.html')
 
+@login_required(login_url='prijava.html')
 def urediProfil(request):
-    # try:
-    #     profil = Korisnik
-    #
-    #     context = {    #     }
-        return render(request, 'urediProfil.html')
-    # except Korisnik.DoesNotExist:
-    #     raise Http404("Korisnik not found")
+    trenutniKorisnik = request.user
+    kime = None
+    pas = None
+    fon = None
+    mail = None
+    if request.method == 'POST':
+        kime = request.POST['ime1']
+        pas = request.POST['sifra1']
+        fon = request.POST.get('telefon1')
+        mail = request.POST.get('mejl1')
+        print(fon)
+        if len(kime)>6 :
+            trenutniKorisnik.username = kime
+        if len(pas) >6 :
+            trenutniKorisnik.set_password(pas)
+        if len(fon)>6 :
+            trenutniKorisnik.kontakt_telefon = fon
+        if len(mail)>6 :
+            trenutniKorisnik.email = mail
+        trenutniKorisnik.save()
 
 
+
+    return render(request, 'urediProfil.html')
+
+
+@login_required(login_url='prijava.html')
 def postavljanjeOglasa(request):
     form=PostavljanjeOglasa(request.POST or None,request.FILES or None)
     if form.is_valid():
