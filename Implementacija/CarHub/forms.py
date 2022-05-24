@@ -45,5 +45,5 @@ class PostavljanjeOglasa(forms.Form):
     slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
    
 class PromeniSliku(forms.Form):
-    slika = forms.FileField(widget=forms.FileInput(attrs={'multiple': False}))
+    slika = forms.FileField(widget=forms.FileInput(),required=False)
     

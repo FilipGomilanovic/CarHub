@@ -36,14 +36,16 @@ def urediProfil(request):
     pas = None
     fon = None
     mail = None
-    form = PromeniSliku(request.POST, request.FILES or None)
+    form = PromeniSliku(request.POST or None, request.FILES or None)
     if form.is_valid():
         kime = request.POST['ime1']
         pas = request.POST['sifra1']
         fon = request.POST.get('telefon1')
         mail = request.POST.get('mejl1')
         slika = form.cleaned_data.get('slika')
-        trenutniKorisnik.slika = slika
+        if slika is not None:
+            trenutniKorisnik.slika = slika
+
         if len(kime)> 6 :
             trenutniKorisnik.username = kime
         if len(pas) > 6 :

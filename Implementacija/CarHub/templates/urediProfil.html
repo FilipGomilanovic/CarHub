@@ -58,7 +58,7 @@
             <form method="post" enctype="multipart/form-data">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 {% load static %}
-                <img id="slika" src="{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5"
+                <img id="slika" src="media/{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5"
                      onerror="if (this.src !='{% static "default.jpg" %}') this.src = '{% static "default.jpg" %}';" >
                 {{ forma_promenaSlike }}
 
