@@ -129,7 +129,7 @@
                 <br>
 
                 <div style="text-align: left">
-                    <p>{{ prosecnaOcena }}average based on {{ ukupnoOcena }} reviews.</p>
+                    <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
                     <hr style="border:3px solid #f1f1f1">
                 </div>
                 <div class="row">
@@ -201,26 +201,20 @@
                             <div class="comments">
                                 <p class="font-weight-bold">
                                     {{ comment.sadrzaj }}
-
-                                        <div style="text-align: end">
-                                            {{ comment.autor }} -
-                                            <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp.date }}</span>
-                                            <hr>
-                                        </div>
+                                    <div style="text-align: end">
+                                        {{ comment.autor }} -
+                                        <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp.date }}</span>
+                                        <hr>
+                                    </div>
                                 </p>
-
                             </div>
-                            {% endfor %}
-                    </div>
-                    <div class ="col-md-5">
-
+                         {% endfor %}
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-xl-6">
 
         </div>
         <div class="col-12" style="margin-bottom: 30px">

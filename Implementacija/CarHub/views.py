@@ -97,8 +97,74 @@ def profilKorisnika(request):
     return render(request, 'profilKorisnika.html', context)
 
 
-def profilDrugogKorisnika(request):
-    return render(request, 'profilDrugogKorisnika.html')
+def profilDrugogKorisnika(request, korisnik_id):
+    profil = Korisnik.objects.get(id=korisnik_id)
+    komentar = Komentar.objects.order_by('-timestamp').filter(profilKorisnika=profil)
+
+    oceneKorisnika = Ocena.objects.all().filter(korisnik=profil)
+    ukupnoOcena = Ocena.objects.all().filter(korisnik=profil).count()
+    ocene1 = 0
+    ocene2 = 0
+    ocene3 = 0
+    ocene4 = 0
+    ocene5 = 0
+
+    for o in oceneKorisnika:
+        if o.ocena == 1:
+            ocene1 = ocene1 + 1
+        elif o.ocena == 2:
+            ocene2 = ocene2 + 1
+        elif o.ocena == 3:
+            ocene3 = ocene3 + 1
+        elif o.ocena == 4:
+            ocene4 = ocene4 + 1
+        elif o.ocena == 5:
+            ocene5 = ocene5 + 1
+
+    ocene1Bar = ocene1 / ukupnoOcena * 100
+    ocene2Bar = ocene2 / ukupnoOcena * 100
+    ocene3Bar = ocene3 / ukupnoOcena * 100
+    ocene4Bar = ocene4 / ukupnoOcena * 100
+    ocene5Bar = ocene5 / ukupnoOcena * 100
+    prosecnaOcena = (ocene1 + ocene2 * 2 + ocene3 * 3 + ocene4 * 4 + ocene5 * 5) / 5
+    if prosecnaOcena > 2.5:
+        if prosecnaOcena < 3.5:
+            zvezdice = 3
+        elif prosecnaOcena > 4.5:
+            zvezdice = 5
+        else:
+            zvezdice = 4
+    else:
+        if prosecnaOcena > 1.5:
+            zvezdice = 2
+        elif prosecnaOcena < 0.5:
+            zvezdice = 1
+        else:
+            zvezdice = 0
+
+    data = []
+    for i in range(5):
+        data.append(i + 1)
+
+    context = {
+        'profil' : profil,
+        'komentar': komentar,
+        'ocene1': ocene1,
+        'ocene2': ocene2,
+        'ocene3': ocene3,
+        'ocene4': ocene4,
+        'ocene5': ocene5,
+        'ukupnoOcena': ukupnoOcena,
+        'prosecnaOcena': prosecnaOcena,
+        'ocene1Bar': ocene1Bar,
+        'ocene2Bar': ocene2Bar,
+        'ocene3Bar': ocene3Bar,
+        'ocene4Bar': ocene4Bar,
+        'ocene5Bar': ocene5Bar,
+        'zvezdice': zvezdice,
+        'data': data
+    }
+    return render(request, 'profilDrugogKorisnika.html', context)
 
 
 @login_required(login_url='login')
