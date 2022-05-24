@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template.defaultfilters import register
+
 from .forms import *
 from django.contrib.auth import login
 from django.contrib import messages
@@ -8,12 +10,16 @@ from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
 from .models import *
 from json import dumps
+from django import template
 
 # from CarHub.forms import NewUserForm
 
 
 # Create your views here.
 
+@register.filter
+def index(sequence, position):
+    return sequence[position]
 
 def Test(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
@@ -73,17 +79,65 @@ def urediProfil(request):
 
 
 def PretragaOglasa(request):
-    forma=pretragaOglasa(request.POST or None)
+
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
-    # print(niz)
-    # print(brendovi_modeli)
+
+    forma=pretragaOglasa(request.POST or None)
+    if forma.is_valid():
+        brend = request.POST['dropdown_Brend']
+        naziv_model = request.POST['dropdown_Model']
+        godiste1 = forma.cleaned_data.get('godiste1')
+        godiste2 = forma.cleaned_data.get('godiste2')
+        karoserija = forma.cleaned_data.get('karoserija')
+        cenaOd = forma.cleaned_data.get('cena1')
+        cenaDo = forma.cleaned_data.get('cena2')
+
+        oglasi = []
+        imgs = []
+        models_ids = Model.objects.filter(godisteOd__gte=godiste1).filter(godisteDo__lte=godiste2).filter(
+            brend=brend).filter(naziv_modela=naziv_model)
+        print(models_ids)
+        for model in models_ids:
+            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo)))
+        print(oglasi)
+        for oglas in oglasi:
+            nesto = Slike.objects.filter(fk_oglas=oglas)
+            imgs.append(nesto.first().slike)
+            #imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
+            print(imgs)
+        dataJSON = dumps(niz)
+        context = {
+            "naziv_brenda" : brend,
+            "naziv_modela" : naziv_model,
+            "slike" : imgs,
+            "oglasi" : oglasi,
+            "data": dataJSON,
+            "brendovi": brendovi,
+            "forma_pretraziOglas": forma
+        }
+
+        return render(request=request, template_name='pretragaOglasa.html', context = context)
+
+
+
+
+
+    #ako je korisnik poslat na stranicu pretrage preko get requesta, to znaci da je to prvi ulaz tu,
+    #a ako je preko post requesta, onda je vec napravio filtere i primenio ih
+    #U slucaju da korisnik dolazi na sajt get requestom, pravi se lista od pocetnih 9 oglasa(boostovani, ili svi boos
+    # tovani sa skrolom), a u slucaju da se dolazi na sajt nakon post requesta, onda se primenjuju filteri i
+    #salju odgovarajuci oglasi
+
+    #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
 
     dataJSON = dumps(niz)
     context = {
+        # "slike" : imgs,
+        # "oglasi" : oglasi,
         "data": dataJSON,
         "brendovi" : brendovi,
         "forma_pretraziOglas":forma
