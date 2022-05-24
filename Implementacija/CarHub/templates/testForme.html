@@ -66,24 +66,25 @@
         <div class="col-sm-3">
         </div>
 
-        <div class=" col-sm-7 box" style="margin-top:30px ; height: 600px; ">
+        <div class=" col-sm-7 box"; style="margin-top:1.2% ;"  ">
             
            
-         <div style="width:50%;float:left;">
+         <div style="width:50%;float:left; ">
 
-              <form  method="post" style="text-align:justify" enctype="multipart/form-data" >
-              <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
+              <form  method="post" style="text-align:justify;color: white;" enctype="multipart/form-data"  >
+              <label for="" style="font-size:15px;">Brend:</label><select class="form-select" id="brend" name="dropdown_Brend"  onchange="ubaciModele() ">
                 <option value="nemaIzbora">Izaberite brend</option>
                   {% for brend in brendovi %}
                       <option value="{{ brend.brend }}">{{ brend.brend }}</option>
                   {% endfor %}
                    </select>
                   <br>
-                  <label for="" style="font-size:20px;">Model:</label><select name="dropdown_Model" style="margin-left:10px" id="modeli">
+                  <label for="" style="font-size:15px;">Model:</label><select class="form-select" name="dropdown_Model"  id="modeli">
                     <option value="nemaIzbora">Izaberite model</option>
                   </select>
                   <br>
-                  <label>Postavi slike</label>
+                  <label>Postavi slike:</label>
+                 
               <input required name="images" type="file" multiple class="form-control-file">
                   {% csrf_token %}
                  {{ forma_postaviOglas|crispy}}
@@ -92,6 +93,7 @@
         </div> 
 
         <div style="width:50%;float:left ;padding-left: 20px;">
+           
                 <div>
                 <input type="radio" id="radio1" name="izbor" style="margin-top: 20px" value="prodaja"><font style="color: white; font-size: 18px">
                 PRODAJA</font>
@@ -110,9 +112,7 @@
 
                 <input type="text" style="margin-top: 10px; align-self: center" placeholder="Grad">
 
-                <button type="button" class="btn" style="margin-top: 10px">
-                    Postavi slobodne datume
-                </button>
+               
                </div>
 
 

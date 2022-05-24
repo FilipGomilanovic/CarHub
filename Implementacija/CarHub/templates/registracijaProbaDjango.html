@@ -1,8 +1,9 @@
-<<<<<<< Updated upstream:Implementacija/CarHub/templates/registracija.html
+
 <!--Milos Mijailovic 572/2018
 kreiranje forma za registraciju korisnika
 -->
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -60,18 +61,18 @@ kreiranje forma za registraciju korisnika
             
         
             
-            <div class="box">
+            <div class="box" style="margin-top:5%;">
                 <form method="POST">
                     
                   
                     <div class="input-container">
                      {% csrf_token %}
-                     {{register_form}}
+                     {{register_form|crispy}}
                      	
                     </div>
                                
 
-                    <button class="btn" type="submit">Registruj se</button>
+                    <button class="btn" type="submit"">Registruj se</button>
                 </form>
                
             </div>
