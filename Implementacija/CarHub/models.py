@@ -1,26 +1,39 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
+
+
 # Create your models here.
 
 # Ognjen Stanojevic 0585/2018
 
 
 class Korisnik(AbstractUser):
-
     kontakt_telefon = models.CharField(db_column='Kontakt telefon', max_length=45)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     slika = models.CharField(db_column='Slika', max_length=100, blank=True, null=True)  # Field name made lowercase.
     uloga = models.CharField(db_column='Uloga', max_length=1)  # Field name made lowercase.
+
     class Meta:
         db_table = 'korisnik'
 
 
+class Ocena(models.Model):
+    ocena = models.IntegerField(db_column='ocena')
+    korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
+
+    class Meta:
+        db_table = 'ocena'
+
+
 class Model(models.Model):
     idmodel = models.AutoField(db_column='idModel', primary_key=True)  # Field name made lowercase.
-    carreviewlink = models.CharField(db_column='CarReviewLink', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    carreviewlink = models.CharField(db_column='CarReviewLink', max_length=500, blank=True,
+                                     null=True)  # Field name made lowercase.
     brend = models.CharField(db_column='Brend', max_length=100)  # Field name made lowercase.
-    naziv_modela = models.CharField(db_column='Naziv modela', max_length=100)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    naziv_modela = models.CharField(db_column='Naziv modela',
+                                    max_length=100)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     godiste = models.IntegerField(db_column='Godiste')  # Field name made lowercase.
-    
 
     class Meta:
         db_table = 'model'
@@ -32,9 +45,9 @@ class Oglas(models.Model):
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-    slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
+    slike = models.FileField(db_column='Slike', upload_to='imgs/', null=True)
     model_idmodel = models.ForeignKey(Model, models.DO_NOTHING, db_column='Model_idModel')  # Field name made lowercase.
-    
+
 
 #     class Meta:
 #         db_table = 'oglas'
@@ -50,16 +63,16 @@ class Oglas(models.Model):
 #         db_table = 'cet'
 #
 #
-# class Komentar(models.Model):
-#     idkomentar = models.AutoField(db_column='idKomentar', primary_key=True)  # Field name made lowercase.
-#     komentar = models.CharField(db_column='Komentar', max_length=500, blank=True, null=True)  # Field name made lowercase.
-#     korisnik_idkorisnika_postavio = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika_Postavio')  # Field name made lowercase.
-#     korisnik_idkorisnika1_naprofilu = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika1_NaProfilu')  # Field name made lowercase.
-#
-#     class Meta:
-#         db_table = 'komentar'
-#
-#
+class Komentar(models.Model):
+    idkomentar = models.AutoField(db_column='idKomentar', primary_key=True)
+    sadrzaj = models.CharField(max_length=300)
+    autor = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='autor', related_name='autor')
+    profilKorisnika = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='profilKorisnika',
+                                        related_name='profilKorisnika')
+    timestamp = models.DateTimeField(default=datetime.datetime.now())
+
+    class Meta:
+        db_table = 'komentar'
 
 #
 #

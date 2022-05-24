@@ -10,6 +10,7 @@ urlpatterns = [
     path('pathTest', views.Test),
     path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('profilKorisnika', views.profilKorisnika),
+    path('profilDrugogKorisnika', views.profilDrugogKorisnika),
     path('pretragaOglasa', views.pretragaOglasa),
     path('pregledOglasa', views.pregledOglasa),
     path('urediProfil', views.urediProfil),

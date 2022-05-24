@@ -12,7 +12,7 @@ from turtle import color
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.forms import ChoiceField
+from django.forms import ChoiceField, ModelForm
 from django.utils.safestring import mark_safe
 
 
@@ -68,9 +68,11 @@ class PostavljanjeOglasa(forms.Form):
     snagaMotora=forms.IntegerField(label="Snaga motora:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite snagu motora'}))
     karoserija=forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
     slike=forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
-   
-    
-    
+
+class KomentarForm(ModelForm):
+    class Meta:
+        model = Komentar
+        exclude = ['autor']
     
 
     
