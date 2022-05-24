@@ -20,6 +20,7 @@
     <script>
         $(document).ready(function ()
         {
+
             $("#ime").hide();
             $("#sifra").hide();
             $("#mejl").hide();
@@ -52,8 +53,16 @@
     </script>
 <div class="container rounded mb-5" style="background-color: rgba(0, 0, 0, 0.89); margin-top: 200px">
     <div class="row">
+
         <div class="col-md-4 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="text-white"><a href="prijava.html">Promeni sliku</a></span></div>
+            <form method="post" enctype="multipart/form-data">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                {% load static %}
+                <img id="slika" src="{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5"
+                     onerror="if (this.src !='{% static "default.jpg" %}') this.src = '{% static "default.jpg" %}';" >
+                {{ forma_promenaSlike }}
+
+            </div>
         </div>
         <div class="col-md-8 border-right">
             <div class="p-3 py-5">
@@ -67,7 +76,7 @@
                         <div class="col-md-12 mb-3"><label class="labels">{{ user.kontakt_telefon }}</label></div>
                     </div>
                     <div class ="col-md-5">
-                        <form method="post">
+
                         <div class="col-md-12 mb-3" id="promenaImena"><a class="ChangeLink" href="#">Change username</a></div>
                         <div id="ime">
                             <input type="text" name="ime1">
@@ -88,8 +97,9 @@
                 </div>
                  {% csrf_token %}
                 <div class=" col-md-8 col-sm-12 mt-5 text-center"><input  type="submit">Save Profile</div>
-                </form>
+
             </div>
+        </form>
         </div>
     </div>
 </div>

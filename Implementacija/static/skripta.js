@@ -1,7 +1,9 @@
 
 $(document).ready( function()
 {
-    alert("duvaj ga gomila");
+
+
+
     $("#logo").hide();
     $(".btn-danger").hide();
 

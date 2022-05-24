@@ -44,5 +44,6 @@ class PostavljanjeOglasa(forms.Form):
     karoserija = forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
     slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
    
-    
+class PromeniSliku(forms.Form):
+    slika = forms.FileField(widget=forms.FileInput(attrs={'multiple': False}))
     

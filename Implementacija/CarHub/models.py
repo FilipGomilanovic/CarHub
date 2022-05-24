@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, AbstractUser
 class Korisnik(AbstractUser):
 
     kontakt_telefon = models.CharField(db_column='Kontakt telefon', max_length=45)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    slika = models.CharField(db_column='Slika', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    slika = models.FileField(db_column='Slika',upload_to='imgs/' ,null=True)  # Field name made lowercase.
     uloga = models.CharField(db_column='Uloga', max_length=1)  # Field name made lowercase.
     class Meta:
         db_table = 'korisnik'

@@ -36,25 +36,29 @@ def urediProfil(request):
     pas = None
     fon = None
     mail = None
-    if request.method == 'POST':
+    form = PromeniSliku(request.POST, request.FILES or None)
+    if form.is_valid():
         kime = request.POST['ime1']
         pas = request.POST['sifra1']
         fon = request.POST.get('telefon1')
         mail = request.POST.get('mejl1')
-        print(fon)
-        if len(kime)>6 :
+        slika = form.cleaned_data.get('slika')
+        trenutniKorisnik.slika = slika
+        if len(kime)> 6 :
             trenutniKorisnik.username = kime
-        if len(pas) >6 :
+        if len(pas) > 6 :
             trenutniKorisnik.set_password(pas)
-        if len(fon)>6 :
+        if len(fon)> 6 :
             trenutniKorisnik.kontakt_telefon = fon
-        if len(mail)>6 :
+        if len(mail)> 6 :
             trenutniKorisnik.email = mail
         trenutniKorisnik.save()
+    context = {
+        "forma_promenaSlike": form
+    }
 
 
-
-    return render(request, 'urediProfil.html')
+    return render(request, 'urediProfil.html',context = context)
 
 
 @login_required(login_url='prijava.html')
