@@ -42,8 +42,31 @@ class PostavljanjeOglasa(forms.Form):
     kilometraza = forms.IntegerField(label="Kilometraza:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite kilometrazu'}))
     snagaMotora = forms.IntegerField(label="Snaga motora:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite snagu motora'}))
     karoserija = forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
-    slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
+    #slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
    
+
 class PromeniSliku(forms.Form):
     slika = forms.FileField(widget=forms.FileInput(),required=False)
+
+class pretragaOglasa(forms.Form):
+     CHOICES=[
+        ('izbor','Izaberi karoseriju'),
+        ('limuzina','Limuzina'),
+        ('karavan','Karavan'),
+        ('hedzbek','Hedzbek'),
+        ('dzip','SUV')
+    ]
+
+     karoserija=forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
+     godiste1=forms.IntegerField(label="Godiste od:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste od'}))
+     godiste2=forms.IntegerField(label="Godiste do:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste do'}))
+     cena1=forms.IntegerField(label="Cena od:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite cenu od'}))
+     cena2=forms.IntegerField(label="Cena do:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite cenu do'}))
+     
+class pretragaOglasaRent(forms.Form):
+    
+     grad=forms.CharField(label="Grad",required=True,widget=forms.TextInput(attrs={'placeholder':'Unesite grad'}))
+     datumOd=forms.DateField(label="Datum od",required=True,widget=forms.DateInput(attrs={'placeholder':'Unesite datum od'}))
+     datumDo=forms.DateField(label="Datum do",required=True,widget=forms.DateInput(attrs={'placeholder':'Unesite datum do'}))
+
     

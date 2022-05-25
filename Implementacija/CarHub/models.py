@@ -32,7 +32,7 @@ class Oglas(models.Model):
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-    slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
+    #slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
     godiste = models.IntegerField(db_column='Godiste', default=0)
@@ -43,6 +43,13 @@ class Oglas(models.Model):
     class Meta:
         db_table = 'oglas'
 
+class Slike(models.Model):
+    idSlike = models.AutoField(db_column='idSlike', primary_key=True)
+    slike = models.FileField(db_column='Slike', upload_to='imgs/', null=True)
+    fk_oglas = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='fk_Oglas')
+
+    class Meta:
+        db_table = 'slike'
 #
 # class Cet(models.Model):
 #     idcet = models.IntegerField(db_column='idCet', primary_key=True)  # Field name made lowercase.

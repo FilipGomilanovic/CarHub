@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('CarHub', '0006_remove_model_godiste_model_godistedo_model_godisteod_and_more'),
+        ('CarHub', '0007_remove_model_godiste_model_godistedo_model_godisteod_and_more'),
     ]
 
     operations = [
