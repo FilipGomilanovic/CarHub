@@ -88,7 +88,11 @@ DATABASES = {
         'HOST' : 'localhost',
         'PORT' : '3306',
         'USER' : 'root',
+<<<<<<< HEAD
         'PASSWORD' : 'abakussukaba99'
+=======
+        'PASSWORD' : '1234'
+>>>>>>> main
     }
 }
 
