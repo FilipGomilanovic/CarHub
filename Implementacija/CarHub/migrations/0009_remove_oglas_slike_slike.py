@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('CarHub', '0007_remove_model_godiste_model_godistedo_model_godisteod_and_more'),
+        ('CarHub', '0008_alter_korisnik_slika'),
     ]
 
     operations = [
