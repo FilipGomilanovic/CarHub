@@ -10,24 +10,33 @@ urlpatterns = [
     path('pathTest', views.Test),
     path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('profilKorisnika', views.profilKorisnika),
+
     path('profilDrugogKorisnika', views.profilDrugogKorisnika),
     path('pretragaOglasa', views.pretragaOglasa),
     path('pregledOglasa', views.pregledOglasa),
     path('urediProfil', views.urediProfil),
     path('profilDrugogKorisnika/<int:korisnik_id>', views.profilDrugogKorisnika, name='profilDrugogKorisnika'),
-    # path('profilDrugogKorisnika/<int:korisnik_id>', views.validate, name='validate'),
 
+    path('pretragaOglasa', views.PretragaOglasa),
+    path('pretragaOglasaRent', views.PretragaOglasaRent),
+
+    path('urediProfil', views.urediProfil),
 
 
     path('pathTest', views.Test, name="pocetnaStrana"),
     path('pathTestUlogovan', views.Ulogovan, name="pocetnaStranaUlogovan"),
+
 
   # path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('prijava',views.prijava),
     path('registracija',views.registracija),
     path('logout',views.logout,name="logout"),
 
-    path('postavljanjeOglasa', views.postavljanjeOglasa)
+
+    path('postavljanjeOglasa', views.postavljanjeOglasa),
+   # path('konkretanOglasProdaja/<int:oglas_id>',views.konkretanOglasProdaja),
+    path('<int:oglas_id>',views.konkretanOglasProdaja),
+    path('konkretanOglasRent',views.konkretanOglasRent)
 
 
 ]

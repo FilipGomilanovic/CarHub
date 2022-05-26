@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,189 +46,95 @@
         </nav>
 
     </div>
-    <div class="row">
-        <div class="col-sm-3 rounded text-center" style="background-color: rgba(0, 0, 0, 0.69); height: 100%; margin-top: 60px;">
-            <br>
-            <br>
-            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" style="margin-top: 10px">
-                    Brend automobila
-            </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-item">Audi</a></li>
-                    <li><a href="#" class="dropdown-item">Bmw</a></li>
-                    <li><a href="#" class="dropdown-item">Benz</a></li>
-
-                </ul>
-            <br>
-            <button type="button" style="margin-top: 20px" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                    Model automobila
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-item">Audi</a></li>
-                    <li><a href="#" class="dropdown-item">Bmw</a></li>
-                    <li><a href="#" class="dropdown-item">Benz</a></li>
-
-                </ul>
-            <br>
-            <div class="dropdown">
-                <button type="button" style="margin-top: 20px" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                    Karoserija automobila
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="dropdown-item">Limuzina</a></li>
-                    <li><a href="#" class="dropdown-item">Hecbek</a></li>
-                    <li><a href="#" class="dropdown-item">Karavan</a></li>
-                    <li><a href="#" class="dropdown-item">Kabriolet</a></li>
-                    <li><a href="#" class="dropdown-item">SUV</a></li>
-
-
-                </ul>
+<div class="row">
+        <div class="col-sm-3" style="position:relative ;margin-top: 1%; margin-left: 3%;background-color: rgba(0, 0, 0, 0.89);color: white;" >
+            <div style="width:100%;text-align: center;">
+                  {% csrf_token %}
+                <form  method="post" style="text-align:justify ">
+                  <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
+                    <option value="nemaIzbora">Izaberite brend</option>
+                      {% for brend in brendovi %}
+                          <option value="{{ brend.brend }}">{{ brend.brend }}</option>
+                      {% endfor %}
+                       </select>
+                      <br>
+                      <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" id="modeli" name="dropdown_Model">
+                        <option value="nemaIzbora">Izaberite model</option>
+                      </select>
+                      <br>
+                      
+                     {{ forma_pretraziOglas|crispy}}
+                     {% csrf_token %}
+                     <input type="submit" value="Pretrazi" class="btn"">
+                </form>
             </div>
-            <br>
-            <input type="number" placeholder="Kilometraza od">
-            <br>
-            <br>
-            <input type="number" placeholder="Kilometraza do">
-            <br>
-            <br>
-            <input type="number" placeholder="Cena od">
-            <br>
-            <br>
-            <input type="number" placeholder="Cena do">
-            <br>
-            <button type="button" class="btn" style="margin-top: 40px; background-color: red">
-                Pretrazi
-            </button>
-
-
         </div>
-        <div class="col-sm-4">
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
 
-        </div>
-        <div class="col-sm-4">
-             <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
+
+    <div class="col-sm-8" style="margin-top:1% ;">
+        {% for oglas in oglasi %}
+            <a href="{{ oglas.idoglas }}">
+                <div id="oglas">
+                    <div class="slika">
+                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="250px" height="200px" style="border:red solid;" >
+                    </div>
+                    <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 250px; color: white;">
+                        <p>
+                            <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label for="">Godiste: {{ oglas.godiste }}</label>
+                            <br>
+                            <label for="">Cena: {{ oglas.cena }}</label>
+
+                        </p>
+
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
-            <a href="#" style="color: white"><div class=" row" style="background-color: rgba(0, 0, 0, 0.69); margin-bottom: 20px; margin-left: 30px; margin-top: 30px;">
-                <div class="col-sm-8" >
-                    {% load static %}
-                    <img src={% static "bmw2.png" %}  alt="Default" style="width: 200px; height: 150px;" class="rounded">
-                </div>
-                <div class="col-sm-4">
-                    BMW X5
-                    <br>
-                    2021.
-                    <br>
-                    3.0
-                    <br>
-                    395 hp
-                </div>
-            </div></a>
+            </a>
+        {% endfor %}
     </div>
+</div>
+        
+   
 
 
 
 </body>
 </html>
+
+<script>
+
+function removeOptions(selectElement) {
+    var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
+
+function filtrirajModele(value){
+    var data = JSON.parse("{{ data|escapejs }}");
+    let niz = [];
+
+    for(var x in data){
+        if(value == data[x][0]){
+            niz.push(data[x][1]);
+        }
+    }
+    return niz;
+}
+
+function ubaciModele(){
+    var selectBrend = document.getElementById("brend");
+    var value = selectBrend.options[selectBrend.selectedIndex].value;
+    var selectModel = document.getElementById("modeli");
+    removeOptions(selectModel);
+    let naziviModela = filtrirajModele(value);
+    var opt = new Option("Izaberite model", "nijeIzabrano")
+    selectModel.appendChild(opt);
+    for(var i = 0; i < naziviModela.length; i++){
+        var opt = new Option(naziviModela[i], naziviModela[i])
+        selectModel.appendChild(opt);
+    }
+    naziviModela = [];
+}
+</script>
