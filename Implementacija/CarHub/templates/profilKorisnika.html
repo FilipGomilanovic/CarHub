@@ -196,13 +196,18 @@
                     <h4 class="text-white-50">Komentari</h4>
                 </div>
                 <div style="border-style: groove;" class="row mt-3 text-white ">
-                    <div class ="col-md-12 ">
+                    <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
                          {% for comment in komentar %}
                             <div class="comments">
                                 <p class="font-weight-bold">
                                     {{ comment.sadrzaj }}
                                     <div style="text-align: end">
-                                        {{ comment.autor }} -
+                                        {% if user.id == comment.autor.id %}
+                                            <a style="color:white" href="/profilKorisnika">{{ comment.autor }}</a>-
+                                        {% else %}
+                                            <a style="color:white" href="profilDrugogKorisnika/{{ comment.autor.id }}">{{ comment.autor }}</a> -
+                                        {% endif %}
+
                                         <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp.date }}</span>
                                         <hr>
                                     </div>

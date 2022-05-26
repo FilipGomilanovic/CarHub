@@ -14,7 +14,8 @@ urlpatterns = [
     path('pretragaOglasa', views.pretragaOglasa),
     path('pregledOglasa', views.pregledOglasa),
     path('urediProfil', views.urediProfil),
-    path('profilDrugogKorisnika/<int:korisnik_id>', views.profilDrugogKorisnika),
+    path('profilDrugogKorisnika/<int:korisnik_id>', views.profilDrugogKorisnika, name='profilDrugogKorisnika'),
+    # path('profilDrugogKorisnika/<int:korisnik_id>', views.validate, name='validate'),
 
 
 

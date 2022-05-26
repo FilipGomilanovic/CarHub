@@ -1,4 +1,3 @@
-
 from cgitb import text
 
 from dataclasses import field
@@ -15,13 +14,10 @@ from django.contrib.auth.models import User
 from django.forms import ChoiceField, ModelForm
 from django.utils.safestring import mark_safe
 
-
-
 from .models import *
 
 
-
-#kreiranje formi
+# kreiranje formi
 
 # class NewUserForm(UserCreationForm):
 #     email=forms.EmailField(required=True)
@@ -42,40 +38,36 @@ from .models import *
 #             return user
 
 
-
 class KorisnikNoviForm(UserCreationForm):
-
     class Meta:
-        model = Korisnik   #moramo definisati da ne koristimo default User model, vec nas redefinisan
+        model = Korisnik  # moramo definisati da ne koristimo default User model, vec nas redefinisan
         fields = ("username", "email", "kontakt_telefon", "password1", "password2")
 
 
-
-
 class PostavljanjeOglasa(forms.Form):
- 
-    CHOICES=[
-        ('izbor','Izaberi karoseriju'),
-        ('limuzina','Limuzina'),
-        ('karavan','Karavan'),
-        ('hedzbek','Hedzbek'),
-        ('dzip','SUV')
+    CHOICES = [
+        ('izbor', 'Izaberi karoseriju'),
+        ('limuzina', 'Limuzina'),
+        ('karavan', 'Karavan'),
+        ('hedzbek', 'Hedzbek'),
+        ('dzip', 'SUV')
     ]
 
-   
-    godiste=forms.IntegerField(label="Godiste:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste'}))
-    kilometraza=forms.IntegerField(label="Kilometraza:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite kilometrazu'}))
-    snagaMotora=forms.IntegerField(label="Snaga motora:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite snagu motora'}))
-    karoserija=forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
-    slike=forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
+    godiste = forms.IntegerField(label="Godiste:", required=False,
+                                 widget=forms.TextInput(attrs={'placeholder': 'Unesite godiste'}))
+    kilometraza = forms.IntegerField(label="Kilometraza:", required=False,
+                                     widget=forms.TextInput(attrs={'placeholder': 'Unesite kilometrazu'}))
+    snagaMotora = forms.IntegerField(label="Snaga motora:", required=False,
+                                     widget=forms.TextInput(attrs={'placeholder': 'Unesite snagu motora'}))
+    karoserija = forms.ChoiceField(choices=CHOICES, required=True, initial=CHOICES[0])
+    slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
+
 
 class KomentarForm(ModelForm):
     class Meta:
         model = Komentar
-        exclude = ['autor']
-    
+        fields = ['sadrzaj']
 
-    
 
 
     # class Meta:

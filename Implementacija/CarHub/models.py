@@ -21,9 +21,16 @@ class Korisnik(AbstractUser):
 class Ocena(models.Model):
     ocena = models.IntegerField(db_column='ocena')
     korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
+    ocenio = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='ocenio', related_name='ocenio')
 
     class Meta:
         db_table = 'ocena'
+
+    # def create(self, broj, postavio, korisnikOcenio):
+    #     ocena = broj
+    #     korisnik = postavio
+    #     ocenio = korisnikOcenio
+    #     return self
 
 
 class Model(models.Model):
