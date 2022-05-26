@@ -71,18 +71,6 @@ class KomentarForm(ModelForm):
         model = Komentar
         fields = ['sadrzaj']
 
-
-
-    # class Meta:
-    #        #moramo definisati da ne koristimo default User model, vec nas redefinisan
-    #     fields = ("brend", "naziv")
-
-   
-    godiste = forms.IntegerField(label="Godiste:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste'}))
-    kilometraza = forms.IntegerField(label="Kilometraza:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite kilometrazu'}))
-    snagaMotora = forms.IntegerField(label="Snaga motora:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite snagu motora'}))
-    karoserija = forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
-    #slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
    
 
 class PromeniSliku(forms.Form):

@@ -312,25 +312,41 @@ def konkretanOglasRent(request):
     return render(request, 'konkretanOglasRent.html')
 
 
-
-
-
 def urediProfil(request):
-<<<<<<< HEAD
-    # try:
-    #     profil = Korisnik
-    #
-    #     context = {    #     }
-    return render(request, 'urediProfil.html')
+    trenutniKorisnik = request.user
+    kime = None
+    pas = None
+    fon = None
+    mail = None
+    form = PromeniSliku(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        kime = request.POST['ime1']
+        pas = request.POST['sifra1']
+        fon = request.POST.get('telefon1')
+        mail = request.POST.get('mejl1')
+        slika = form.cleaned_data.get('slika')
+        if slika is not None:
+            trenutniKorisnik.slika = slika
 
+        if len(kime)> 6 :
+            trenutniKorisnik.username = kime
+        if len(pas) > 6 :
+            trenutniKorisnik.set_password(pas)
+        if len(fon)> 6 :
+            trenutniKorisnik.kontakt_telefon = fon
+        if len(mail)> 6 :
+            trenutniKorisnik.email = mail
+        trenutniKorisnik.save()
+    context = {
+        "forma_promenaSlike": form
+    }
 
-# except Korisnik.DoesNotExist:
-#     raise Http404("Korisnik not found")
+    return render(request, 'urediProfil.html',context = context)
+
 
 
 def postavljanjeOglasa(request):
     forma = PostavljanjeOglasa(request.POST, request.FILES)
-=======
     trenutniKorisnik = request.user
     kime = None
     pas = None
@@ -433,7 +449,6 @@ def PretragaOglasa(request):
 
 def PretragaOglasaRent(request):
     forma=pretragaOglasaRent(request.POST or None)
->>>>>>> main
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
@@ -445,10 +460,6 @@ def PretragaOglasaRent(request):
     dataJSON = dumps(niz)
     context = {
         "data": dataJSON,
-<<<<<<< HEAD
-        "brendovi": brendovi,
-        "forma_postaviOglas": forma
-=======
         "brendovi" : brendovi,
         "forma_pretraziOglasRent":forma
     }
@@ -501,7 +512,6 @@ def postavljanjeOglasa(request):
         "data": dataJSON,
         "brendovi" : brendovi,
         "forma_postaviOglas":form
->>>>>>> main
     }
     return render(request=request, template_name='testForme.html', context=context)
 
@@ -519,17 +529,7 @@ def registracija(request):
     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
 
-<<<<<<< HEAD
 
-def pretragaOglasa(request):
-    return render(request, 'pretragaOglasa.html')
-
-
-def pregledOglasa(request):
-    return render(request, 'pregledOglasa.html')
-
-=======
->>>>>>> main
 
 def prijava(request):
     if request.method == "POST":
