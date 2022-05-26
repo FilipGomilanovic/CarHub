@@ -2,6 +2,7 @@
 
 {% block content%}
     <style>
+
         a:link {
             color: red;
             text-decoration: none;
@@ -16,10 +17,52 @@
             font-size: larger;
         }
     </style>
+    <script>
+        $(document).ready(function ()
+        {
+
+            $("#ime").hide();
+            $("#sifra").hide();
+            $("#mejl").hide();
+            $("#telefon").hide();
+            $("#promenaImena").click(function (){
+                $("#ime").show();
+                $("#sifra").hide();
+                $("#mejl").hide();
+                $("#telefon").hide();
+            });
+            $("#promenaMejla").click(function (){
+                $("#mejl").show();
+                $("#sifra").hide();
+                $("#ime").hide();
+                $("#telefon").hide();
+            });
+            $("#promenaSifre").click(function (){
+                $("#sifra").show();
+                $("#ime").hide();
+                $("#mejl").hide();
+                $("#telefon").hide();
+            });
+            $("#promenaTelefona").click(function (){
+                $("#telefon").show();
+                $("#sifra").hide();
+                $("#mejl").hide();
+                $("#ime").hide();
+            });
+        })
+    </script>
 <div class="container rounded mb-5" style="background-color: rgba(0, 0, 0, 0.89); margin-top: 200px">
     <div class="row">
+
         <div class="col-md-4 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="text-white"><a href="prijava.html">Promeni sliku</a></span></div>
+            <form method="post" enctype="multipart/form-data">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                {% load static %}
+                <img id="slika" src="media/{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5"
+                     onerror="if (this.src !='{% static "default.jpg" %}') this.src = '{% static "default.jpg" %}';" >
+                {{ forma_promenaSlike }}
+
+            </div>
         </div>
         <div class="col-md-8 border-right">
             <div class="p-3 py-5">
@@ -28,20 +71,35 @@
                 </div>
                 <div class="row mt-3 text-white">
                     <div class ="col-md-5">
-                        <div class="col-md-12 mb-3"><label class="labels">{{ user.username }}</label></div>
+                        <div class="col-md-12 mb-3"><label class="labels">{{ user.username}}</label></div>
                         <div class="col-md-12 mb-3"><label class="labels">{{ user.email}}</label></div>
                         <div class="col-md-12 mb-3"><label class="labels">{{ user.kontakt_telefon }}</label></div>
                     </div>
                     <div class ="col-md-5">
-                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change username</a></div>
-                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change email</a></div>
-                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change phone</a></div>
-                        <div class="col-md-12 mb-3"><a class="ChangeLink" href="prijava">Change password</a></div>
+
+                        <div class="col-md-12 mb-3" id="promenaImena"><a class="ChangeLink" href="#">Change username</a></div>
+                        <div id="ime">
+                            <input type="text" name="ime1">
+                        </div>
+                        <div class="col-md-12 mb-3" id="promenaMejla"><a class="ChangeLink" href="#">Change email</a></div>
+                        <div id="mejl">
+                            <input type="text" name="mejl1">
+                        </div>
+                        <div class="col-md-12 mb-3" id="promenaTelefona"><a class="ChangeLink" href="#">Change phone</a></div>
+                        <div id="telefon">
+                            <input type="text" name="telefon1">
+                        </div>
+                        <div class="col-md-12 mb-3" id="promenaSifre"><a class="ChangeLink" href="#">Change password</a></div>
+                        <div id="sifra">
+                            <input type="password" name="sifra1">
+                        </div>
                     </div>
                 </div>
+                 {% csrf_token %}
+                <div class=" col-md-8 col-sm-12 mt-5 text-center"><input  type="submit">Save Profile</div>
 
-                <div class=" col-md-8 col-sm-12 mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
             </div>
+        </form>
         </div>
     </div>
 </div>
