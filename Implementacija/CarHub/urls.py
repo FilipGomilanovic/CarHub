@@ -11,6 +11,12 @@ urlpatterns = [
     path('postavljanjeOglasa', views.postavljanjeOglasa),
     path('profilKorisnika', views.profilKorisnika),
 
+    path('profilDrugogKorisnika', views.profilDrugogKorisnika),
+    path('pretragaOglasa', views.pretragaOglasa),
+    # path('pregledOglasa', views.pregledOglasa),
+    path('urediProfil', views.urediProfil),
+    path('profilDrugogKorisnika/<int:korisnik_id>', views.profilDrugogKorisnika, name='profilDrugogKorisnika'),
+
     path('pretragaOglasa', views.PretragaOglasa),
     path('pretragaOglasaRent', views.PretragaOglasaRent),
 
