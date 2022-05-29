@@ -5,12 +5,16 @@
         * {
           box-sizing: border-box;
         }
+
         .container .row .prviRed .zvezdice .star_w label {
             float:left;
             {#transition: all 0.2s ease;#}
         }
-        .container .row .prviRed .zvezdice .star_w{
+        .container .row .prviRed .zvezdice .star_w {
             float:left;
+        }
+        .container .row .prviRed .zvezdice .star_w form .fa{
+            float:right;
         }
         .container .row .prviRed .zvezdice .star_w input:not(:checked) ~ label:hover,
         .container .row .prviRed .zvezdice .star_w input:not(:checked) ~ label:hover ~ label{
@@ -37,6 +41,9 @@
         }
         .container .row .prviRed .zvezdice .star_w .checked{
             color :#fd4;
+        }
+        .container .row .prviRed .zvezdice .star_w input{
+            display:none
         }
 
 
@@ -109,26 +116,51 @@
             <div class="row">
             <div class="col-md-6 border-right text-center" style="color:white">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
-                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ user.username }}</label></div>
-                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ user.email}}</label></div>
-                <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ user.kontakt_telefon }}</label></div>
-                <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="urediProfil">Uredi Profil</a></div>
+                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
+                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
+                <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
             </div>
 
             <div class="col-md-6 zvezdice mt-5" style="color:white">
                 <div class="heading">User Rating</div>
                 <div class="star_w">
-                    {% for i in data%}
-                        {% if i <= zvezdice %}
-                            <label class="fa fa-star checked"></label>
-                        {% else %}
-                            <label class="fa fa-star"></label>
-                        {% endif %}
-                    {% endfor %}
+                    {% if ocenjen == 1 %}
+                        <div class = "star_w_1">
+                            {% for i in data%}
+                                {% if i <= zvezdice %}
+                                    <label style="font-size: 24px" class="fa fa-star checked"></label>
+                                {% else %}
+                                    <label style="font-size: 24px" class="fa fa-star"></label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <p>Vasa ocena je: {{ ocenaUlogovanog }}</p>
+
+                    {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input class="sakri" type="radio" name="rate" id="rate-1" value="1">
+                            <label for="rate-1" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-2" value="2">
+                            <label for="rate-2" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-3" value="3">
+                            <label for="rate-3" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-4" value="4">
+                            <label for="rate-4" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-5" value="5">
+                            <label for="rate-5" class="fa fa-star"></label>
+                            <div class = "col-12">
+                                <button type="submit">Oceni</button>
+                            </div>
+                        </form>
+                    {% endif %}
                 </div>
-                <br>
 
                 <div style="text-align: left">
+                    <br>
+                    <br>
+                    <br>
                     <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
                     <hr style="border:3px solid #f1f1f1">
                 </div>
@@ -205,9 +237,8 @@
                                         {% if user.id == comment.autor.id %}
                                             <a style="color:white" href="/profilKorisnika">{{ comment.autor }}</a>-
                                         {% else %}
-                                            <a style="color:white" href="profilDrugogKorisnika/{{ comment.autor.id }}">{{ comment.autor }}</a> -
+                                            <a style="color:white" href="{{ comment.autor.id }}">{{ comment.autor }}</a>-
                                         {% endif %}
-
                                         <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp.date }}</span>
                                         <hr>
                                     </div>
@@ -216,6 +247,16 @@
                          {% endfor %}
                     </div>
                 </div>
+                    <div style="border-style: groove; color:white; margin-top:10px">
+                         <form method="post">
+                            {% csrf_token %}
+                             <div>
+                                 Postavi komentar ovde:
+                             </div>
+                            {{ form }}
+                            <input type="submit" value="Posalji"></input>
+                        </form>
+                    </div>
             </div>
         </div>
 
