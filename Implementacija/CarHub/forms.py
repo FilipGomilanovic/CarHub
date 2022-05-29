@@ -46,7 +46,7 @@ class PostavljanjeOglasa(forms.Form):
    
 
 class PromeniSliku(forms.Form):
-    slika = forms.FileField(widget=forms.FileInput(),required=False)
+    slika = forms.FileField(label="",widget=forms.FileInput(attrs={'placeholder':'Izmeni profilnu sliku'}),required=False)
 
 class pretragaOglasa(forms.Form):
      CHOICES=[

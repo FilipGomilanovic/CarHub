@@ -51,18 +51,18 @@
             <div style="width:100%;text-align: center;">
                   {% csrf_token %}
                 <form  method="post" style="text-align:justify ">
-                  <label for="" style="font-size:20px;">Brend:</label><select id="brend" style="margin-left:10px" onchange="ubaciModele() ">
+                  <label for="" style="font-size:15px;">Brend:</label><select  class="form-select" id="brend"  onchange="ubaciModele() ">
                     <option value="nemaIzbora">Izaberite brend</option>
                       {% for brend in brendovi %}
                           <option value="{{ brend.brend }}">{{ brend.brend }}</option>
                       {% endfor %}
                        </select>
                       <br>
-                      <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" id="modeli">
+                      <label for="" style="font-size:15px;">Model:</label><select class="form-select"  id="modeli">
                         <option value="nemaIzbora">Izaberite model</option>
                       </select>
                       <br>
-                      
+                      {% csrf_token %}
                      {{ forma_pretraziOglasRent|crispy}}
     
                      <input type="submit" value="Pretrazi" class="btn"">

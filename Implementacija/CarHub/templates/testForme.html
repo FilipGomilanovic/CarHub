@@ -41,13 +41,13 @@
                 </a>
 
                     <div class="dropdown">
-                        <button type="button" style="margin-top: 10px; margin-bottom: 10px;" class="btn  dropdown-toggle" data-bs-toggle="dropdown">
-                            Ime korisnika
+                        <button type="button" class="btn-danger dropdown-toggle" data-bs-toggle="dropdown">
+                           {{user.username}}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-item">Moj Profil</a></li>
+                            <li><a href="#" class="dropdown-item">Pregled profila</a></li>
                             <li><a href="#" class="dropdown-item">Poruke</a></li>
-                            <li><a href="#" class="dropdown-item">Odjavi se</a></li>
+                            <li><a href="/logout" class="dropdown-item">Odjavi se</a></li>
 
                         </ul>
                     </div>
