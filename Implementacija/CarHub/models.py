@@ -50,6 +50,11 @@ class Slike(models.Model):
 
     class Meta:
         db_table = 'slike'
+
+class Datumi(models.Model):
+    datumOd = models.DateField()
+    datumDo = models.DateField()
+    fk_oglas = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='fk_Oglas')
 #
 # class Cet(models.Model):
 #     idcet = models.IntegerField(db_column='idCet', primary_key=True)  # Field name made lowercase.

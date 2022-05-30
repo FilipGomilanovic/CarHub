@@ -10,6 +10,7 @@ from django.contrib.auth import login, authenticate  # add this
 from django.contrib.auth.forms import AuthenticationForm  # add this
 from .models import *
 from json import dumps
+import datetime
 from django import template
 
 # from CarHub.forms import NewUserForm
@@ -62,6 +63,8 @@ def konkretanOglasProdaja(request, oglas_id):
 
 def konkretanOglasRent(request):
     #namestiti
+
+
     return render(request, 'konkretanOglasRent.html')
 
 
@@ -95,14 +98,15 @@ def PretragaOglasa(request):
         karoserija = forma.cleaned_data.get('karoserija')
         cenaOd = forma.cleaned_data.get('cena1')
         cenaDo = forma.cleaned_data.get('cena2')
-
+        # print(brend)
+        # print(naziv_model)
         oglasi = []
         imgs = []
-        models_ids = Model.objects.filter(godisteOd__gte=godiste1).filter(godisteDo__lte=godiste2).filter(
+        models_ids = Model.objects.filter(godisteDo__gte=godiste2).filter(godisteOd__gte=godiste1).filter(
             brend=brend).filter(naziv_modela=naziv_model)
         print(models_ids)
         for model in models_ids:
-            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo)))
+            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo).filter(tip="p")))
         print(oglasi)
         for oglas in oglasi:
             nesto = Slike.objects.filter(fk_oglas=oglas)
@@ -116,14 +120,11 @@ def PretragaOglasa(request):
             "slike" : imgs,
             "oglasi" : oglasi,
             "data": dataJSON,
-            "brendovi": brendovi,
+            "brendovi": brendovi,  #sluzi za padajucu listu
             "forma_pretraziOglas": forma
         }
 
         return render(request=request, template_name='pretragaOglasa.html', context = context)
-
-
-
 
 
     #ako je korisnik poslat na stranicu pretrage preko get requesta, to znaci da je to prvi ulaz tu,
@@ -133,33 +134,93 @@ def PretragaOglasa(request):
     #salju odgovarajuci oglasi
 
     #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
+    oglasi = []
+    imgs = []
+    oglasi.extend(list(Oglas.objects.filter(boost=1)))
+    print("pretraga oglasa - GET")
+    for oglas in oglasi:
+        nesto = Slike.objects.filter(fk_oglas=oglas)
+        imgs.append(nesto.first().slike)
 
     dataJSON = dumps(niz)
     context = {
-        # "slike" : imgs,
-        # "oglasi" : oglasi,
+        "slike" : imgs,
+        "oglasi" : oglasi,
         "data": dataJSON,
-        "brendovi" : brendovi,
+        "brendovi" : brendovi,     #za padajucu listu
         "forma_pretraziOglas":forma
     }
     return render(request=request, template_name='pretragaOglasa.html', context = context)
 
 
 def PretragaOglasaRent(request):
-    forma=pretragaOglasaRent(request.POST or None)
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
-    # print(niz)
-    # print(brendovi_modeli)
+
+    form = pretragaOglasaRent(request.POST or None)
+    if form.is_valid():
+        grad = form.cleaned_data.get("grad")
+        datumOd = form.cleaned_data.get("datumOd")
+        datumDo = form.cleaned_data.get("datumDo")
+        brend = request.POST['dropdown_Brend']
+        naziv_model = request.POST['dropdown_Model']
+
+        oglasi_pom = []
+        models_ids = Model.objects.filter(brend=brend).filter(naziv_modela=naziv_model)
+        for model in models_ids:
+            oglasi_pom.extend(list(Oglas.objects.filter(grad=grad).filter(tip="r")))
+
+        oglasi = []
+        imgs = []
+        for oglas in oglasi_pom:
+            datumi = list(Datumi.objects.filter(fk_oglas=oglas))
+            fleg = True;
+            for datum in datumi:
+                print(datum.datumOd.strftime("%d-%m-%y"))
+                print(datumOd.strftime("%d-%m-%y"))
+                if (not(datumOd.strftime("%d-%m-%y") > datum.datumDo.strftime("%d-%m-%y") or datumDo.strftime("%d-%m-%y") < datum.datumOd.strftime("%d-%m-%y"))):
+                    fleg = False;
+            if fleg == True:
+                oglasi.append(oglas)
+
+        for oglas in oglasi:
+            nesto = Slike.objects.filter(fk_oglas=oglas)
+            imgs.append(nesto.first().slike)
+            # imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
+            print(imgs)
+
+        dataJSON = dumps(niz)
+        context = {
+            "naziv_brenda" : brend,
+            "naziv_modela" : naziv_model,
+            "oglasi" : oglasi,
+            "data" : dataJSON,
+            "brendovi" : brendovi,
+            "forma_pretraziOglasRent": form,
+            "slike" : imgs
+        }
+
+        return render(request=request, template_name='pretragaOglasaRent.html', context=context)
+
+    oglasi = []
+    imgs = []
+    oglasi.extend(list(Oglas.objects.filter(tip='r')))
+    print("pretraga oglasa - GET")
+    for oglas in oglasi:
+        nesto = Slike.objects.filter(fk_oglas=oglas)
+        imgs.append(nesto.first().slike)
+
 
     dataJSON = dumps(niz)
     context = {
+        "slike": imgs,
+        "oglasi": oglasi,
         "data": dataJSON,
         "brendovi" : brendovi,
-        "forma_pretraziOglasRent":forma
+        "forma_pretraziOglasRent":form
     }
     return render(request=request, template_name='pretragaOglasaRent.html', context = context)
 
@@ -193,7 +254,14 @@ def postavljanjeOglasa(request):
             for img in slike:
                 photo = Slike.objects.create(slike = img, fk_oglas = oglas)
         else:
-            pass
+            cena = request.POST["cenaIznajmljivanje"];
+            grad = request.POST["Grad"]
+            oglas = Oglas(tip = "r", cena = cena, boost = 0, grad = grad, slike = slike,
+                          snaga = snaga, kilometraza=kilometraza, karoserija=karoserija,
+                          godiste=godiste, model_idmodel=model_id.first())
+            oglas.save()
+            for img in slike:
+                photo = Slike.objects.create(slike = img, fk_oglas = oglas)
         #napraviti razlicite ifove za prodaju i iznajmljivanje
         #ako je prodaja, moze odmag da se postavi oglas
         #ako je iznajmljivanje, treba smisliti nacin za kupljenje datuma i za njihovubacivanje u bazu

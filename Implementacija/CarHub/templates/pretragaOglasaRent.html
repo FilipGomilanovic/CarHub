@@ -51,41 +51,44 @@
             <div style="width:100%;text-align: center;">
                   {% csrf_token %}
                 <form  method="post" style="text-align:justify ">
-                  <label for="" style="font-size:20px;">Brend:</label><select id="brend" style="margin-left:10px" onchange="ubaciModele() ">
+                  <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
                     <option value="nemaIzbora">Izaberite brend</option>
                       {% for brend in brendovi %}
                           <option value="{{ brend.brend }}">{{ brend.brend }}</option>
                       {% endfor %}
                        </select>
                       <br>
-                      <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" id="modeli">
+                      <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" name="dropdown_Model" id="modeli">
                         <option value="nemaIzbora">Izaberite model</option>
                       </select>
                       <br>
-                      
+                        {% csrf_token %}
                      {{ forma_pretraziOglasRent|crispy}}
-    
+                        {% csrf_token %}
                      <input type="submit" value="Pretrazi" class="btn"">
                 </form>
             </div>
-        </div>         
-    <div class="col-sm-8" style="margin-top:1% ;">
-        <div id="oglas">
-            <div class="slika">
-                <img  src="static/bmw.jpg" alt="" width="250px" height="200px" style="border:red solid;" >
-            </div>
-            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 250px; color: white;">
-                <p>
-                    <label for="">Naziv modela</label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label for="">Godiste</label>
-                    <br>
-                    <label for="">Cena</label>
-                   
-                </p>
-                
-            </div>
         </div>
+
+    <div class="col-sm-8" style="margin-top:1% ;">
+        {% for oglas in oglasi %}
+            <a href="{{ oglas.idoglas }}">
+                <div id="oglas">
+                    <div class="slika">
+                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="250px" height="200px" style="border:red solid;" >
+                    </div>
+                    <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 250px; color: white;">
+                        <p>
+                            <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                            <br>
+                            <label for="">Cena po danu: {{ oglas.cena }}</label>
+
+                        </p>
+
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
     </div>
 </div>
         
