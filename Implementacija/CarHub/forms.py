@@ -71,6 +71,12 @@ class KomentarForm(ModelForm):
         model = Komentar
         fields = ['sadrzaj']
 
+
+class PorukaForm(ModelForm):
+    class Meta:
+        model = Poruke
+        fields = ['sadrzaj']
+
    
 
 class PromeniSliku(forms.Form):

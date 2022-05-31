@@ -1,12 +1,12 @@
-
 from django.contrib.auth.decorators import login_required
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, request
 from django.shortcuts import render
 
 from django.urls import reverse
 from django.template.defaultfilters import register
-
 
 from .forms import *
 from django.contrib.auth import login
@@ -17,8 +17,7 @@ from .models import *
 from json import dumps
 
 from django.http import HttpResponseRedirect
-
-
+from django.db.models import Q
 from django import template
 
 
@@ -31,6 +30,7 @@ from django import template
 def index(sequence, position):
     return sequence[position]
 
+
 def Test(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStrana.html', {'imeSlike': 'carhublogo.png'})
@@ -39,7 +39,6 @@ def Test(request):
 def Ulogovan(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStranaUlogovan.html')
-
 
 
 @login_required(login_url='prijava.html')
@@ -280,35 +279,30 @@ def create_Komentar(request):
         return redirect('profilDrugogKorisnika.html')
 
 
-
-
-
-
 def konkretanOglasProdaja(request, oglas_id):
-    #namestiti
-    oglas = Oglas.objects.get(pk = oglas_id)
+    # namestiti
+    oglas = Oglas.objects.get(pk=oglas_id)
     model_oglasa = oglas.model_idmodel
     lista_slika = list(Slike.objects.filter(fk_oglas=oglas))
     print(lista_slika[0].slike)
-    #slika1 = lista_slika[0]
+    # slika1 = lista_slika[0]
     oglas_dict = {
-        'brend' : model_oglasa.brend,
-        'model' : model_oglasa.naziv_modela,
-        'cena' : oglas.cena,
-        'boost' : oglas.boost,
-        'slike' : lista_slika,
-        'snaga' : oglas.snaga,
-        'kilometraza' : oglas.kilometraza,
-        'godiste' : oglas.godiste,
-        'karoserija' : oglas.karoserija,
+        'brend': model_oglasa.brend,
+        'model': model_oglasa.naziv_modela,
+        'cena': oglas.cena,
+        'boost': oglas.boost,
+        'slike': lista_slika,
+        'snaga': oglas.snaga,
+        'kilometraza': oglas.kilometraza,
+        'godiste': oglas.godiste,
+        'karoserija': oglas.karoserija,
     }
 
-    return render(request, 'konkretanOglasProdaja.html', context={'oglas' : oglas_dict})
-
+    return render(request, 'konkretanOglasProdaja.html', context={'oglas': oglas_dict})
 
 
 def konkretanOglasRent(request):
-    #namestiti
+    # namestiti
     return render(request, 'konkretanOglasRent.html')
 
 
@@ -328,21 +322,20 @@ def urediProfil(request):
         if slika is not None:
             trenutniKorisnik.slika = slika
 
-        if len(kime)> 6 :
+        if len(kime) > 6:
             trenutniKorisnik.username = kime
-        if len(pas) > 6 :
+        if len(pas) > 6:
             trenutniKorisnik.set_password(pas)
-        if len(fon)> 6 :
+        if len(fon) > 6:
             trenutniKorisnik.kontakt_telefon = fon
-        if len(mail)> 6 :
+        if len(mail) > 6:
             trenutniKorisnik.email = mail
         trenutniKorisnik.save()
     context = {
         "forma_promenaSlike": form
     }
 
-    return render(request, 'urediProfil.html',context = context)
-
+    return render(request, 'urediProfil.html', context=context)
 
 
 def postavljanjeOglasa(request):
@@ -362,33 +355,30 @@ def postavljanjeOglasa(request):
         if slika is not None:
             trenutniKorisnik.slika = slika
 
-        if len(kime)> 6 :
+        if len(kime) > 6:
             trenutniKorisnik.username = kime
-        if len(pas) > 6 :
+        if len(pas) > 6:
             trenutniKorisnik.set_password(pas)
-        if len(fon)> 6 :
+        if len(fon) > 6:
             trenutniKorisnik.kontakt_telefon = fon
-        if len(mail)> 6 :
+        if len(mail) > 6:
             trenutniKorisnik.email = mail
         trenutniKorisnik.save()
     context = {
         "forma_promenaSlike": form
     }
 
-    return render(request, 'urediProfil.html',context = context)
-
-
+    return render(request, 'urediProfil.html', context=context)
 
 
 def PretragaOglasa(request):
-
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
 
-    forma=pretragaOglasa(request.POST or None)
+    forma = pretragaOglasa(request.POST or None)
     if forma.is_valid():
         brend = request.POST['dropdown_Brend']
         naziv_model = request.POST['dropdown_Model']
@@ -404,51 +394,48 @@ def PretragaOglasa(request):
             brend=brend).filter(naziv_modela=naziv_model)
         print(models_ids)
         for model in models_ids:
-            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo)))
+            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(
+                godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo)))
         print(oglasi)
         for oglas in oglasi:
             nesto = Slike.objects.filter(fk_oglas=oglas)
             imgs.append(nesto.first().slike)
-            #imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
+            # imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
             print(imgs)
         dataJSON = dumps(niz)
         context = {
-            "naziv_brenda" : brend,
-            "naziv_modela" : naziv_model,
-            "slike" : imgs,
-            "oglasi" : oglasi,
+            "naziv_brenda": brend,
+            "naziv_modela": naziv_model,
+            "slike": imgs,
+            "oglasi": oglasi,
             "data": dataJSON,
             "brendovi": brendovi,
             "forma_pretraziOglas": forma
         }
 
-        return render(request=request, template_name='pretragaOglasa.html', context = context)
+        return render(request=request, template_name='pretragaOglasa.html', context=context)
 
-
-
-
-
-    #ako je korisnik poslat na stranicu pretrage preko get requesta, to znaci da je to prvi ulaz tu,
-    #a ako je preko post requesta, onda je vec napravio filtere i primenio ih
-    #U slucaju da korisnik dolazi na sajt get requestom, pravi se lista od pocetnih 9 oglasa(boostovani, ili svi boos
+    # ako je korisnik poslat na stranicu pretrage preko get requesta, to znaci da je to prvi ulaz tu,
+    # a ako je preko post requesta, onda je vec napravio filtere i primenio ih
+    # U slucaju da korisnik dolazi na sajt get requestom, pravi se lista od pocetnih 9 oglasa(boostovani, ili svi boos
     # tovani sa skrolom), a u slucaju da se dolazi na sajt nakon post requesta, onda se primenjuju filteri i
-    #salju odgovarajuci oglasi
+    # salju odgovarajuci oglasi
 
-    #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
+    # ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
 
     dataJSON = dumps(niz)
     context = {
         # "slike" : imgs,
         # "oglasi" : oglasi,
         "data": dataJSON,
-        "brendovi" : brendovi,
-        "forma_pretraziOglas":forma
+        "brendovi": brendovi,
+        "forma_pretraziOglas": forma
     }
-    return render(request=request, template_name='pretragaOglasa.html', context = context)
+    return render(request=request, template_name='pretragaOglasa.html', context=context)
 
 
 def PretragaOglasaRent(request):
-    forma=pretragaOglasaRent(request.POST or None)
+    forma = pretragaOglasaRent(request.POST or None)
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
@@ -460,14 +447,14 @@ def PretragaOglasaRent(request):
     dataJSON = dumps(niz)
     context = {
         "data": dataJSON,
-        "brendovi" : brendovi,
-        "forma_pretraziOglasRent":forma
+        "brendovi": brendovi,
+        "forma_pretraziOglasRent": forma
     }
-    return render(request=request, template_name='pretragaOglasaRent.html', context = context)
+    return render(request=request, template_name='pretragaOglasaRent.html', context=context)
 
 
 def postavljanjeOglasa(request):
-    form=PostavljanjeOglasa(request.POST or None,request.FILES or None)
+    form = PostavljanjeOglasa(request.POST or None, request.FILES or None)
     if form.is_valid():
         izbor = request.POST['izbor']
         brend = request.POST['dropdown_Brend']
@@ -479,25 +466,25 @@ def postavljanjeOglasa(request):
         slike = request.FILES.getlist('images')
 
         model_id = Model.objects.filter(godisteOd__lte=godiste).filter(godisteDo__gte=godiste).filter(
-            brend=brend).filter(naziv_modela=naziv_model)  #filtriranje radi pronalaska id-ja modela
-        #print(model_id)
-        #proveriti sta vraca post request za izbor (da li vraca value od pritisnitog dugmeta)
+            brend=brend).filter(naziv_modela=naziv_model)  # filtriranje radi pronalaska id-ja modela
+        # print(model_id)
+        # proveriti sta vraca post request za izbor (da li vraca value od pritisnitog dugmeta)
         if (izbor == "prodaja"):
             cena = request.POST["cenaProdaja"];
             for img in slike:
                 print(img)
-            oglas = Oglas(tip = "p", cena = cena, boost = 0, grad = '', slike = slike,
-                          snaga = snaga, kilometraza=kilometraza, karoserija=karoserija,
+            oglas = Oglas(tip="p", cena=cena, boost=0, grad='', slike=slike,
+                          snaga=snaga, kilometraza=kilometraza, karoserija=karoserija,
                           godiste=godiste, model_idmodel=model_id.first())
             oglas.save()
             for img in slike:
-                photo = Slike.objects.create(slike = img, fk_oglas = oglas)
+                photo = Slike.objects.create(slike=img, fk_oglas=oglas)
         else:
             pass
-        #napraviti razlicite ifove za prodaju i iznajmljivanje
-        #ako je prodaja, moze odmag da se postavi oglas
-        #ako je iznajmljivanje, treba smisliti nacin za kupljenje datuma i za njihovubacivanje u bazu
-        #takodje, mora se naci id_Modela pomocu brenda, modela i godista
+        # napraviti razlicite ifove za prodaju i iznajmljivanje
+        # ako je prodaja, moze odmag da se postavi oglas
+        # ako je iznajmljivanje, treba smisliti nacin za kupljenje datuma i za njihovubacivanje u bazu
+        # takodje, mora se naci id_Modela pomocu brenda, modela i godista
 
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
@@ -510,12 +497,10 @@ def postavljanjeOglasa(request):
     dataJSON = dumps(niz)
     context = {
         "data": dataJSON,
-        "brendovi" : brendovi,
-        "forma_postaviOglas":form
+        "brendovi": brendovi,
+        "forma_postaviOglas": form
     }
     return render(request=request, template_name='testForme.html', context=context)
-
-
 
 
 def registracija(request):
@@ -528,7 +513,6 @@ def registracija(request):
     form = KorisnikNoviForm()
     return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
-
 
 
 def prijava(request):
@@ -550,8 +534,87 @@ def prijava(request):
     return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
 
 
-            
-
 def logout(request):
     messages.info(request, "Uspesno ste izlogovani")
     return redirect("CarHub:pocetnaStrana")
+
+
+def cet(request, idKor):
+    try:
+        CetKorisnik = Korisnik.objects.get(id=idKor)
+    except Korisnik.DoesNotExist:
+        CetKorisnik = None
+
+    trenutni = request.user
+    try:
+        trenutniCet = Cet.objects.get(idkorisnika1=trenutni, idkorisnika2=idKor)
+    except Cet.DoesNotExist:
+        trenutniCet = None
+
+    if trenutniCet is None:
+        try:
+            trenutniCet = Cet.objects.get(idkorisnika2=trenutni, idkorisnika1=idKor)
+        except Cet.DoesNotExist:
+            trenutniCet = None
+    if trenutniCet is not None:
+        if trenutniCet.idkorisnika1 == trenutni:
+            trenutniCet.ne_procitano_Korisnik_1 = 'N'
+            trenutniCet.save()
+        else:
+            trenutniCet.ne_procitano_Korisnik_2 = 'N'
+            trenutniCet.save()
+
+    sviKorisnici = []
+
+    cetovi = Cet.objects.order_by('-timestamp').filter(Q(idkorisnika1=trenutni) | Q(idkorisnika2=trenutni))
+    for i in cetovi:
+        if i.idkorisnika1 == trenutni:
+            sviKorisnici.append([i.idkorisnika2, i.ne_procitano_Korisnik_1])
+        else:
+            sviKorisnici.append([i.idkorisnika1, i.ne_procitano_Korisnik_2])
+
+    if trenutniCet is None:
+        svePoruke = []
+    else:
+        svePoruke = Poruke.objects.all().filter(cet_idcet=trenutniCet)
+
+    if request.method == 'POST':
+        form = PorukaForm(request.POST or None)
+        if form.is_valid():
+            por = form.save(commit=False)
+            por.idKorisnikaPoslao = trenutni
+            if trenutniCet is None:
+                noviCet = Cet(idkorisnika1=trenutni, idkorisnika2=CetKorisnik, ne_procitano_Korisnik_1='N',
+                              ne_procitano_Korisnik_2='Y')
+                noviCet.save()
+                por.cet_idcet = noviCet
+                por.timestamp = datetime.datetime.now()
+                por.save()
+            else:
+                trenutniCet.timestamp = datetime.datetime.now()
+                por.cet_idcet = trenutniCet
+                por.timestamp = datetime.datetime.now()
+                por.save()
+                if trenutniCet.idkorisnika1 == trenutni:
+                    trenutniCet.ne_procitano_Korisnik_2 = 'Y'
+                    trenutniCet.save()
+                else:
+                    trenutniCet.ne_procitano_Korisnik_1 = 'Y'
+                    trenutniCet.save()
+
+            return HttpResponseRedirect(request.path_info)
+
+    form = PorukaForm()
+
+    context = {
+        'sviKorisnici': sviKorisnici,
+        'svePoruke': svePoruke,
+        'formaPoruke': form,
+        'idKor': CetKorisnik
+
+    }
+    # Popraviti
+    if idKor == 0:
+        context['formaPoruke'] = 'Nema'
+
+    return render(request, 'cet.html', context)
