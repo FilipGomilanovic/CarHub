@@ -11,6 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm  # add this
 from .models import *
 from json import dumps
 import datetime
+from datetime import datetime
 from django import template
 
 # from CarHub.forms import NewUserForm
@@ -61,11 +62,48 @@ def konkretanOglasProdaja(request, oglas_id):
 
 
 
-def konkretanOglasRent(request):
-    #namestiti
+def konkretanOglasRent(request, oglas_id):
+    zauzet = ""
+    datumi = []
+    if request.method == "POST":
+        datumOd = request.POST['start']
+        datumDo = request.POST['end']
+        datumOd = datetime.strptime(datumOd, '%Y-%m-%d').date()
+        datumDo = datetime.strptime(datumDo, '%Y-%m-%d').date()
+        print(type(datumOd))
+        oglas = Oglas.objects.get(pk=oglas_id)
+        datumi = list(Datumi.objects.filter(fk_oglas=oglas))
+        print(datumi)
+        fleg = True
+        for datum in datumi:
+            if (not (datumOd > datum.datumDo or datumDo < datum.datumOd)):
+                fleg = False;
+        if fleg == True:
+            zauzet = "Uspesno rezervisan termin!"
+            dat = Datumi(datumOd=datumOd, datumDo=datumDo, fk_oglas=oglas)
+            dat.save()
+        else:
+            zauzet = "Datum je vec rezevisan!"
 
+    oglas = Oglas.objects.get(pk=oglas_id)
+    model_oglasa = oglas.model_idmodel
+    lista_slika = list(Slike.objects.filter(fk_oglas=oglas))
+    datumPocetni = datetime.now()
+    datumPocetni = datumPocetni.strftime("%Y-%m-%d")
 
-    return render(request, 'konkretanOglasRent.html')
+    #print(datumPocetni)
+    oglas_dict = {
+        'brend': model_oglasa.brend,
+        'model': model_oglasa.naziv_modela,
+        'cena': oglas.cena,
+        'slike': lista_slika,
+        'karoserija': oglas.karoserija,
+        'godiste': oglas.godiste,
+        'datumDanasnji' : datumPocetni,
+        'zauzeto' : zauzet
+    }
+
+    return render(request, 'konkretanOglasRent.html', context=oglas_dict)
 
 
 
