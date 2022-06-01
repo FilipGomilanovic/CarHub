@@ -53,9 +53,8 @@ class Oglas(models.Model):
     tip = models.CharField(db_column='Tip', max_length=1)  # Field name made lowercase.
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
-    grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-
-    #slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
+    grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase
+    opis = models.TextField(db_column='Opis')
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
     godiste = models.IntegerField(db_column='Godiste', default=0)
@@ -74,6 +73,31 @@ class Slike(models.Model):
 
     class Meta:
         db_table = 'slike'
+
+class Datumi(models.Model):
+    datumOd = models.DateField()
+    datumDo = models.DateField()
+    fk_oglas = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='fk_Oglas')
+#
+# class Cet(models.Model):
+#     idcet = models.IntegerField(db_column='idCet', primary_key=True)  # Field name made lowercase.
+#     korisnik_idkorisnika = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika')  # Field name made lowercase.
+#     korisnik_idkorisnika1 = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika1')  # Field name made lowercase.
+#     ip = models.CharField(max_length=30, blank=True, null=True)
+#
+#     class Meta:
+#         db_table = 'cet'
+#
+#
+# class Komentar(models.Model):
+#     idkomentar = models.AutoField(db_column='idKomentar', primary_key=True)  # Field name made lowercase.
+#     komentar = models.CharField(db_column='Komentar', max_length=500, blank=True, null=True)  # Field name made lowercase.
+#     korisnik_idkorisnika_postavio = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika_Postavio')  # Field name made lowercase.
+#     korisnik_idkorisnika1_naprofilu = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika1_NaProfilu')  # Field name made lowercase.
+#
+#     class Meta:
+#         db_table = 'komentar'
+#
 
 class Cet(models.Model):
     idCet = models.AutoField(db_column='idCet', primary_key=True)  # Field name made lowercase.
