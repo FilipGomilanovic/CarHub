@@ -62,6 +62,6 @@ class pretragaOglasa(forms.Form):
 class pretragaOglasaRent(forms.Form):
     
      grad=forms.CharField(label="Grad",required=True,widget=forms.TextInput(attrs={'placeholder':'Unesite grad'}))
-     datumOd=forms.DateField(label="Datum od",required=True, input_formats=['%d-%m-%Y'], widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum od'}))
-     datumDo=forms.DateField(label="Datum do",required=True, input_formats=['%d-%m-%Y'],widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum do'}))
+     datumOd=forms.DateField(label="Datum od",required=False, input_formats=['%d-%m-%Y'], widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum od'}))
+     datumDo=forms.DateField(label="Datum do",required=False, input_formats=['%d-%m-%Y'],widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum do'}))
     

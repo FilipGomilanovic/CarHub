@@ -32,7 +32,7 @@ class Oglas(models.Model):
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-    #slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
+    opis = models.TextField(db_column='Opis')
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
     godiste = models.IntegerField(db_column='Godiste', default=0)

@@ -79,7 +79,12 @@
                     </div>
                     <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 250px; color: white;">
                         <p>
-                            <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                            {% if naziv_brenda %}
+                                <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                            {% endif %}
+                            {% if naziv_brenda_modela_list %}
+                                <label for="">Naziv modela: {{ naziv_brenda_modela_list|index:forloop.counter0 }}</label>
+                            {% endif %}
                             <br>
                             <label for="">Cena po danu: {{ oglas.cena }}</label>
 

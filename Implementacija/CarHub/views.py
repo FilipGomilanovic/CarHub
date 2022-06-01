@@ -56,6 +56,7 @@ def konkretanOglasProdaja(request, oglas_id):
         'kilometraza' : oglas.kilometraza,
         'godiste' : oglas.godiste,
         'karoserija' : oglas.karoserija,
+        'opis' : oglas.opis
     }
 
     return render(request, 'konkretanOglasProdaja.html', context={'oglas' : oglas_dict})
@@ -63,7 +64,7 @@ def konkretanOglasProdaja(request, oglas_id):
 
 
 def konkretanOglasRent(request, oglas_id):
-    zauzet = ""
+    poruka = ""
     datumi = []
     if request.method == "POST":
         datumOd = request.POST['start']
@@ -79,11 +80,11 @@ def konkretanOglasRent(request, oglas_id):
             if (not (datumOd > datum.datumDo or datumDo < datum.datumOd)):
                 fleg = False;
         if fleg == True:
-            zauzet = "Uspesno rezervisan termin!"
+            poruka = "Uspesno rezervisan termin!"
             dat = Datumi(datumOd=datumOd, datumDo=datumDo, fk_oglas=oglas)
             dat.save()
         else:
-            zauzet = "Datum je vec rezevisan!"
+            poruka = "Datum je vec rezevisan!"
 
     oglas = Oglas.objects.get(pk=oglas_id)
     model_oglasa = oglas.model_idmodel
@@ -100,7 +101,7 @@ def konkretanOglasRent(request, oglas_id):
         'karoserija': oglas.karoserija,
         'godiste': oglas.godiste,
         'datumDanasnji' : datumPocetni,
-        'zauzeto' : zauzet
+        'poruka' : poruka
     }
 
     return render(request, 'konkretanOglasRent.html', context=oglas_dict)
@@ -126,7 +127,7 @@ def PretragaOglasa(request):
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
-
+    poruka = ""
     forma=pretragaOglasa(request.POST or None)
     if forma.is_valid():
         brend = request.POST['dropdown_Brend']
@@ -140,17 +141,22 @@ def PretragaOglasa(request):
         # print(naziv_model)
         oglasi = []
         imgs = []
+
         models_ids = Model.objects.filter(godisteDo__gte=godiste2).filter(godisteOd__gte=godiste1).filter(
             brend=brend).filter(naziv_modela=naziv_model)
         print(models_ids)
         for model in models_ids:
             oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo).filter(tip="p")))
         print(oglasi)
-        for oglas in oglasi:
-            nesto = Slike.objects.filter(fk_oglas=oglas)
-            imgs.append(nesto.first().slike)
-            #imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
-            print(imgs)
+
+        if len(oglasi) != 0:
+            for oglas in oglasi:
+                nesto = Slike.objects.filter(fk_oglas=oglas)
+                imgs.append(nesto.first().slike)
+                #imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
+                print(imgs)
+        else:
+            poruka = "Nema oglasa!"
         dataJSON = dumps(niz)
         context = {
             "naziv_brenda" : brend,
@@ -159,7 +165,8 @@ def PretragaOglasa(request):
             "oglasi" : oglasi,
             "data": dataJSON,
             "brendovi": brendovi,  #sluzi za padajucu listu
-            "forma_pretraziOglas": forma
+            "forma_pretraziOglas": forma,
+            "poruka" : poruka
         }
 
         return render(request=request, template_name='pretragaOglasa.html', context = context)
@@ -174,19 +181,29 @@ def PretragaOglasa(request):
     #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
     oglasi = []
     imgs = []
+    brend_model = [] #lista naziva brenda i modela koju saljem kroz kontekst u slucaju da je get metod
     oglasi.extend(list(Oglas.objects.filter(boost=1)))
+
     print("pretraga oglasa - GET")
-    for oglas in oglasi:
-        nesto = Slike.objects.filter(fk_oglas=oglas)
-        imgs.append(nesto.first().slike)
+
+    if len(oglasi) != 0:
+        for oglas in oglasi:
+            model = Model.objects.get(idmodel=oglas.model_idmodel.idmodel)
+            brend_model.append(str(model.brend) + " " + str(model.naziv_modela))
+            nesto = Slike.objects.filter(fk_oglas=oglas)
+            imgs.append(nesto.first().slike)
+    else:
+        poruka = "Nema oglasa!"
 
     dataJSON = dumps(niz)
     context = {
+        "naziv_brenda_modela_list" : brend_model,
         "slike" : imgs,
         "oglasi" : oglasi,
         "data": dataJSON,
         "brendovi" : brendovi,     #za padajucu listu
-        "forma_pretraziOglas":forma
+        "forma_pretraziOglas":forma,
+        "poruka" : poruka
     }
     return render(request=request, template_name='pretragaOglasa.html', context = context)
 
@@ -197,7 +214,7 @@ def PretragaOglasaRent(request):
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
-
+    poruka = ""
     form = pretragaOglasaRent(request.POST or None)
     if form.is_valid():
         grad = form.cleaned_data.get("grad")
@@ -205,31 +222,41 @@ def PretragaOglasaRent(request):
         datumDo = form.cleaned_data.get("datumDo")
         brend = request.POST['dropdown_Brend']
         naziv_model = request.POST['dropdown_Model']
-
         oglasi_pom = []
         models_ids = Model.objects.filter(brend=brend).filter(naziv_modela=naziv_model)
         for model in models_ids:
             oglasi_pom.extend(list(Oglas.objects.filter(grad=grad).filter(tip="r")))
-
+        print(oglasi_pom)
         oglasi = []
         imgs = []
-        for oglas in oglasi_pom:
-            datumi = list(Datumi.objects.filter(fk_oglas=oglas))
-            fleg = True;
-            for datum in datumi:
-                print(datum.datumOd.strftime("%d-%m-%y"))
-                print(datumOd.strftime("%d-%m-%y"))
-                if (not(datumOd.strftime("%d-%m-%y") > datum.datumDo.strftime("%d-%m-%y") or datumDo.strftime("%d-%m-%y") < datum.datumOd.strftime("%d-%m-%y"))):
-                    fleg = False;
-            if fleg == True:
-                oglasi.append(oglas)
 
-        for oglas in oglasi:
-            nesto = Slike.objects.filter(fk_oglas=oglas)
-            imgs.append(nesto.first().slike)
-            # imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
-            print(imgs)
 
+        if len(oglasi_pom) != 0:
+            if datumOd != None and datumDo != None:
+                for oglas in oglasi_pom:
+                    datumi = list(Datumi.objects.filter(fk_oglas=oglas))
+                    fleg = True;
+                    for datum in datumi:
+                        print(datum.datumOd.strftime("%d-%m-%y"))
+                        print(datumOd.strftime("%d-%m-%y"))
+                        if (not(datumOd.strftime("%d-%m-%y") > datum.datumDo.strftime("%d-%m-%y") or datumDo.strftime("%d-%m-%y") < datum.datumOd.strftime("%d-%m-%y"))):
+                            fleg = False;
+                    if fleg == True:
+                        oglasi.append(oglas)
+
+                for oglas in oglasi:
+                    nesto = Slike.objects.filter(fk_oglas=oglas)
+                    imgs.append(nesto.first().slike)
+                    # imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
+                    print(imgs)
+            else:
+                oglasi = oglasi_pom
+                for oglas in oglasi:
+                    nesto = Slike.objects.filter(fk_oglas=oglas)
+                    imgs.append(nesto.first().slike)
+                print(oglasi)
+        else:
+           poruka = "Nema oglasa!"
         dataJSON = dumps(niz)
         context = {
             "naziv_brenda" : brend,
@@ -238,27 +265,36 @@ def PretragaOglasaRent(request):
             "data" : dataJSON,
             "brendovi" : brendovi,
             "forma_pretraziOglasRent": form,
-            "slike" : imgs
+            "slike" : imgs,
+            "poruka" : poruka
         }
 
         return render(request=request, template_name='pretragaOglasaRent.html', context=context)
 
     oglasi = []
     imgs = []
+    brend_model = []  # lista naziva brenda i modela koju saljem kroz kontekst u slucaju da je get metod
     oglasi.extend(list(Oglas.objects.filter(tip='r')))
     print("pretraga oglasa - GET")
-    for oglas in oglasi:
-        nesto = Slike.objects.filter(fk_oglas=oglas)
-        imgs.append(nesto.first().slike)
 
+    if len(oglasi) != 0:
+        for oglas in oglasi:
+            model = Model.objects.get(idmodel=oglas.model_idmodel.idmodel)
+            brend_model.append(str(model.brend) + " " + str(model.naziv_modela))
+            nesto = Slike.objects.filter(fk_oglas=oglas)
+            imgs.append(nesto.first().slike)
+    else:
+        poruka = "Nema oglasa!"
 
     dataJSON = dumps(niz)
     context = {
+        "naziv_brenda_modela_list": brend_model,
         "slike": imgs,
         "oglasi": oglasi,
         "data": dataJSON,
         "brendovi" : brendovi,
-        "forma_pretraziOglasRent":form
+        "forma_pretraziOglasRent":form,
+        "poruka" : poruka
     }
     return render(request=request, template_name='pretragaOglasaRent.html', context = context)
 
