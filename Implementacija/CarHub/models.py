@@ -74,17 +74,19 @@ class Slike(models.Model):
 
     class Meta:
         db_table = 'slike'
-#
-# class Cet(models.Model):
-#     idcet = models.IntegerField(db_column='idCet', primary_key=True)  # Field name made lowercase.
-#     korisnik_idkorisnika = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika')  # Field name made lowercase.
-#     korisnik_idkorisnika1 = models.ForeignKey('Korisnik', models.DO_NOTHING, db_column='Korisnik_idKorisnika1')  # Field name made lowercase.
-#     ip = models.CharField(max_length=30, blank=True, null=True)
-#
-#     class Meta:
-#         db_table = 'cet'
-#
-#
+
+class Cet(models.Model):
+    idCet = models.AutoField(db_column='idCet', primary_key=True)  # Field name made lowercase.
+    idkorisnika1 = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='idKorisnika1', related_name='idkorisnika1')
+    idkorisnika2 = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='idKorisnika2', related_name='idkorisnika2')
+    timestamp = models.DateTimeField(default=datetime.datetime.now())
+    ne_procitano_Korisnik_1 = models.CharField(db_column='ne_procitano_Korisnik_1', max_length=1)
+    ne_procitano_Korisnik_2 = models.CharField(db_column='ne_procitano_Korisnik_2', max_length=1)
+
+    class Meta:
+        db_table = 'cet'
+
+
 class Komentar(models.Model):
     idkomentar = models.AutoField(db_column='idKomentar', primary_key=True)
     sadrzaj = models.CharField(max_length=300)
@@ -96,16 +98,17 @@ class Komentar(models.Model):
     class Meta:
         db_table = 'komentar'
 
-#
-#
+
+
+
+
 # class Mojioglasi(models.Model):
-#     idmojioglasi = models.IntegerField(db_column='idMojiOglasi', primary_key=True)  # Field name made lowercase.
-#     korisnik_idkorisnika = models.ForeignKey(Korisnik, models.DO_NOTHING, db_column='Korisnik_idKorisnika')  # Field name made lowercase.
-#     oglas_idoglas = models.ForeignKey('Oglas', models.DO_NOTHING, db_column='Oglas_idOglas')  # Field name made lowercase.
+#     idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
+#     korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
+#     oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='korisnik')
 #
 #     class Meta:
 #         db_table = 'mojioglasi'
-#         unique_together = (('idmojioglasi', 'korisnik_idkorisnika'),)
 #
 #
 # class Ocena(models.Model):
@@ -121,24 +124,24 @@ class Komentar(models.Model):
 
 #
 #
-# class Poruke(models.Model):
-#     idporuke = models.IntegerField(db_column='idPoruke', primary_key=True)  # Field name made lowercase.
-#     poruka = models.CharField(db_column='Poruka', max_length=500, blank=True, null=True)  # Field name made lowercase.
-#     cet_idcet = models.ForeignKey(Cet, models.DO_NOTHING, db_column='Cet_idCet')  # Field name made lowercase.
-#     korisnik_idkorisnika = models.ForeignKey(Korisnik, models.DO_NOTHING, db_column='Korisnik_idKorisnika')  # Field name made lowercase.
-#
-#     class Meta:
-#         db_table = 'poruke'
-#
-#
+class Poruke(models.Model):
+    idporuke = models.AutoField(db_column='idPoruke', primary_key=True)
+    sadrzaj = models.CharField(db_column='Poruka', max_length=500, blank=True, null=True)
+    cet_idcet = models.ForeignKey(Cet, on_delete=models.CASCADE, db_column='Cet_idCet')
+    idKorisnikaPoslao = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='Korisnik_idKorisnika')
+    timestamp = models.DateTimeField(default=datetime.datetime.now())
+
+    class Meta:
+        db_table = 'poruke'
+
+
 # class Sacuvanioglasi(models.Model):
-#     idsacuvanioglasi = models.IntegerField(db_column='idSacuvaniOglasi', primary_key=True)  # Field name made lowercase.
-#     korisnik_idkorisnika = models.ForeignKey(Korisnik, models.DO_NOTHING, db_column='Korisnik_idKorisnika')  # Field name made lowercase.
-#     oglas_idoglas = models.ForeignKey(Oglas, models.DO_NOTHING, db_column='Oglas_idOglas')  # Field name made lowercase.
+#     idsacuvanioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
+#     korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
+#     oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='korisnik')
 #
 #     class Meta:
 #         db_table = 'sacuvanioglasi'
-#         unique_together = (('idsacuvanioglasi', 'korisnik_idkorisnika'),)
 #
 #
 # class Termin(models.Model):
