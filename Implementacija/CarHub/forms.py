@@ -71,6 +71,12 @@ class KomentarForm(ModelForm):
         model = Komentar
         fields = ['sadrzaj']
 
+
+class PorukaForm(ModelForm):
+    class Meta:
+        model = Poruke
+        fields = ['sadrzaj']
+
    
 
 class PromeniSliku(forms.Form):
@@ -94,8 +100,8 @@ class pretragaOglasa(forms.Form):
 class pretragaOglasaRent(forms.Form):
     
      grad=forms.CharField(label="Grad",required=True,widget=forms.TextInput(attrs={'placeholder':'Unesite grad'}))
-     datumOd=forms.DateField(label="Datum od",required=True,widget=forms.DateInput(attrs={'placeholder':'Unesite datum od'}))
-     datumDo=forms.DateField(label="Datum do",required=True,widget=forms.DateInput(attrs={'placeholder':'Unesite datum do'}))
+     datumOd=forms.DateField(label="Datum od",required=False, input_formats=['%d-%m-%Y'], widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum od'}))
+     datumDo=forms.DateField(label="Datum do",required=False, input_formats=['%d-%m-%Y'],widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum do'}))
 
     
 

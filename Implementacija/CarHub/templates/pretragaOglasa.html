@@ -65,7 +65,7 @@
                       
                      {{ forma_pretraziOglas|crispy}}
                      {% csrf_token %}
-                     <input type="submit" value="Pretrazi" class="btn"">
+                     <input type="submit" value="Pretrazi" class="btn">
                 </form>
             </div>
         </div>
@@ -80,8 +80,17 @@
                     </div>
                     <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
                         <p>
+<<<<<<< HEAD
                             <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
                             
+=======
+                            {% if naziv_brenda %}
+                                <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                            {% endif %}
+                            {% if naziv_brenda_modela_list %}
+                                <label for="">Naziv modela: {{ naziv_brenda_modela_list|index:forloop.counter0 }}</label>
+                            {% endif %}
+>>>>>>> main
                             <label for="">Godiste: {{ oglas.godiste }}</label>
                             <br>
                             <label for="">Cena: {{ oglas.cena }}</label>
