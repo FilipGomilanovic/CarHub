@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+
+        .container .row .prviRed .zvezdice .star_w label {
+            float:left;
+            {#transition: all 0.2s ease;#}
+        }
+        .container .row .prviRed .zvezdice .star_w {
+            float:left;
+        }
+        .container .row .prviRed .zvezdice .star_w form .fa{
+            float:right;
+        }
+        .container .row .prviRed .zvezdice .star_w input:not(:checked) ~ label:hover,
+        .container .row .prviRed .zvezdice .star_w input:not(:checked) ~ label:hover ~ label{
+            color :#fd4;
+        }
+        .container .row .prviRed .zvezdice .star_w input:checked ~ label{
+            color :#fd4;
+        }
+        a:hover {
+            color: red;
+            font-size: larger;
+        }
+        .heading {
+          font-size: 25px;
+          margin-right: 25px;
+        }
+
+        .fa {
+          font-size: 24px;
+        }
+
+        .checked {
+          color: orange;
+        }
+        .container .row .prviRed .zvezdice .star_w .checked{
+            color :#fd4;
+        }
+        .container .row .prviRed .zvezdice .star_w input{
+            display:none
+        }
+
+
+        /* Three column layout */
+        .side {
+          float: left;
+          width: 15%;
+          margin-top: 10px;
+        }
+
+        .middle {
+          float: left;
+          width: 70%;
+          margin-top: 10px;
+        }
+
+        /* Place text to the right */
+        .right {
+          text-align: right;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        /* The bar container */
+        .bar-container {
+          width: 100%;
+          background-color: #f1f1f1;
+          text-align: center;
+          color: white;
+        }
+
+        /* Individual bars */
+        .bar-5 {width: {{ ocene5Bar }}%; height: 18px; background-color: #04AA6D;}
+        .bar-4 {width: {{ ocene4Bar }}%; height: 18px; background-color: #2196F3;}
+        .bar-3 {width: {{ ocene3Bar }}%; height: 18px; background-color: #00bcd4;}
+        .bar-2 {width: {{ ocene2Bar }}%; height: 18px; background-color: #ff9800;}
+        .bar-1 {width: {{ ocene1Bar }}%; height: 18px; background-color: #f44336;}
+
+        /* Responsive layout - make the columns stack on top of each other instead of next to each other */
+        @media (max-width: 400px) {
+          .side, .middle {
+            width: 100%;
+          }
+          /* Hide the right column on small screens */
+          .right {
+            display: none;
+          }
+        }
+
+        a:link {
+            color: red;
+            text-decoration: none;
+        }
+        a:visited{
+            color: red;
+        }
+        a:hover {
+            color: red;
+            font-size: larger;
+        }
+    </style>
+<div class="container rounded mb-5" style=" margin-top: 50px">
+    <div class="row">
+        <div class="col-xl-6 prviRed" style="background-color: rgba(0, 0, 0, 0.89);">
+            <div class="row">
+            <div class="col-md-6 border-right text-center" style="color:white">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
+                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
+                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
+                <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
+            </div>
+
+            <div class="col-md-6 zvezdice mt-5" style="color:white">
+                <div class="heading">User Rating</div>
+                <div class="star_w">
+                    {% if ocenjen == 1 %}
+                        <div class = "star_w_1">
+                            {% for i in data%}
+                                {% if i <= zvezdice %}
+                                    <label style="font-size: 24px" class="fa fa-star checked"></label>
+                                {% else %}
+                                    <label style="font-size: 24px" class="fa fa-star"></label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <p>Vasa ocena je: {{ ocenaUlogovanog }}</p>
+
+                    {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input class="sakri" type="radio" name="rate" id="rate-1" value="1">
+                            <label for="rate-1" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-2" value="2">
+                            <label for="rate-2" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-3" value="3">
+                            <label for="rate-3" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-4" value="4">
+                            <label for="rate-4" class="fa fa-star"></label>
+                            <input class="sakri" type="radio" name="rate" id="rate-5" value="5">
+                            <label for="rate-5" class="fa fa-star"></label>
+                            <div class = "col-12">
+                                <button type="submit">Oceni</button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <div style="text-align: left">
+                    <br>
+                    <br>
+                    <br>
+                    <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
+                    <hr style="border:3px solid #f1f1f1">
+                </div>
+                <div class="row">
+                    <div class="side">
+                        <div>5&nbspstar</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-5"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>{{ ocene5 }}</div>
+                    </div>
+                    <div class="side">
+                        <div>4&nbspstar</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-4"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>{{ ocene4 }}</div>
+                    </div>
+                    <div class="side">
+                        <div>3&nbspstar</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-3"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>{{ ocene3 }}</div>
+                    </div>
+                    <div class="side">
+                        <div>2&nbspstar</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-2"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>{{ ocene2 }}</div>
+                    </div>
+                    <div class="side">
+                        <div>1&nbspstar</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-1"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>{{ ocene1 }}</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="p-3 py-5">
+                <div style="text-align: center" class="align-items-center mb-3">
+                    <h4 class="text-white-50">Komentari</h4>
+                </div>
+                <div style="border-style: groove;" class="row mt-3 text-white ">
+                    <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
+                         {% for comment in komentar %}
+                            <div class="comments">
+                                <p class="font-weight-bold">
+                                    {{ comment.sadrzaj }}
+                                    <div style="text-align: end">
+                                        {% if user.id == comment.autor.id %}
+                                            <a style="color:white" href="/profilKorisnika">{{ comment.autor }}</a>-
+                                        {% else %}
+                                            <a style="color:white" href="{{ comment.autor.id }}">{{ comment.autor }}</a>-
+                                        {% endif %}
+                                        <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp.date }}</span>
+                                        <hr>
+                                    </div>
+                                </p>
+                            </div>
+                         {% endfor %}
+                    </div>
+                </div>
+                    <div style="border-style: groove; color:white; margin-top:10px">
+                         <form method="post">
+                            {% csrf_token %}
+                             <div>
+                                 Postavi komentar ovde:
+                             </div>
+                            {{ form }}
+                            <input style="display:none" type="submit" class="sakri" value="" id="send"></input>
+                             <label for="send" class="fa fa-send"></label>
+                        </form>
+                    </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+
+        </div>
+        <div class="col-12" style="margin-bottom: 30px">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
