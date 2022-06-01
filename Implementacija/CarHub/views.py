@@ -40,6 +40,22 @@ def Ulogovan(request):
     # return HttpResponse("<h1> CarHub doktoriii</h1>")
     return render(request, 'pocetnaStranaUlogovan.html')
 
+def BoostOglasa(request,oglas_id):
+    # return HttpResponse("<h1> CarHub doktoriii</h1>")
+
+    if request.method == 'POST':
+        oglas=Oglas.objects.get(idoglas=oglas_id)
+        oglas.boost=1;
+        oglas.save();
+        return HttpResponseRedirect(oglas_id)
+
+    
+    context = {
+      
+       'id':oglas_id
+    }
+    return render(request, 'boostOglasa.html',context)
+
 
 
 @login_required(login_url='prijava.html')
@@ -48,6 +64,28 @@ def profilKorisnika(request):
     komentar = Komentar.objects.order_by('-timestamp').filter(profilKorisnika=trenutni)
     oceneKorisnika = Ocena.objects.all().filter(korisnik=trenutni)
     ukupnoOcena = Ocena.objects.all().filter(korisnik=trenutni).count()
+    
+    mojiOglasi = MojiOglasi.objects.values_list('oglas_id', flat=True).filter(korisnik_id = trenutni)
+    nizMojihOglasa=[]
+    imgs=[]
+    brendovi=[]
+    modeli=[]
+    nizBrendova=[]
+    for oglas in mojiOglasi:
+        o=Oglas.objects.get(idoglas=oglas)
+        nizMojihOglasa.append(o);
+        nesto = Slike.objects.filter(fk_oglas=oglas)
+        imgs.append(nesto.first().slike)
+        
+        m=Model.objects.get(idmodel=o.model_idmodel.idmodel)
+        nizBrendova.append(m)
+    for i in nizBrendova:
+        brendovi.append(i.brend)
+        modeli.append(i.naziv_modela)
+
+
+
+    sacuvaniOglasi=SacuvaniOglasi.objects.all().filter(korisnik_id=trenutni)
     ocene1 = 0
     ocene2 = 0
     ocene3 = 0
@@ -119,7 +157,14 @@ def profilKorisnika(request):
         'ocene4Bar': ocene4Bar,
         'ocene5Bar': ocene5Bar,
         'zvezdice': zvezdice,
-        'data': data
+        'data': data,
+        'nizMojihOglasa':nizMojihOglasa,
+        'sacuvaniOglasi':sacuvaniOglasi,
+        'slike':imgs,
+        'brendovi': brendovi,
+        'modeli': modeli,
+       
+        
 
     }
     return render(request, 'profilKorisnika.html', context)
@@ -129,6 +174,24 @@ def profilDrugogKorisnika(request, korisnik_id):
     profil = Korisnik.objects.get(id=korisnik_id)
     komentar = Komentar.objects.order_by('-timestamp').filter(profilKorisnika=profil)
     oceneKorisnika = Ocena.objects.all().filter(korisnik=profil)
+
+    mojiOglasi = MojiOglasi.objects.values_list('oglas_id', flat=True).filter(korisnik_id = korisnik_id)
+    nizMojihOglasa=[]
+    imgs=[]
+    brendovi=[]
+    modeli=[]
+    nizBrendova=[]
+    for oglas in mojiOglasi:
+        o=Oglas.objects.get(idoglas=oglas)
+        nizMojihOglasa.append(o);
+        nesto = Slike.objects.filter(fk_oglas=oglas)
+        imgs.append(nesto.first().slike)
+        
+        m=Model.objects.get(idmodel=o.model_idmodel.idmodel)
+        nizBrendova.append(m)
+    for i in nizBrendova:
+        brendovi.append(i.brend)
+        modeli.append(i.naziv_modela)
 
     tempOcena = Ocena.objects.filter(ocenio=request.user, korisnik=profil)
 
@@ -265,7 +328,13 @@ def profilDrugogKorisnika(request, korisnik_id):
         'data': data,
         'form': form,
         'ocenjen': ocenjen,
-        'ocenaUlogovanog': ocenaUlogovanog
+        'ocenaUlogovanog': ocenaUlogovanog,
+        'nizMojihOglasa':nizMojihOglasa,
+        'slike':imgs,
+        'brendovi': brendovi,
+        'modeli':modeli
+        
+
     }
     return render(request, 'profilDrugogKorisnika.html', context)
 
@@ -289,6 +358,10 @@ def konkretanOglasProdaja(request, oglas_id):
     oglas = Oglas.objects.get(pk = oglas_id)
     model_oglasa = oglas.model_idmodel
     lista_slika = list(Slike.objects.filter(fk_oglas=oglas))
+    korisnik=MojiOglasi.objects.get(oglas_id=oglas_id).korisnik_id
+
+    print(korisnik)
+    
     print(lista_slika[0].slike)
     #slika1 = lista_slika[0]
     oglas_dict = {
@@ -301,6 +374,11 @@ def konkretanOglasProdaja(request, oglas_id):
         'kilometraza' : oglas.kilometraza,
         'godiste' : oglas.godiste,
         'karoserija' : oglas.karoserija,
+        'ime':korisnik.username,
+        'mail':korisnik.email,
+        'broj':korisnik.kontakt_telefon,
+        'id': oglas_id
+        
     }
 
     return render(request, 'konkretanOglasProdaja.html', context={'oglas' : oglas_dict})
@@ -345,43 +423,14 @@ def urediProfil(request):
 
 
 
-def postavljanjeOglasa(request):
-    forma = PostavljanjeOglasa(request.POST, request.FILES)
-    trenutniKorisnik = request.user
-    kime = None
-    pas = None
-    fon = None
-    mail = None
-    form = PromeniSliku(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        kime = request.POST['ime1']
-        pas = request.POST['sifra1']
-        fon = request.POST.get('telefon1')
-        mail = request.POST.get('mejl1')
-        slika = form.cleaned_data.get('slika')
-        if slika is not None:
-            trenutniKorisnik.slika = slika
 
-        if len(kime)> 6 :
-            trenutniKorisnik.username = kime
-        if len(pas) > 6 :
-            trenutniKorisnik.set_password(pas)
-        if len(fon)> 6 :
-            trenutniKorisnik.kontakt_telefon = fon
-        if len(mail)> 6 :
-            trenutniKorisnik.email = mail
-        trenutniKorisnik.save()
-    context = {
-        "forma_promenaSlike": form
-    }
-
-    return render(request, 'urediProfil.html',context = context)
-
+    
 
 
 
 def PretragaOglasa(request):
 
+    
     brendovi = Model.objects.values("brend").distinct()
     brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
     niz = []
@@ -397,14 +446,15 @@ def PretragaOglasa(request):
         karoserija = forma.cleaned_data.get('karoserija')
         cenaOd = forma.cleaned_data.get('cena1')
         cenaDo = forma.cleaned_data.get('cena2')
-
+        # print(brend)
+        # print(naziv_model)
         oglasi = []
         imgs = []
-        models_ids = Model.objects.filter(godisteOd__gte=godiste1).filter(godisteDo__lte=godiste2).filter(
+        models_ids = Model.objects.filter(godisteDo__gte=godiste2).filter(godisteOd__gte=godiste1).filter(
             brend=brend).filter(naziv_modela=naziv_model)
         print(models_ids)
         for model in models_ids:
-            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo)))
+            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo).filter(tip="p")))
         print(oglasi)
         for oglas in oglasi:
             nesto = Slike.objects.filter(fk_oglas=oglas)
@@ -425,9 +475,6 @@ def PretragaOglasa(request):
         return render(request=request, template_name='pretragaOglasa.html', context = context)
 
 
-
-
-
     #ako je korisnik poslat na stranicu pretrage preko get requesta, to znaci da je to prvi ulaz tu,
     #a ako je preko post requesta, onda je vec napravio filtere i primenio ih
     #U slucaju da korisnik dolazi na sajt get requestom, pravi se lista od pocetnih 9 oglasa(boostovani, ili svi boos
@@ -435,11 +482,18 @@ def PretragaOglasa(request):
     #salju odgovarajuci oglasi
 
     #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
+    oglasi = []
+    imgs = []
+    oglasi.extend(list(Oglas.objects.filter(boost=1)))
+    print("pretraga oglasa - GET")
+    for oglas in oglasi:
+        nesto = Slike.objects.filter(fk_oglas=oglas)
+        imgs.append(nesto.first().slike)
 
     dataJSON = dumps(niz)
     context = {
-        # "slike" : imgs,
-        # "oglasi" : oglasi,
+        "slike" : imgs,
+        "oglasi" : oglasi,
         "data": dataJSON,
         "brendovi" : brendovi,
         "forma_pretraziOglas":forma
@@ -465,7 +519,7 @@ def PretragaOglasaRent(request):
     }
     return render(request=request, template_name='pretragaOglasaRent.html', context = context)
 
-
+@login_required(login_url='login')
 def postavljanjeOglasa(request):
     form=PostavljanjeOglasa(request.POST or None,request.FILES or None)
     if form.is_valid():
@@ -490,6 +544,9 @@ def postavljanjeOglasa(request):
                           snaga = snaga, kilometraza=kilometraza, karoserija=karoserija,
                           godiste=godiste, model_idmodel=model_id.first())
             oglas.save()
+            mojOglas=MojiOglasi(korisnik_id=request.user,oglas_id=oglas)
+            mojOglas.save()
+           
             for img in slike:
                 photo = Slike.objects.create(slike = img, fk_oglas = oglas)
         else:

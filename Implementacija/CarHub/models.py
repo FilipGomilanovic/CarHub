@@ -54,11 +54,6 @@ class Oglas(models.Model):
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-<<<<<<< HEAD
-=======
-
-    #slike=models.FileField(db_column='Slike',upload_to='imgs/',null=True)
->>>>>>> main
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
     godiste = models.IntegerField(db_column='Godiste', default=0)
@@ -99,6 +94,23 @@ class Komentar(models.Model):
 
     class Meta:
         db_table = 'komentar'
+
+
+class SacuvaniOglasi(models.Model):
+    idsacuvanioglasi = models.AutoField(db_column='idSacuvaniOglasi', primary_key=True)
+    korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_s')
+    oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='oglas_id_s')
+
+    class Meta:
+        db_table = 'sacuvanioglasi'
+
+class MojiOglasi(models.Model):
+    idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
+    korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_m')
+    oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='oglas_id_m')
+
+    class Meta:
+        db_table = 'mojioglasi'
 
 #
 #

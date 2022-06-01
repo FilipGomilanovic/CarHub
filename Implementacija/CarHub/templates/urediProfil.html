@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-
 {% block content%}
+
     <style>
 
         a:link {
@@ -51,6 +51,10 @@
             });
         })
     </script>
+    {% load static %}
+    <script src={% static "skripta.js" %}></script>
+    {% load static %}
+    <link rel="stylesheet" href={% static "dizajn.css" %}>
 <div class="container rounded mb-5" style="background-color: rgba(0, 0, 0, 0.89); margin-top:5%;">
     <div class="row">
 
