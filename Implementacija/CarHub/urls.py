@@ -35,9 +35,8 @@ urlpatterns = [
 
 
     path('postavljanjeOglasa', views.postavljanjeOglasa),
-   # path('konkretanOglasProdaja/<int:oglas_id>',views.konkretanOglasProdaja),
-    path('<int:oglas_id>',views.konkretanOglasProdaja),
-    path('konkretanOglasRent',views.konkretanOglasRent)
+    path('konkretanOglasProdaja/<int:oglas_id>',views.konkretanOglasProdaja),
+    path('konkretanOglasRent/<int:oglas_id>',views.konkretanOglasRent)
 
 
 ]
