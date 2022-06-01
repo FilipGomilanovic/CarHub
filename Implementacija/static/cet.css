@@ -257,20 +257,20 @@ a:visited{
     }
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-    .chat-app .chat-list {
-        height: 480px;
-        overflow-x: auto;
-    }
-    .chat-app .chat-history {
-        height: 600px;
+/*@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {*/
+/*    .chat-app .chat-list {*/
+/*        height: 480px;*/
+/*        overflow-x: auto;*/
+/*    }*/
+/*    .chat-app .chat-history {*/
+/*        height: 600px;*/
 
-        height: calc(100vh - 350px);
-        overflow-x: auto
-    }
-}
+/*        height: calc(100vh - 350px);*/
+/*        overflow-x: auto*/
+/*    }*/
+/*}*/
 
-@media only screen and (min-width: 1024px) and (max-width: 4000px) {
+@media only screen and (min-width: 768px) and (max-width: 4000px) {
     .chat-app .chat-list {
         height: 650px;
         overflow-x: auto
