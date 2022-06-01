@@ -12,12 +12,13 @@ urlpatterns = [
     path('profilKorisnika', views.profilKorisnika),
 
     path('profilDrugogKorisnika', views.profilDrugogKorisnika),
-    path('pretragaOglasa', views.pretragaOglasa),
+    # path('pretragaOglasa', views.pretragaOglasa),
     # path('pregledOglasa', views.pregledOglasa),
     path('urediProfil', views.urediProfil),
     path('profilDrugogKorisnika/<int:korisnik_id>', views.profilDrugogKorisnika, name='profilDrugogKorisnika'),
 
     path('pretragaOglasa', views.PretragaOglasa),
+    path('cet/<int:idKor>', views.cet, name='cet'),
     path('pretragaOglasaRent', views.PretragaOglasaRent),
 
     path('urediProfil', views.urediProfil),
@@ -34,9 +35,8 @@ urlpatterns = [
 
 
     path('postavljanjeOglasa', views.postavljanjeOglasa),
-   # path('konkretanOglasProdaja/<int:oglas_id>',views.konkretanOglasProdaja),
-    path('<int:oglas_id>',views.konkretanOglasProdaja),
-    path('konkretanOglasRent',views.konkretanOglasRent)
+    path('konkretanOglasProdaja/<int:oglas_id>',views.konkretanOglasProdaja),
+    path('konkretanOglasRent/<int:oglas_id>',views.konkretanOglasRent)
 
 
 ]
