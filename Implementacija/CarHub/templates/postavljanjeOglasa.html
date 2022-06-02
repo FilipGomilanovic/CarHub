@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{#Pavle Tenjovic - stranica postavljanja oglasa bez funkcionalnog dodavanja slika#}
+{#Pavle Tenjovic - stranica postavljanja oglasa bez funkcionalnog dodavanja slika, o#}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,9 +39,9 @@
                             Ime korisnika
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-item">Moj Profil</a></li>
+                            <li><a href="#" class="dropdown-item">Pregled profila</a></li>
                             <li><a href="#" class="dropdown-item">Poruke</a></li>
-                            <li><a href="#" class="dropdown-item">Odjavi se</a></li>
+                            <li><a href="/logout" class="dropdown-item">Odjavi se</a></li>
 
                         </ul>
                     </div>
@@ -68,7 +68,7 @@
         </div>
         
     <div class="col-sm-4">
-        <form action="POST" style="margin-top: 30px;">
+        <form action="POST" style="margin-top: 30px; color: white;">
             <div >
                 <label for="" style="color: white;">Brend automobila</label>
             <select class="Brend" name="listaBrend" id="izborBrenda">
@@ -143,9 +143,6 @@
 
                 <input type="text" style="margin-top: 20px; align-self: center" placeholder="Grad">
 
-                <button type="button" class="btn" style="margin-top: 10px">
-                    Postavi slobodne datume
-                </button>
             </div>
             <div>
                 <textarea id="textarea" placeholder="Dodatne informacije" rows="8" cols="50" style="margin-top: 20px"></textarea>

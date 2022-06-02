@@ -19,10 +19,10 @@
         .container .row .prviRed .zvezdice .star_w input:checked ~ label{
             color :#fd4;
         }
-        a:hover {
+        /* a:hover {
             color: red;
             font-size: larger;
-        }
+        } */
         .heading {
           font-size: 25px;
           margin-right: 25px;
@@ -91,7 +91,7 @@
           }
         }
 
-        a:link {
+        /* a:link {
             color: red;
             text-decoration: none;
         }
@@ -101,11 +101,11 @@
         a:hover {
             color: red;
             font-size: larger;
-        }
+        } */
     </style>
 <div class="container rounded mb-5" style=" margin-top: 50px">
-    <div class="row">
-        <div class="col-xl-6 prviRed" style="background-color: rgba(0, 0, 0, 0.89);">
+    <div class="row" style="width:100% ;">
+        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;">
             <div class="row">
             <div class="col-md-6 border-right text-center" style="color:white">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
@@ -218,14 +218,100 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-6">
+        <div style="padding-bottom: 2%;margin-left: 55%;" >
+            <table>
+                <tr>
+                    <td>
+                        <label for=""></label><button class="btn-danger" disabled>Moji oglasi</button>&nbsp;&nbsp;<input type="radio" name="oglasi" id="mojioglasi" style="transform: scale(1.5); ">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <button class="btn-danger" disabled>Sacuvani oglasi</button>&nbsp;&nbsp;<input type="radio" name="oglasi" id="sacuvanioglasi" style="transform: scale(1.5); ">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="col-xl-8" style="margin-left:30% ;" id="MojiOglasi">
+            
+           
+                
+                {% for oglas in nizMojihOglasa %}
+                 
+                    <a href="{{ oglas.idoglas }}">
+                         <div id="oglas" style="display: inline-block;margin-left: 13%; " >
+                            <div class="slika" style="background-color:red ;">
+                                <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border: 2mm ridge rgba(255, 0, 0);" >
+                            </div>
+                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                                <p>
+                                    <label for="">Naziv modela: {{ brendovi|index:forloop.counter0}} {{modeli|index:forloop.counter0}}</label>
+                                    <br>
+                                    <label for="">Godiste: {{ oglas.godiste }}</label>
+                                    <br>
+                                    <label for="">Cena: {{ oglas.cena }}</label>
+                                    
+                                    
+        
+                                </p>
+        
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            
 
         </div>
-        <div class="col-12" style="margin-bottom: 30px">
+        <div class="col-xl-8" style="margin-left:30% ;" id="SacuvaniOglasi">
+            
+           
+           <p>TENJA PICKICA</p>
+        
 
         </div>
+        <!-- <div class="col-4" style="margin-bottom: 30px;margin-left: 30%;">
+            <button class="btn-danger center" disabled style="font-size:20px ;margin-bottom: 2%;">Sacuvani oglasi</button>
+            {% for oglas in nizMojihOglasa %}
+                 
+            <a href="{{ oglas.idoglas }}">
+                 <div id="oglas" style="display: inline-block; margin-left: 5%;" >
+                    <div class="slika" style="background-color:red ;">
+                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border: 2mm ridge rgba(255, 0, 0);" >
+                    </div>
+                    <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                        <p>
+                            <label for="">Naziv modela: {{ brendovi|index:forloop.counter0}} {{modeli|index:forloop.counter0}}</label>
+                            
+                            <label for="">Godiste: {{ oglas.godiste }}</label>
+                            <br>
+                            <label for="">Cena: {{ oglas.cena }}</label>
+                            
+                            
+
+                        </p>
+
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+
+        </div> -->
     </div>
 </div>
+<script>
+    $("#MojiOglasi").show();
+    $("#SacuvaniOglasi").hide();
+    $("#mojioglasi, #sacuvanioglasi").change(function () {
+        if ($("#mojioglasi").is(":checked")) {
+            $('#MojiOglasi').show();
+            $("#SacuvaniOglasi").hide();
+        }
+        else if ($("#sacuvanioglasi").is(":checked")) {
+            $('#SacuvaniOglasi').show();
+            $("#MojiOglasi").hide();
+        }
+
+    });
+</script>
 
 {% endblock %}
