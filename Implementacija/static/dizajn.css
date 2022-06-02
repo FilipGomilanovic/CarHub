@@ -17,11 +17,15 @@
 	border-radius:3px;
 	padding:70px 100px;
 }
+
+
+
 .box1{
 	
-
-	left:50%;
-	top:50%;
+	
+	position:absolute;
+	left:20%;
+	top:20%;
     transform: translate(-50%,-50%); 
     background-color: rgba(0, 0, 0, 0.89);
 	border-radius:3px;
@@ -106,3 +110,5 @@
     right: 5%;
     transform: translateY(-50%);
 }
+
+

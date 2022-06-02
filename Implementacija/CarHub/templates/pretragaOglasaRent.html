@@ -51,18 +51,30 @@
             <div style="width:100%;text-align: center;">
                   {% csrf_token %}
                 <form  method="post" style="text-align:justify ">
+<<<<<<< HEAD
+                  <label for="" style="font-size:15px;">Brend:</label><select  class="form-select" id="brend"  onchange="ubaciModele() ">
+=======
                   <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
+>>>>>>> main
                     <option value="nemaIzbora">Izaberite brend</option>
                       {% for brend in brendovi %}
                           <option value="{{ brend.brend }}">{{ brend.brend }}</option>
                       {% endfor %}
                        </select>
                       <br>
+<<<<<<< HEAD
+                      <label for="" style="font-size:15px;">Model:</label><select class="form-select"  id="modeli">
+                        <option value="nemaIzbora">Izaberite model</option>
+                      </select>
+                      <br>
+                      {% csrf_token %}
+=======
                       <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" name="dropdown_Model" id="modeli">
                         <option value="nemaIzbora">Izaberite model</option>
                       </select>
                       <br>
                         {% csrf_token %}
+>>>>>>> main
                      {{ forma_pretraziOglasRent|crispy}}
                         {% csrf_token %}
                      <input type="submit" value="Pretrazi" class="btn"">

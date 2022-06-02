@@ -53,8 +53,12 @@ class Oglas(models.Model):
     tip = models.CharField(db_column='Tip', max_length=1)  # Field name made lowercase.
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
+<<<<<<< HEAD
+    grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
+=======
     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase
     opis = models.TextField(db_column='Opis')
+>>>>>>> main
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
     godiste = models.IntegerField(db_column='Godiste', default=0)
@@ -65,6 +69,7 @@ class Oglas(models.Model):
 
     class Meta:
         db_table = 'oglas'
+
 
 class Slike(models.Model):
     idSlike = models.AutoField(db_column='idSlike', primary_key=True)
@@ -123,9 +128,30 @@ class Komentar(models.Model):
         db_table = 'komentar'
 
 
+<<<<<<< HEAD
+class SacuvaniOglasi(models.Model):
+    idsacuvanioglasi = models.AutoField(db_column='idSacuvaniOglasi', primary_key=True)
+    korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_s')
+    oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='oglas_id_s')
+
+    class Meta:
+        db_table = 'sacuvanioglasi'
+
+class MojiOglasi(models.Model):
+    idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
+    korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_m')
+    oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='oglas_id_m')
+
+    class Meta:
+        db_table = 'mojioglasi'
+
+#
+#
+=======
 
 
 
+>>>>>>> main
 # class Mojioglasi(models.Model):
 #     idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
 #     korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
