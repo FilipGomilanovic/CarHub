@@ -44,14 +44,14 @@
     </div>
     <div id="cuvanjeOglasa" style="margin-left:7% ;margin-top: -10%;">
         <form method="post">
-            
-            <button class="btn" id="buttonCuvanje" type="submit">
-            <img src="static/star.png" alt="" width="50px" height="50px">
+            {% csrf_token %}
+            <button class="btn" id="buttonCuvanje" type="submit" name="sacuvaj" value="{{oglas.id}}">
+            <img src="/static/star.png" alt="" width="50px" height="50px">
             <font style="font-size: 20px;">Sacuvaj oglas</font>
             </button>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <a href="/boostOglasa/{{oglas.id}}"><button class="btn" id="buttonCuvanje" type="button">
-                <img src="static/munja.png" alt="" width="50px" height="50px">
+            <a href="/boostOglasa/{{ oglas.id }}"><button class="btn" id="buttonCuvanje" type="button">
+                <img src="/static/munja.png" alt="" width="50px" height="50px">
                 <font style="font-size: 20px;">Boost oglas</font>
                 </button></a>
             
@@ -134,7 +134,7 @@
             <h4 style="color:white ;">Car Review</h4>
         <label for="" id="snimak">
             <iframe width="200" height="150" 
-         src="https://www.youtube.com/embed/tgbNymZ7vqY">
+         src="https://www.youtube.com/embed/{{oglas.link}}">
 </iframe>
         </label>
         

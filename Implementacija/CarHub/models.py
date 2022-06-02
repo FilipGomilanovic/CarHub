@@ -18,13 +18,7 @@ class Korisnik(AbstractUser):
         db_table = 'korisnik'
 
 
-class Ocena(models.Model):
-    ocena = models.IntegerField(db_column='ocena')
-    korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
-    ocenio = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='ocenio', related_name='ocenio')
 
-    class Meta:
-        db_table = 'ocena'
 
     # def create(self, broj, postavio, korisnikOcenio):
     #     ocena = broj
@@ -53,12 +47,8 @@ class Oglas(models.Model):
     tip = models.CharField(db_column='Tip', max_length=1)  # Field name made lowercase.
     cena = models.IntegerField(db_column='Cena', blank=True, null=True)  # Field name made lowercase.
     boost = models.IntegerField(db_column='Boost', blank=True, null=True)  # Field name made lowercase.
-<<<<<<< HEAD
-    grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase.
-=======
     grad = models.CharField(db_column='Grad', max_length=45)  # Field name made lowercase
     opis = models.TextField(db_column='Opis')
->>>>>>> main
     snaga = models.IntegerField(db_column='Snaga', default=0)
     kilometraza = models.IntegerField(db_column='Kilometraza', default=0)
     godiste = models.IntegerField(db_column='Godiste', default=0)
@@ -104,6 +94,14 @@ class Datumi(models.Model):
 #         db_table = 'komentar'
 #
 
+class Ocena(models.Model):
+    ocena = models.IntegerField(db_column='ocena')
+    korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
+    ocenio = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='ocenio', related_name='ocenio')
+
+    class Meta:
+        db_table = 'ocena'
+
 class Cet(models.Model):
     idCet = models.AutoField(db_column='idCet', primary_key=True)  # Field name made lowercase.
     idkorisnika1 = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='idKorisnika1', related_name='idkorisnika1')
@@ -128,7 +126,6 @@ class Komentar(models.Model):
         db_table = 'komentar'
 
 
-<<<<<<< HEAD
 class SacuvaniOglasi(models.Model):
     idsacuvanioglasi = models.AutoField(db_column='idSacuvaniOglasi', primary_key=True)
     korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_s')
@@ -147,11 +144,6 @@ class MojiOglasi(models.Model):
 
 #
 #
-=======
-
-
-
->>>>>>> main
 # class Mojioglasi(models.Model):
 #     idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
 #     korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
