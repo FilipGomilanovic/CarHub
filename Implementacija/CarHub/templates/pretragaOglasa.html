@@ -31,11 +31,11 @@
     <div class="row">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="container-fluid">
-                <a href="#" class="navbar-brand">
+                <a href="/pathTest" class="navbar-brand">
                     {% load static %}
                     <img src= {% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
                 </a>
-                <a href="#" class="navbar-brand">
+                <a href="/prijava" class="navbar-brand">
                     <img src={% static "logoAvatar.png" %} alt="Logo" style="width: 40px;" align="right">
                 </a>
 
@@ -73,24 +73,26 @@
 
     <div class="col-sm-8" style="margin-top:1% ;position:relative;margin-left: 30%;">
         {% for oglas in oglasi %}
-            <a href="{{ oglas.idoglas }}">
+            <a href="konkretanOglasProdaja/{{ oglas.idoglas }}">
                  <div id="oglas" style="display: inline-block; margin-left: 5%;" >
                     <div class="slika" style="background-color:red ;">
-                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border: 2mm ridge rgba(255, 0, 0);" >
+                        {% if oglas.boost == 1%}
+                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >                 
+                        {% else %}
+                         <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >            
+                        {% endif %}
+                        
                     </div>
                     <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
                         <p>
-<<<<<<< HEAD
-                            <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
-                            
-=======
                             {% if naziv_brenda %}
                                 <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                                <br>
                             {% endif %}
                             {% if naziv_brenda_modela_list %}
                                 <label for="">Naziv modela: {{ naziv_brenda_modela_list|index:forloop.counter0 }}</label>
+                                <br>
                             {% endif %}
->>>>>>> main
                             <label for="">Godiste: {{ oglas.godiste }}</label>
                             <br>
                             <label for="">Cena: {{ oglas.cena }}</label>

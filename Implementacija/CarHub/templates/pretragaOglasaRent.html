@@ -31,11 +31,11 @@
     <div class="row">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="container-fluid">
-                <a href="#" class="navbar-brand">
+                <a href="/pathTest" class="navbar-brand">
                     {% load static %}
                     <img src= {% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
                 </a>
-                <a href="#" class="navbar-brand">
+                <a href="/prijava" class="navbar-brand">
                     <img src={% static "logoAvatar.png" %} alt="Logo" style="width: 40px;" align="right">
                 </a>
 
@@ -51,30 +51,18 @@
             <div style="width:100%;text-align: center;">
                   {% csrf_token %}
                 <form  method="post" style="text-align:justify ">
-<<<<<<< HEAD
-                  <label for="" style="font-size:15px;">Brend:</label><select  class="form-select" id="brend"  onchange="ubaciModele() ">
-=======
-                  <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" style="margin-left:10px" onchange="ubaciModele() ">
->>>>>>> main
+                  <label for="" style="font-size:20px;">Brend:</label><select id="brend" name="dropdown_Brend" class="form-select" onchange="ubaciModele() ">
                     <option value="nemaIzbora">Izaberite brend</option>
                       {% for brend in brendovi %}
                           <option value="{{ brend.brend }}">{{ brend.brend }}</option>
                       {% endfor %}
                        </select>
                       <br>
-<<<<<<< HEAD
-                      <label for="" style="font-size:15px;">Model:</label><select class="form-select"  id="modeli">
-                        <option value="nemaIzbora">Izaberite model</option>
-                      </select>
-                      <br>
-                      {% csrf_token %}
-=======
-                      <label for="" style="font-size:20px;">Model:</label><select style="margin-left:10px" name="dropdown_Model" id="modeli">
+                      <label for="" style="font-size:20px;">Model:</label><select class="form-select" name="dropdown_Model" id="modeli">
                         <option value="nemaIzbora">Izaberite model</option>
                       </select>
                       <br>
                         {% csrf_token %}
->>>>>>> main
                      {{ forma_pretraziOglasRent|crispy}}
                         {% csrf_token %}
                      <input type="submit" value="Pretrazi" class="btn"">
@@ -82,9 +70,9 @@
             </div>
         </div>
 
-    <div class="col-sm-8" style="margin-top:1% ;">
+    <div class="col-sm-8" style="margin-top:1% ;margin-left: 5%;">
         {% for oglas in oglasi %}
-            <a href="{{ oglas.idoglas }}">
+            <a href="konkretanOglasRent/{{ oglas.idoglas }}">
                 <div id="oglas">
                     <div class="slika">
                         <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="250px" height="200px" style="border:red solid;" >

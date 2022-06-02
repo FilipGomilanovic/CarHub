@@ -12,11 +12,7 @@ urlpatterns = [
     path('profilKorisnika', views.profilKorisnika),
 
     path('profilDrugogKorisnika', views.profilDrugogKorisnika),
-<<<<<<< HEAD
-   
-=======
     # path('pretragaOglasa', views.pretragaOglasa),
->>>>>>> main
     # path('pregledOglasa', views.pregledOglasa),
     path('urediProfil', views.urediProfil),
     path('boostOglasa/<int:oglas_id>',views.BoostOglasa),

@@ -119,6 +119,7 @@
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
                 <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
+                <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="/cet/{{profil.id}}">Posalji poruku</a></div>
             </div>
 
             <div class="col-md-6 zvezdice mt-5" style="color:white">
@@ -273,7 +274,7 @@
                     <a href="/{{ oglas.idoglas }}">
                          <div id="oglas" style="display: inline-block; margin-left: 13%;" >
                             <div class="slika" style="background-color:red ;">
-                                <img  src="/media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border: 2mm ridge rgba(255, 0, 0);" >
+                                <img  src="/media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
                             </div>
                             <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
                                 <p>
