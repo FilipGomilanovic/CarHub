@@ -14,7 +14,7 @@
     {% load static %}
     <script src={% static "skripta.js" %}></script>
     <title>CarHub</title>
-    
+
 </head>
 
 <style>
@@ -30,7 +30,7 @@
     </style>
 <body>
 
-   
+
 
     <div class="row">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -52,13 +52,13 @@
                         </ul>
                     </div>
 
-                
+
 
             </div>
-            
+
 
         </nav>
-        
+
     </div>
 
 
@@ -67,8 +67,8 @@
         </div>
 
         <div class=" col-sm-7 box"; style="margin-top:1.3% ;"  ">
-            
-           
+
+
          <div style="width:50%;float:left; ">
 
               <form  method="post" style="text-align:justify;color: white;" enctype="multipart/form-data"  >
@@ -84,15 +84,15 @@
                   </select>
                   <br>
                   <input required name="images" type="file" multiple class="form-control-file form-select">
-                 
-             
+
+
                   {% csrf_token %}
                  {{ forma_postaviOglas|crispy}}
 
-        </div> 
+        </div>
 
         <div style="width:50%;float:left ;padding-left: 20px;">
-           
+
                 <div>
                 <input type="radio" id="radio1" name="izbor" style="margin-top: 20px" value="prodaja"><font style="color: white; font-size: 18px">
                 PRODAJA</font>
@@ -117,19 +117,19 @@
                <div>
                 <textarea id="textarea" placeholder="Dodatne informacije" rows="2" cols="50" style="margin-top: 10px"></textarea>
                </div>
-                    
-                  
+
+
 
                   <input type="submit" name="submit" class="btn" style="margin-top:10px ;">
              </form>
         </div>
-          
-            
 
-            
-</div>   
+
+
+
 </div>
-  
+</div>
+
 </body>
 </html>
 <script>

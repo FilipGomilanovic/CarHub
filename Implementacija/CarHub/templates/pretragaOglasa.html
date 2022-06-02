@@ -1,151 +1,100 @@
-<!DOCTYPE html>
-{% load crispy_forms_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% extends 'base.html' %}
+
+{% block content%}
+    <script>
+        function removeOptions(selectElement) {
+            var i, L = selectElement.options.length - 1;
+           for(i = L; i >= 0; i--) {
+              selectElement.remove(i);
+           }
+        }
+        function filtrirajModele(value){
+            var data = JSON.parse("{{ data|escapejs }}");
+            let niz = [];
+
+            for(var x in data){
+                if(value == data[x][0]){
+                    niz.push(data[x][1]);
+                }
+            }
+            return niz;
+        }
+        function ubaciModele(){
+            var selectBrend = document.getElementById("brend");
+            var value = selectBrend.options[selectBrend.selectedIndex].value;
+            var selectModel = document.getElementById("modeli");
+            removeOptions(selectModel);
+            let naziviModela = filtrirajModele(value);
+            var opt = new Option("Izaberite model", "nijeIzabrano")
+            selectModel.appendChild(opt);
+            for(var i = 0; i < naziviModela.length; i++){
+                var opt = new Option(naziviModela[i], naziviModela[i])
+                selectModel.appendChild(opt);
+            }
+            naziviModela = [];
+        }
+    </script>
+
+    {% load crispy_forms_tags %}
     {% load static %}
     <script src={% static "skripta.js" %}></script>
     {% load static %}
     <link rel="stylesheet" href={% static "dizajn.css" %}>
-    <title>CarHub</title>
-</head>
-<style>
-    body {
-      {% load static %}
-      background-image: url({% static "naslovniWall.jpg" %});
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-	  max-width: 100%;
-	  overflow-x: hidden;
-    }
 
-
-    </style>
-<body>
     <div class="row">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <div class="container-fluid">
-                <a href="/pathTest" class="navbar-brand">
-                    {% load static %}
-                    <img src= {% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
-                </a>
-                <a href="/prijava" class="navbar-brand">
-                    <img src={% static "logoAvatar.png" %} alt="Logo" style="width: 40px;" align="right">
-                </a>
-
-
-            </div>
-
-
-        </nav>
-
-    </div>
-<div class="row">
         <div class="col-sm-3" style="position:fixed ;margin-top: 1%; margin-left: 3%;background-color: rgba(0, 0, 0, 0.89);color: white;" >
             <div style="width:100%;text-align: center;">
-                  {% csrf_token %}
+                {% csrf_token %}
                 <form  method="post" style="text-align:justify ">
-                  <label for="" style="font-size:15px;">Brend:</label><select id="brend" name="dropdown_Brend" class="form-select"  onchange="ubaciModele() ">
-                    <option value="nemaIzbora">Izaberite brend</option>
-                      {% for brend in brendovi %}
-                          <option  value="{{ brend.brend }}">{{ brend.brend }}</option>
-                      {% endfor %}
-                       </select>
-                      <br>
-                      <label for="" style="font-size:15px;">Model:</label><select  class="form-select" id="modeli" name="dropdown_Model">
-                        <option value="nemaIzbora">Izaberite model</option>
-                      </select>
-                      <br>
-                      
-                     {{ forma_pretraziOglas|crispy}}
-                     {% csrf_token %}
-                     <input type="submit" value="Pretrazi" class="btn">
+                    <label for="" style="font-size:15px;">Brend:</label>
+                        <select id="brend" name="dropdown_Brend" class="form-select"  onchange="ubaciModele() ">
+                            <option value="nemaIzbora">Izaberite brend</option>
+                            {% for brend in brendovi %}
+                                <option  value="{{ brend.brend }}">{{ brend.brend }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <label for="" style="font-size:15px;">Model:</label>
+                        <select class="form-select" id="modeli" name="dropdown_Model">
+                            <option value="nemaIzbora">Izaberite model</option>
+                        </select>
+                        <br>
+                        {{ forma_pretraziOglas|crispy}}
+                        {% csrf_token %}
+                    <input type="submit" value="Pretrazi" class="btn">
                 </form>
             </div>
         </div>
-
-
-    <div class="col-sm-8" style="margin-top:1% ;position:relative;margin-left: 30%;">
-        {% for oglas in oglasi %}
-            <a href="konkretanOglasProdaja/{{ oglas.idoglas }}">
-                 <div id="oglas" style="display: inline-block; margin-left: 5%;" >
-                    <div class="slika" style="background-color:red ;">
-                        {% if oglas.boost == 1%}
-                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >                 
-                        {% else %}
-                         <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >            
-                        {% endif %}
-                        
-                    </div>
-                    <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
-                        <p>
-                            {% if naziv_brenda %}
-                                <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
-                                <br>
+        <div class="col-sm-8" style="margin-top:1% ;position:relative;margin-left: 30%;">
+            {% for oglas in oglasi %}
+                <a href="konkretanOglasProdaja/{{ oglas.idoglas }}">
+                     <div id="oglas" style="display: inline-block; margin-left: 5%;" >
+                        <div class="slika" style="background-color:red ;">
+                            {% if oglas.boost == 1%}
+                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >
+                            {% else %}
+                             <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
                             {% endif %}
-                            {% if naziv_brenda_modela_list %}
-                                <label for="">Naziv modela: {{ naziv_brenda_modela_list|index:forloop.counter0 }}</label>
+                        </div>
+                        <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                            <p>
+                                {% if naziv_brenda %}
+                                    <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
+                                    <br>
+                                {% endif %}
+                                {% if naziv_brenda_modela_list %}
+                                    <label for="">Naziv modela: {{ naziv_brenda_modela_list|index:forloop.counter0 }}</label>
+                                    <br>
+                                {% endif %}
+                                <label for="">Godiste: {{ oglas.godiste }}</label>
                                 <br>
-                            {% endif %}
-                            <label for="">Godiste: {{ oglas.godiste }}</label>
-                            <br>
-                            <label for="">Cena: {{ oglas.cena }}</label>
-
-                        </p>
-
+                                <label for="">Cena: {{ oglas.cena }}</label>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </a>
-        {% endfor %}
+                </a>
+            {% endfor %}
+        </div>
     </div>
-</div>
-        
-   
+{% endblock %}
 
-
-
-</body>
-</html>
-
-<script>
-
-function removeOptions(selectElement) {
-    var i, L = selectElement.options.length - 1;
-   for(i = L; i >= 0; i--) {
-      selectElement.remove(i);
-   }
-}
-
-function filtrirajModele(value){
-    var data = JSON.parse("{{ data|escapejs }}");
-    let niz = [];
-
-    for(var x in data){
-        if(value == data[x][0]){
-            niz.push(data[x][1]);
-        }
-    }
-    return niz;
-}
-
-function ubaciModele(){
-    var selectBrend = document.getElementById("brend");
-    var value = selectBrend.options[selectBrend.selectedIndex].value;
-    var selectModel = document.getElementById("modeli");
-    removeOptions(selectModel);
-    let naziviModela = filtrirajModele(value);
-    var opt = new Option("Izaberite model", "nijeIzabrano")
-    selectModel.appendChild(opt);
-    for(var i = 0; i < naziviModela.length; i++){
-        var opt = new Option(naziviModela[i], naziviModela[i])
-        selectModel.appendChild(opt);
-    }
-    naziviModela = [];
-}
-</script>
