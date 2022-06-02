@@ -1,0 +1,5 @@
+Korisceni alati:
+1.MySQL Workbench 8.0 CE
+2.Python - interpreter python 3.10 (radjeno u PyCharm okruzenju)
+3.HTML, CSS, JavaScript (radjeno u PyCharm okruzenju)
+4.Django framework (radjeno u PyCharm okruzenju)
