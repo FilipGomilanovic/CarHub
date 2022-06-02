@@ -23,10 +23,10 @@
         .container .row .prviRed .zvezdice .star_w input:checked ~ label{
             color :#fd4;
         }
-        a:hover {
+        /* a:hover {
             color: red;
             font-size: larger;
-        }
+        } */
         .heading {
           font-size: 25px;
           margin-right: 25px;
@@ -105,20 +105,21 @@
         a:visited{
             color: red;
         }
-        a:hover {
+        /* a:hover {
             color: red;
             font-size: larger;
-        }
+        } */
     </style>
 <div class="container rounded mb-5" style=" margin-top: 50px">
     <div class="row">
-        <div class="col-xl-6 prviRed" style="background-color: rgba(0, 0, 0, 0.89);">
+        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;">
             <div class="row">
             <div class="col-md-6 border-right text-center" style="color:white">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
                 <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
+                <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="/cet/{{profil.id}}">Posalji poruku</a></div>
             </div>
 
             <div class="col-md-6 zvezdice mt-5" style="color:white">
@@ -237,7 +238,7 @@
                 {% endif %}
             <div class="p-3 py-5">
                 <div style="text-align: center" class="align-items-center mb-3">
-                    <h4 class="text-white-50">Komentari</h4>
+                    <h4 style="color: white"">Komentari</h4>
                 </div>
                 <div style="border-style: groove;" class="row mt-3 text-white ">
                     <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
@@ -268,7 +269,7 @@
                          {% endfor %}
                     </div>
                 </div>
-                    <div style="border-style: groove; color:white; margin-top:10px">
+                    <div style="margin-top:10px;color: white;">
                          <form method="post">
                             {% csrf_token %}
                              <div>
@@ -282,12 +283,40 @@
             </div>
         </div>
 
-        <div class="col-xl-6">
+        <div style="margin-left:27% ;">
+            <button class="btn-danger" style="font-size:20px;margin-bottom: 3%;margin-left: 33%;" disabled>Oglasi korisnika</button>
+        </div>
+
+        <div class="col-xl-8" style="margin-left:30% ;">
+            
+          
+                {% for oglas in nizMojihOglasa %}
+                 
+                    <a href="/{{ oglas.idoglas }}">
+                         <div id="oglas" style="display: inline-block; margin-left: 13%;" >
+                            <div class="slika" style="background-color:red ;">
+                                <img  src="/media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
+                            </div>
+                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                                <p>
+                                    <label for="">Naziv modela: {{ brendovi|index:forloop.counter0}} {{modeli|index:forloop.counter0}}</label>
+                                    <br>
+                                    <label for="">Godiste: {{ oglas.godiste }}</label>
+                                    <br>
+                                    <label for="">Cena: {{ oglas.cena }}</label>
+                                    
+                                    
+        
+                                </p>
+        
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
 
         </div>
-        <div class="col-12" style="margin-bottom: 30px">
-
-        </div>
+        
     </div>
 </div>
 

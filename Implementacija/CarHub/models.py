@@ -18,13 +18,7 @@ class Korisnik(AbstractUser):
         db_table = 'korisnik'
 
 
-class Ocena(models.Model):
-    ocena = models.IntegerField(db_column='ocena')
-    korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
-    ocenio = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='ocenio', related_name='ocenio')
 
-    class Meta:
-        db_table = 'ocena'
 
     # def create(self, broj, postavio, korisnikOcenio):
     #     ocena = broj
@@ -66,6 +60,7 @@ class Oglas(models.Model):
     class Meta:
         db_table = 'oglas'
 
+
 class Slike(models.Model):
     idSlike = models.AutoField(db_column='idSlike', primary_key=True)
     slike = models.FileField(db_column='Slike', upload_to='imgs/', null=True)
@@ -99,6 +94,14 @@ class Datumi(models.Model):
 #         db_table = 'komentar'
 #
 
+class Ocena(models.Model):
+    ocena = models.IntegerField(db_column='ocena')
+    korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')
+    ocenio = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='ocenio', related_name='ocenio')
+
+    class Meta:
+        db_table = 'ocena'
+
 class Cet(models.Model):
     idCet = models.AutoField(db_column='idCet', primary_key=True)  # Field name made lowercase.
     idkorisnika1 = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='idKorisnika1', related_name='idkorisnika1')
@@ -123,9 +126,24 @@ class Komentar(models.Model):
         db_table = 'komentar'
 
 
+class SacuvaniOglasi(models.Model):
+    idsacuvanioglasi = models.AutoField(db_column='idSacuvaniOglasi', primary_key=True)
+    korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_s')
+    oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='oglas_id_s')
 
+    class Meta:
+        db_table = 'sacuvanioglasi'
 
+class MojiOglasi(models.Model):
+    idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
+    korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik_m')
+    oglas_id = models.ForeignKey(Oglas, on_delete=models.CASCADE, db_column='oglas_id', related_name='oglas_id_m')
 
+    class Meta:
+        db_table = 'mojioglasi'
+
+#
+#
 # class Mojioglasi(models.Model):
 #     idmojioglasi = models.AutoField(db_column='idMojiOglasi', primary_key=True)
 #     korisnik_id = models.ForeignKey(Korisnik, on_delete=models.CASCADE, db_column='korisnik', related_name='korisnik')

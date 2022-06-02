@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 {% block content%}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+{% load static %}
+    <script src={% static "skripta.js" %}></script>
+    {% load static %}
+    <link rel="stylesheet" href={% static "dizajn.css" %}>
 <div class="row">
 
 <div class="col-sm-6">
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:450px ; height: 450px; margin-top: 10%; margin-left: 10%;">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:550px ; height: 450px; margin-top: 10%; margin-left: 7%;">
 
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -27,12 +35,36 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
+
+       
+       
+       
+       
+       
     </div>
+    <div id="cuvanjeOglasa" style="margin-left:7% ;margin-top: -10%;">
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn" id="buttonCuvanje" type="submit" name="sacuvaj" value="{{oglas.id}}">
+            <img src="/static/star.png" alt="" width="50px" height="50px">
+            <font style="font-size: 20px;">Sacuvaj oglas</font>
+            </button>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <a href="/boostOglasa/{{ oglas.id }}"><button class="btn" id="buttonCuvanje" type="button">
+                <img src="/static/munja.png" alt="" width="50px" height="50px">
+                <font style="font-size: 20px;">Boost oglas</font>
+                </button></a>
+            
+            
+        </form>
+       
+    </div>
+    
 
 </div>
 
     <div class=" box col-sm-3">
-       <div class="input-container">
+       <div class="input-container" style="margin-top:15% ;">
            <table>
                <tr>
                    <td>
@@ -96,16 +128,24 @@
         
        
     </div>
-    <div class=" box col-sm-3" style="margin-left: 30% ;">
+    <div class=" box col-sm-3" style="margin-left: 30% ;margin-top:1.6%">
         <div class="input-container">
-        <textarea name="" id="" cols="30" rows="2" disabled></textarea>
-        <input type="text" name="" id="" value="Ovde linkovi" disabled>
+       
+            <h4 style="color:white ;">Car Review</h4>
+        <label for="" id="snimak">
+            <iframe width="200" height="150" 
+         src="https://www.youtube.com/embed/{{oglas.link}}">
+</iframe>
+        </label>
         
-        <div name="informacije" style="margin-left:40% ;margin-top: 33%;"  >
-            <input type="text" name="" id="" value="Ime Prezime" disabled>
-            <input type="text" value="E-mail" disabled>
-            <input type="text" value="brojTelefona" disabled>
+        <div name="informacije" style="margin-top:10%"  >
+            <input type="text" name="" id="" value="{{oglas.ime}}" disabled>
+            <input type="text" value="{{oglas.mail}}" disabled>
+            <input type="text" value="{{oglas.broj}}" disabled>
             <button class="btn-danger" style="width: 150px; margin-top:10%">Posalji poruku</button>
+           <h1 style="color: white;">
+           
+           </h1>
 
 
         </div>

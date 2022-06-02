@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream:Implementacija/CarHub/templates/prijava.html
+{% load crispy_forms_tags %}
 <!--Milos Mijailovic 572/2018
 kreiranje forma za prijavu korisnika
 -->
@@ -53,11 +53,11 @@ kreiranje forma za prijavu korisnika
         <div class="col-sm-4" align="center" style="padding: 100px;">
             {% block content%}
 
-            <div class="box">
+            <div class="box";">
                 <form method="POST">
                     <div class="input-container">
                      {% csrf_token %}
-                     {{login_form}}
+                     {{login_form|crispy}}
                      	
                     </div>
             
@@ -75,5 +75,5 @@ kreiranje forma za prijavu korisnika
     
     
 </body>
->>>>>>> Stashed changes:Projekat PSI/prijava.html
+
 </html>

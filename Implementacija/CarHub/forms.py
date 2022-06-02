@@ -63,7 +63,7 @@ class PostavljanjeOglasa(forms.Form):
     snagaMotora = forms.IntegerField(label="Snaga motora:", required=False,
                                      widget=forms.TextInput(attrs={'placeholder': 'Unesite snagu motora'}))
     karoserija = forms.ChoiceField(choices=CHOICES, required=True, initial=CHOICES[0])
-    slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
+    # slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
 
 
 
@@ -83,7 +83,7 @@ class PorukaForm(ModelForm):
 
 
 class PromeniSliku(forms.Form):
-    slika = forms.FileField(widget=forms.FileInput(),required=False)
+    slika = forms.FileField(label="",widget=forms.FileInput(attrs={'placeholder':'Izmeni profilnu sliku'}),required=False)
 
 class pretragaOglasa(forms.Form):
      CHOICES=[
