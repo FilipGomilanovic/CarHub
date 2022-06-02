@@ -250,6 +250,19 @@ def profilDrugogKorisnika(request, korisnik_id):
             kom.save()
             return HttpResponseRedirect(request.path_info)
     form = KomentarForm()
+    kom_id = request.POST.get('komentar_id')
+    if kom_id:
+        kom = Komentar.objects.get(pk = kom_id)
+        kom.delete()
+        return HttpResponseRedirect(request.path_info)
+    user_id = request.POST.get('profil_id')
+    if user_id:
+        user = Korisnik.objects.get(pk=user_id)
+        user.delete()
+        return HttpResponseRedirect('/pathTestUlogovan')
+
+
+
 
     if request.method == "POST":
         rate = request.POST.get('rate')
@@ -385,6 +398,7 @@ def create_Komentar(request):
         return redirect('profilDrugogKorisnika.html')
 
 
+
 def konkretanOglasProdaja(request, oglas_id):
     # namestiti
     oglas = Oglas.objects.get(pk=oglas_id)
@@ -396,11 +410,14 @@ def konkretanOglasProdaja(request, oglas_id):
         o=Oglas.objects.get(pk=variable)
         sacuvaniOglasi=SacuvaniOglasi(korisnik_id=request.user,oglas_id=o)
         sacuvaniOglasi.save();
-
+    brisi = request.POST.get('oglas_id')
+    if brisi:
+        tren_oglas = Oglas.objects.get(pk = brisi)
+        tren_oglas.delete()
+        return HttpResponseRedirect('/profilKorisnika')
     print(korisnik)
     
     print(lista_slika[0].slike)
-    # slika1 = lista_slika[0]
     oglas_dict = {
         'brend' : model_oglasa.brend,
         'link':model_oglasa.carreviewlink,
@@ -416,7 +433,8 @@ def konkretanOglasProdaja(request, oglas_id):
         'ime':korisnik.username,
         'mail':korisnik.email,
         'broj':korisnik.kontakt_telefon,
-        'id':oglas_id
+        'id':oglas_id,
+        'vlasnik':oglas.vlasnik_id
     }
 
     return render(request, 'konkretanOglasProdaja.html', context={'oglas': oglas_dict})
@@ -426,6 +444,11 @@ def konkretanOglasRent(request, oglas_id):
     poruka = ""
     datumi = []
     korisnik=MojiOglasi.objects.get(oglas_id=oglas_id).korisnik_id
+    variable = request.POST.get("sacuvaj")
+    if variable:
+        o = Oglas.objects.get(pk=variable)
+        sacuvaniOglasi = SacuvaniOglasi(korisnik_id=request.user, oglas_id=o)
+        sacuvaniOglasi.save();
     if request.method == "POST":
         datumOd = request.POST['start']
         datumDo = request.POST['end']
@@ -479,6 +502,11 @@ def urediProfil(request):
     pas = None
     fon = None
     mail = None
+    tren = request.POST.get('profil_id')
+    if tren:
+        korisnik = Korisnik.objects.get(pk = tren)
+        korisnik.delete()
+        return HttpResponseRedirect('/registracija')
     form = PromeniSliku(request.POST or None, request.FILES or None)
     if form.is_valid():
         kime = request.POST['ime1']
@@ -505,37 +533,7 @@ def urediProfil(request):
     return render(request, 'urediProfil.html', context=context)
 
 
-# def postavljanjeOglasa(request):
-#     forma = PostavljanjeOglasa(request.POST, request.FILES)
-#     trenutniKorisnik = request.user
-#     kime = None
-#     pas = None
-#     fon = None
-#     mail = None
-#     form = PromeniSliku(request.POST or None, request.FILES or None)
-#     if form.is_valid():
-#         kime = request.POST['ime1']
-#         pas = request.POST['sifra1']
-#         fon = request.POST.get('telefon1')
-#         mail = request.POST.get('mejl1')
-#         slika = form.cleaned_data.get('slika')
-#         if slika is not None:
-#             trenutniKorisnik.slika = slika
 
-#         if len(kime) > 6:
-#             trenutniKorisnik.username = kime
-#         if len(pas) > 6:
-#             trenutniKorisnik.set_password(pas)
-#         if len(fon) > 6:
-#             trenutniKorisnik.kontakt_telefon = fon
-#         if len(mail) > 6:
-#             trenutniKorisnik.email = mail
-#         trenutniKorisnik.save()
-#     context = {
-#         "forma_promenaSlike": form
-#     }
-
-#     return render(request, 'urediProfil.html', context=context)
 
 
 def PretragaOglasa(request):
@@ -554,16 +552,27 @@ def PretragaOglasa(request):
         karoserija = forma.cleaned_data.get('karoserija')
         cenaOd = forma.cleaned_data.get('cena1')
         cenaDo = forma.cleaned_data.get('cena2')
+        if cenaDo is None:
+            cenaDo = 10000000000
+        if cenaOd is None:
+            cenaOd = 0
+        if godiste1 is None:
+            godiste1 = 0
+        if godiste2 is None:
+            godiste2 = 10000000000
         # print(brend)
         # print(naziv_model)
         oglasi = []
+        oglasi_pom = []
         imgs = []
-        models_ids = Model.objects.filter(godisteDo__gte=godiste2).filter(godisteOd__gte=godiste1).filter(
-            brend=brend).filter(naziv_modela=naziv_model)
-        print(models_ids)
-        for model in models_ids:
-            oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo).filter(tip="p")))
-        print(oglasi)
+        oglasi_pom.extend(list(Oglas.objects.filter(godiste__lte=godiste2).filter(
+            godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(
+            cena__lte=cenaDo).filter(tip="p")))
+
+        for oglas in oglasi_pom:
+            idMod = oglas.model_idmodel
+            if (idMod.brend == brend and idMod.naziv_modela == naziv_model):
+                oglasi.append(oglas)
 
         if len(oglasi) != 0:
             for oglas in oglasi:
@@ -600,6 +609,7 @@ def PretragaOglasa(request):
     #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
     oglasi = []
     imgs = []
+
     brend_model = [] #lista naziva brenda i modela koju saljem kroz kontekst u slucaju da je get metod
     oglasi.extend(list(Oglas.objects.filter(boost=1)))
 
@@ -744,6 +754,7 @@ def postavljanjeOglasa(request):
                           snaga=snaga, kilometraza=kilometraza, karoserija=karoserija,
                           godiste=godiste, model_idmodel=model_id.first())
             id=oglas.idoglas
+            oglas.vlasnik_id=request.user
             oglas.save()
             for img in slike:
                 photo = Slike.objects.create(slike=img, fk_oglas=oglas)
@@ -893,8 +904,8 @@ def cet(request, idKor):
         'sviKorisnici': sviKorisnici,
         'svePoruke': svePoruke,
         'formaPoruke': form,
-        'idKor': CetKorisnik
-
+        'idKor': CetKorisnik,
+        'id': idKor
     }
     # Popraviti
     if idKor == 0:
