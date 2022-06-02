@@ -58,11 +58,13 @@
             <form method="post" enctype="multipart/form-data">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 {% load static %}
-                <img id="slika" src="media/{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5"
-                     onerror="if (this.src !='{% static "default.jpg" %}') this.src = '{% static "default.jpg" %}';" >
+                <img id="slika" src="media/{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5">
                 {{ forma_promenaSlike }}
 
             </div>
+                <div class="text-center" style="margin-bottom: 20px">
+                    <button type="submit" value="{{ request.user.id }}" name="profil_id" class="btn btn-danger">Obrisi profil</button>
+                </div>
         </div>
         <div class="col-md-8 border-right">
             <div class="p-3 py-5">
@@ -96,11 +98,12 @@
                     </div>
                 </div>
                  {% csrf_token %}
-                <div class=" col-md-8 col-sm-12 mt-5 text-center"><input  type="submit">Save Profile</div>
+                <div class=" col-md-8 col-sm-12 mt-5 text-center"><input  class="btn btn-success" type="submit"></div>
 
             </div>
         </form>
         </div>
+
     </div>
 </div>
 </div>

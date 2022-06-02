@@ -155,6 +155,19 @@ def profilDrugogKorisnika(request, korisnik_id):
             kom.save()
             return HttpResponseRedirect(request.path_info)
     form = KomentarForm()
+    kom_id = request.POST.get('komentar_id')
+    if kom_id:
+        kom = Komentar.objects.get(pk = kom_id)
+        kom.delete()
+        return HttpResponseRedirect(request.path_info)
+    user_id = request.POST.get('profil_id')
+    if user_id:
+        user = Korisnik.objects.get(pk=user_id)
+        user.delete()
+        return HttpResponseRedirect('/pathTestUlogovan')
+
+
+
 
     if request.method == "POST":
         rate = request.POST.get('rate')
@@ -284,6 +297,7 @@ def create_Komentar(request):
         return redirect('profilDrugogKorisnika.html')
 
 
+
 def konkretanOglasProdaja(request, oglas_id):
     # namestiti
     oglas = Oglas.objects.get(pk=oglas_id)
@@ -358,6 +372,11 @@ def urediProfil(request):
     pas = None
     fon = None
     mail = None
+    tren = request.POST.get('profil_id')
+    if tren:
+        korisnik = Korisnik.objects.get(pk = tren)
+        korisnik.delete()
+        return HttpResponseRedirect('/registracija')
     form = PromeniSliku(request.POST or None, request.FILES or None)
     if form.is_valid():
         kime = request.POST['ime1']

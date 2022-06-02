@@ -66,6 +66,9 @@ class PostavljanjeOglasa(forms.Form):
     slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
 
 
+
+
+
 class KomentarForm(ModelForm):
     class Meta:
         model = Komentar
@@ -77,7 +80,7 @@ class PorukaForm(ModelForm):
         model = Poruke
         fields = ['sadrzaj']
 
-   
+
 
 class PromeniSliku(forms.Form):
     slika = forms.FileField(widget=forms.FileInput(),required=False)
