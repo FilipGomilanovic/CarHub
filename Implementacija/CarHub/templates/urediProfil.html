@@ -57,18 +57,22 @@
     <link rel="stylesheet" href={% static "dizajn.css" %}>
 <div class="container rounded mb-5" style="background-color: rgba(0, 0, 0, 0.89); margin-top:5%;">
     <div class="row">
-
+    <form method="post" enctype="multipart/form-data">
         <div class="col-md-4 ">
-            <form method="post" enctype="multipart/form-data">
+
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 {% load static %}
-                <img id="slika" src="media/{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5"
-                     onerror="if (this.src !='{% static "default.jpg" %}') this.src = '{% static "default.jpg" %}';" >
+
+                <img id="slika" src="media/{{ user.slika }}"  style="width: 150px;" class="rounded-circle mt-5">
                
                 
                 <div style="margin-left:20% ;font-size: 15px; margin-top: 10%;" >{{ forma_promenaSlike }}</div>
 
+
             </div>
+                <div class="text-center" style="margin-bottom: 20px">
+                    <button type="submit" value="{{ request.user.id }}" name="profil_id" class="btn btn-danger">Obrisi profil</button>
+                </div>
         </div>
         <div class="col-md-8 ">
             <div class="p-3 py-5">
@@ -102,11 +106,15 @@
                     </div>
                 </div>
                  {% csrf_token %}
+
+
                 <div class=" col-md-8 col-sm-12 mt-5 text-center"><input  type="submit" class="btn" style="margin-bottom:-25% ;" value="Sacuvaj promene"></div>
 
+
             </div>
-        </form>
+
         </div>
+    </form>
     </div>
 </div>
 </div>

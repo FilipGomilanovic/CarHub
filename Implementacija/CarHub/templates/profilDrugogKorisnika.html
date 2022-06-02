@@ -112,10 +112,10 @@
     </style>
 <div class="container rounded mb-5" style=" margin-top: 50px">
     <div class="row">
-        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;">
+        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;margin-top: -1%">
             <div class="row">
             <div class="col-md-6 border-right text-center" style="color:white">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
+                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="/media/{{ profil.slika }}"></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
                 <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
@@ -124,6 +124,7 @@
 
             <div class="col-md-6 zvezdice mt-5" style="color:white">
                 <div class="heading">User Rating</div>
+
                 <div class="star_w">
                     {% if ocenjen == 1 %}
                         <div class = "star_w_1">
@@ -165,6 +166,7 @@
                     <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
                     <hr style="border:3px solid #f1f1f1">
                 </div>
+
                 <div class="row">
                     <div class="side">
                         <div>5&nbspstar</div>
@@ -224,23 +226,42 @@
                 </div>
             </div>
             </div>
+            {% if request.user.is_superuser %}
+                    <div class="text-center">
+                        <form method = "POST" >
+                            <br>
+                            {% csrf_token %}
+
+                            <button type="submit" value="{{ profil.id }}" name="profil_id" class="btn btn-danger">Obrisi profil</button>
+                        </form>
+                    </div>
+                {% endif %}
             <div class="p-3 py-5">
                 <div style="text-align: center" class="align-items-center mb-3">
-                    <h4 style="color: white"">Komentari</h4>
+                    <h4 style="color: white">Komentari</h4>
                 </div>
                 <div style="border-style: groove;" class="row mt-3 text-white ">
                     <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
                          {% for comment in komentar %}
+
                             <div class="comments">
                                 <p class="font-weight-bold">
                                     {{ comment.sadrzaj }}
-                                    <div style="text-align: end">
+                                    <div style = "text-align: end" >
                                         {% if user.id == comment.autor.id %}
                                             <a style="color:white" href="/profilKorisnika">{{ comment.autor }}</a>-
                                         {% else %}
                                             <a style="color:white" href="{{ comment.autor.id }}">{{ comment.autor }}</a>-
                                         {% endif %}
-                                        <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp.date }}</span>
+                                        <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp }}</span>
+                                        {% if comment.autor == request.user or request.user.is_superuser %}
+
+                                            <form method = "POST" >
+                                                {% csrf_token %}
+                                                <br>
+                                                <button type="submit" value="{{ comment.idkomentar }}" name="komentar_id">Obrisi</button>
+                                            </form>
+                                        {% endif %}
                                         <hr>
                                     </div>
                                 </p>
