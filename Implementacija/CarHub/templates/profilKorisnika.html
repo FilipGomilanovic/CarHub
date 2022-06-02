@@ -39,7 +39,6 @@
             color :#fd4;
         }
 
-
         /* Three column layout */
         .side {
           float: left;
@@ -90,106 +89,92 @@
             display: none;
           }
         }
-
-        /* a:link {
-            color: red;
-            text-decoration: none;
-        }
-        a:visited{
-            color: red;
-        }
-        a:hover {
-            color: red;
-            font-size: larger;
-        } */
     </style>
 <div class="container rounded mb-5" style=" margin-top: 50px">
     <div class="row" style="width:100% ;">
         <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;">
             <div class="row">
-            <div class="col-md-6 border-right text-center" style="color:white">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="/media/{{ request.user.slika }}"></div>
-                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ user.username }}</label></div>
-                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ user.email}}</label></div>
-                <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ user.kontakt_telefon }}</label></div>
-                <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="urediProfil">Uredi Profil</a></div>
-            </div>
-
-            <div class="col-md-6 zvezdice mt-5" style="color:white">
-                <div class="heading">User Rating</div>
-                <div class="star_w">
-                    {% for i in data%}
-                        {% if i <= zvezdice %}
-                            <label class="fa fa-star checked"></label>
-                        {% else %}
-                            <label class="fa fa-star"></label>
-                        {% endif %}
-                    {% endfor %}
+                <div class="col-md-6 border-right text-center" style="color:white">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="/media/{{ request.user.slika }}"></div>
+                    <div class="col-md-12 d-flex flex-column"><label class="labels">{{ user.username }}</label></div>
+                    <div class="col-md-12 d-flex flex-column"><label class="labels">{{ user.email}}</label></div>
+                    <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ user.kontakt_telefon }}</label></div>
+                    <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="urediProfil">Uredi Profil</a></div>
                 </div>
-                <br>
-
-                <div style="text-align: left">
-                    <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
-                    <hr style="border:3px solid #f1f1f1">
+                <div class="col-md-6 zvezdice mt-5" style="color:white">
+                    <div class="heading">User Rating</div>
+                        <div class="star_w">
+                            {% for i in data%}
+                                {% if i <= zvezdice %}
+                                    <label class="fa fa-star checked"></label>
+                                {% else %}
+                                    <label class="fa fa-star"></label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <br>
+                    <div style="text-align: left">
+                        <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
+                        <hr style="border:3px solid #f1f1f1">
+                    </div>
+                    <div class="row">
+                        <div class="side">
+                            <div>5&nbspstar</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-5"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>{{ ocene5 }}</div>
+                        </div>
+                        <div class="side">
+                            <div>4&nbspstar</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-4"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>{{ ocene4 }}</div>
+                        </div>
+                        <div class="side">
+                            <div>3&nbspstar</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-3"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>{{ ocene3 }}</div>
+                        </div>
+                        <div class="side">
+                            <div>2&nbspstar</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-2"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>{{ ocene2 }}</div>
+                        </div>
+                        <div class="side">
+                            <div>1&nbspstar</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-1"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>{{ ocene1 }}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="side">
-                        <div>5&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-5"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene5 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>4&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-4"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene4 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>3&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-3"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene3 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>2&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-2"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene2 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>1&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-1"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene1 }}</div>
-                    </div>
-                </div>
-            </div>
             </div>
             <div class="p-3 py-5">
                 <div style="text-align: center" class="align-items-center mb-3">
@@ -231,21 +216,17 @@
                 </tr>
             </table>
         </div>
-        
         <div class="col-xl-8" style="margin-left:30% ;" id="MojiOglasi">
-            
-           
-                
-                {% for oglas in nizMojihOglasa %}
-                    {% if oglas.tip == 'p' %}
+            {% for oglas in nizMojihOglasa %}
+                {% if oglas.tip == 'p' %}
                     <a href="konkretanOglasProdaja/{{ oglas.idoglas }}">
                         <div id="oglas" style="display: inline-block;margin-left: 13%; " >
-                           <div class="slika" style="background-color:red ;">
-                            {% if oglas.boost == 1%}
-                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >                 
-                            {% else %}
-                             <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >            
-                            {% endif %}
+                            <div class="slika" style="background-color:red ;">
+                                {% if oglas.boost == 1%}
+                                    <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >
+                                {% else %}
+                                    <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
+                                {% endif %}
                            </div>
                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
                                <p>
@@ -254,23 +235,19 @@
                                    <label for="">Godiste: {{ oglas.godiste }}</label>
                                    <br>
                                    <label for="">Cena: {{ oglas.cena }}</label>
-                                   
-                                   
-       
                                </p>
-       
                            </div>
                        </div>
-                   </a>
-                    {% else %}
+                    </a>
+                {% else %}
                     <a href="konkretanOglasRent/{{ oglas.idoglas }}">
                         <div id="oglas" style="display: inline-block;margin-left: 13%; " >
-                           <div class="slika" style="background-color:red ;">
-                            {% if oglas.boost == 1%}
-                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >                 
-                            {% else %}
-                             <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >            
-                            {% endif %}
+                            <div class="slika" style="background-color:red ;">
+                                {% if oglas.boost == 1%}
+                                    <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >
+                                {% else %}
+                                    <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
+                                {% endif %}
                            </div>
                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
                                <p>
@@ -279,95 +256,74 @@
                                    <label for="">Godiste: {{ oglas.godiste }}</label>
                                    <br>
                                    <label for="">Cena: {{ oglas.cena }}</label>
-                                   
-                                   
-       
                                </p>
-       
+                           </div>
+                       </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-xl-8" style="margin-left:30% ;" id="SacuvaniOglasi">
+            {% for oglas in nizSacuvanihOglasa %}
+                {% if oglas.tip == 'p' %}
+                    <a href="konkretanOglasProdaja/{{ oglas.idoglas }}">
+                        <div id="oglas" style="display: inline-block;margin-left: 13%; " >
+                            <div class="slika" style="background-color:red ;">
+                                {% if oglas.boost == 1 %}
+                                <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >
+                                {% else %}
+                                 <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
+                                {% endif %}
+                            </div>
+                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                               <p>
+                                   <label for="">Naziv modela: {{ brendovi2|index:forloop.counter0}} {{modeli2|index:forloop.counter0}}</label>
+                                   <br>
+                                   <label for="">Godiste: {{ oglas.godiste }}</label>
+                                   <br>
+                                   <label for="">Cena: {{ oglas.cena }}</label>
+                               </p>
+                            </div>
+                       </div>
+                    </a>
+                {% else %}
+                    <a href="konkretanOglasRent/{{ oglas.idoglas }}">
+                        <div id="oglas" style="display: inline-block;margin-left: 13%; " >
+                            <div class="slika" style="background-color:red ;">
+                                {% if oglas.boost == 1%}
+                                    <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >
+                                {% else %}
+                                    <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
+                                {% endif %}
+                            </div>
+                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                               <p>
+                                   <label for="">Naziv modela: {{ brendovi2|index:forloop.counter0}} {{modeli2|index:forloop.counter0}}</label>
+                                   <br>
+                                   <label for="">Godiste: {{ oglas.godiste }}</label>
+                                   <br>
+                                   <label for="">Cena: {{ oglas.cena }}</label>
+                               </p>
                            </div>
                        </div>
                    </a>
-                    {% endif %}
-
-                    
-                {% endfor %}
-            
-
+               {% endif %}
+            {% endfor %}
         </div>
-        <div class="col-xl-8" style="margin-left:30% ;" id="SacuvaniOglasi">
-            
-            {% for oglas in nizSacuvanihOglasa %}
-            {% if oglas.tip == 'p' %}
-            <a href="konkretanOglasProdaja/{{ oglas.idoglas }}">
-                <div id="oglas" style="display: inline-block;margin-left: 13%; " >
-                   <div class="slika" style="background-color:red ;">
-                    {% if oglas.boost == 1 %}
-                    <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >                 
-                    {% else %}
-                     <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >            
-                    {% endif %}
-                   </div>
-                   <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
-                       <p>
-                           <label for="">Naziv modela: {{ brendovi2|index:forloop.counter0}} {{modeli2|index:forloop.counter0}}</label>
-                           <br>
-                           <label for="">Godiste: {{ oglas.godiste }}</label>
-                           <br>
-                           <label for="">Cena: {{ oglas.cena }}</label>
-                           
-                           
-
-                       </p>
-
-                   </div>
-               </div>
-           </a>
-            {% else %}
-            <a href="konkretanOglasRent/{{ oglas.idoglas }}">
-                <div id="oglas" style="display: inline-block;margin-left: 13%; " >
-                   <div class="slika" style="background-color:red ;">
-                    {% if oglas.boost == 1%}
-                    <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:gold solid;" >                 
-                    {% else %}
-                     <img  src="media/{{ slike2|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >            
-                    {% endif %}
-                   </div>
-                   <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
-                       <p>
-                           <label for="">Naziv modela: {{ brendovi2|index:forloop.counter0}} {{modeli2|index:forloop.counter0}}</label>
-                           <br>
-                           <label for="">Godiste: {{ oglas.godiste }}</label>
-                           <br>
-                           <label for="">Cena: {{ oglas.cena }}</label>
-                           
-                           
-
-                       </p>
-
-                   </div>
-               </div>
-           </a>
-            {% endif %}
-
-            
-        {% endfor %}
-          
     </div>
 </div>
-<script>
-    $("#MojiOglasi").show();
-    $("#SacuvaniOglasi").hide();
-    $("#mojioglasi, #sacuvanioglasi").change(function () {
-        if ($("#mojioglasi").is(":checked")) {
-            $('#MojiOglasi').show();
-            $("#SacuvaniOglasi").hide();
-        }
-        else if ($("#sacuvanioglasi").is(":checked")) {
-            $('#SacuvaniOglasi').show();
-            $("#MojiOglasi").hide();
-        }
-
-    });
-</script>
-
+    <script>
+        $("#MojiOglasi").show();
+        $("#SacuvaniOglasi").hide();
+        $("#mojioglasi, #sacuvanioglasi").change(function () {
+            if ($("#mojioglasi").is(":checked")) {
+                $('#MojiOglasi').show();
+                $("#SacuvaniOglasi").hide();
+            }
+            else if ($("#sacuvanioglasi").is(":checked")) {
+                $('#SacuvaniOglasi').show();
+                $("#MojiOglasi").hide();
+            }
+        });
+    </script>
 {% endblock %}

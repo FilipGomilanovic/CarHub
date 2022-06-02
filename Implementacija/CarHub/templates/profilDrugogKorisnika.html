@@ -110,165 +110,159 @@
             font-size: larger;
         } */
     </style>
-<div class="container rounded mb-5" style=" margin-top: 50px">
-    <div class="row">
-        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;margin-top: -1%">
-            <div class="row">
-            <div class="col-md-6 border-right text-center" style="color:white">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="/media/{{ profil.slika }}"></div>
-                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
-                <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
-                <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
-                <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="/cet/{{profil.id}}">Posalji poruku</a></div>
-            </div>
-
-            <div class="col-md-6 zvezdice mt-5" style="color:white">
-                <div class="heading">User Rating</div>
-
-                <div class="star_w">
-                    {% if ocenjen == 1 %}
-                        <div class = "star_w_1">
-                            {% for i in data%}
-                                {% if i <= zvezdice %}
-                                    <label style="font-size: 24px" class="fa fa-star checked"></label>
-                                {% else %}
-                                    <label style="font-size: 24px" class="fa fa-star"></label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <br>
-                        <p>Vasa ocena je: {{ ocenaUlogovanog }}</p>
-
-                    {% else %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <input class="sakri" type="radio" name="rate" id="rate-1" value="1">
-                            <label for="rate-1" class="fa fa-star"></label>
-                            <input class="sakri" type="radio" name="rate" id="rate-2" value="2">
-                            <label for="rate-2" class="fa fa-star"></label>
-                            <input class="sakri" type="radio" name="rate" id="rate-3" value="3">
-                            <label for="rate-3" class="fa fa-star"></label>
-                            <input class="sakri" type="radio" name="rate" id="rate-4" value="4">
-                            <label for="rate-4" class="fa fa-star"></label>
-                            <input class="sakri" type="radio" name="rate" id="rate-5" value="5">
-                            <label for="rate-5" class="fa fa-star"></label>
-                            <div class = "col-12">
-                                <button type="submit">Oceni</button>
-                            </div>
-                        </form>
-                    {% endif %}
-                </div>
-
-                <div style="text-align: left">
-                    <br>
-                    <br>
-                    <br>
-                    <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
-                    <hr style="border:3px solid #f1f1f1">
-                </div>
-
+    <div class="container rounded mb-5" style=" margin-top: 50px">
+        <div class="row">
+            <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;margin-top: -1%">
                 <div class="row">
-                    <div class="side">
-                        <div>5&nbspstar</div>
+                    <div class="col-md-6 border-right text-center" style="color:white">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="/media/{{ profil.slika }}"></div>
+                        <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
+                        <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
+                        <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
+                        <div class="col-md-12 d-flex flex-column mb-3"><a class="ChangeLink" href="/cet/{{profil.id}}">Posalji poruku</a></div>
                     </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-5"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene5 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>4&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-4"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene4 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>3&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-3"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene3 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>2&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-2"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene2 }}</div>
-                    </div>
-                    <div class="side">
-                        <div>1&nbspstar</div>
-                    </div>
-                    <div class="middle">
-                        <div class="bar-container">
-                            <div class="bar-1"></div>
-                        </div>
-                    </div>
-                    <div class="side right">
-                        <div>{{ ocene1 }}</div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            {% if request.user.is_superuser %}
-                    <div class="text-center">
-                        <form method = "POST" >
-                            <br>
-                            {% csrf_token %}
 
-                            <button type="submit" value="{{ profil.id }}" name="profil_id" class="btn btn-danger">Obrisi profil</button>
-                        </form>
-                    </div>
-                {% endif %}
-            <div class="p-3 py-5">
-                <div style="text-align: center" class="align-items-center mb-3">
-                    <h4 style="color: white">Komentari</h4>
-                </div>
-                <div style="border-style: groove;" class="row mt-3 text-white ">
-                    <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
-                         {% for comment in komentar %}
-
-                            <div class="comments">
-                                <p class="font-weight-bold">
-                                    {{ comment.sadrzaj }}
-                                    <div style = "text-align: end" >
-                                        {% if user.id == comment.autor.id %}
-                                            <a style="color:white" href="/profilKorisnika">{{ comment.autor }}</a>-
+                    <div class="col-md-6 zvezdice mt-5" style="color:white">
+                        <div class="heading">User Rating</div>
+                        <div class="star_w">
+                            {% if ocenjen == 1 %}
+                                <div class = "star_w_1">
+                                    {% for i in data%}
+                                        {% if i <= zvezdice %}
+                                            <label style="font-size: 24px" class="fa fa-star checked"></label>
                                         {% else %}
-                                            <a style="color:white" href="{{ comment.autor.id }}">{{ comment.autor }}</a>-
+                                            <label style="font-size: 24px" class="fa fa-star"></label>
                                         {% endif %}
-                                        <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp }}</span>
-                                        {% if comment.autor == request.user or request.user.is_superuser %}
-
-                                            <form method = "POST" >
-                                                {% csrf_token %}
-                                                <br>
-                                                <button type="submit" value="{{ comment.idkomentar }}" name="komentar_id">Obrisi</button>
-                                            </form>
-                                        {% endif %}
-                                        <hr>
+                                    {% endfor %}
+                                </div>
+                                <br>
+                                <p>Vasa ocena je: {{ ocenaUlogovanog }}</p>
+                            {% else %}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input class="sakri" type="radio" name="rate" id="rate-1" value="1">
+                                    <label for="rate-1" class="fa fa-star"></label>
+                                    <input class="sakri" type="radio" name="rate" id="rate-2" value="2">
+                                    <label for="rate-2" class="fa fa-star"></label>
+                                    <input class="sakri" type="radio" name="rate" id="rate-3" value="3">
+                                    <label for="rate-3" class="fa fa-star"></label>
+                                    <input class="sakri" type="radio" name="rate" id="rate-4" value="4">
+                                    <label for="rate-4" class="fa fa-star"></label>
+                                    <input class="sakri" type="radio" name="rate" id="rate-5" value="5">
+                                    <label for="rate-5" class="fa fa-star"></label>
+                                    <div class = "col-12">
+                                        <button type="submit">Oceni</button>
                                     </div>
-                                </p>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div style="text-align: left">
+                            <br>
+                            <br>
+                            <br>
+                            <p>{{ prosecnaOcena }} average based on {{ ukupnoOcena }} reviews.</p>
+                            <hr style="border:3px solid #f1f1f1">
+                        </div>
+                        <div class="row">
+                            <div class="side">
+                                <div>5&nbspstar</div>
                             </div>
-                         {% endfor %}
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-5"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>{{ ocene5 }}</div>
+                            </div>
+                            <div class="side">
+                                <div>4&nbspstar</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-4"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>{{ ocene4 }}</div>
+                            </div>
+                            <div class="side">
+                                <div>3&nbspstar</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-3"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>{{ ocene3 }}</div>
+                            </div>
+                            <div class="side">
+                                <div>2&nbspstar</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-2"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>{{ ocene2 }}</div>
+                            </div>
+                            <div class="side">
+                                <div>1&nbspstar</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-1"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>{{ ocene1 }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {% if request.user.is_superuser %}
+                        <div class="text-center">
+                            <form method = "POST" >
+                                <br>
+                                {% csrf_token %}
+                                <button type="submit" value="{{ profil.id }}" name="profil_id" class="btn btn-danger">Obrisi profil</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                <div class="p-3 py-5">
+                    <div style="text-align: center" class="align-items-center mb-3">
+                        <h4 style="color: white">Komentari</h4>
+                    </div>
+                    <div style="border-style: groove;" class="row mt-3 text-white ">
+                        <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
+                             {% for comment in komentar %}
+
+                                <div class="comments">
+                                    <p class="font-weight-bold">
+                                        {{ comment.sadrzaj }}
+                                        <div style = "text-align: end" >
+                                            {% if user.id == comment.autor.id %}
+                                                <a style="color:white" href="/profilKorisnika">{{ comment.autor }}</a>-
+                                            {% else %}
+                                                <a style="color:white" href="{{ comment.autor.id }}">{{ comment.autor }}</a>-
+                                            {% endif %}
+                                            <span class=" text-muted font-weight-normal text-left">{{ comment.timestamp }}</span>
+                                            {% if comment.autor == request.user or request.user.is_superuser %}
+                                                <form method = "POST" >
+                                                    {% csrf_token %}
+                                                    <br>
+                                                    <button type="submit" value="{{ comment.idkomentar }}" name="komentar_id">Obrisi</button>
+                                                </form>
+                                            {% endif %}
+                                            <hr>
+                                        </div>
+                                    </p>
+                                </div>
+                             {% endfor %}
+                        </div>
+                    </div>
                     <div style="margin-top:10px;color: white;">
                          <form method="post">
                             {% csrf_token %}
@@ -280,44 +274,32 @@
                              <label for="send" class="fa fa-send"></label>
                         </form>
                     </div>
+                </div>
             </div>
-        </div>
-
-        <div style="margin-left:27% ;">
-            <button class="btn-danger" style="font-size:20px;margin-bottom: 3%;margin-left: 33%;" disabled>Oglasi korisnika</button>
-        </div>
-
-        <div class="col-xl-8" style="margin-left:30% ;">
-            
-          
+            <div style="margin-left:27% ;">
+                <button class="btn-danger" style="font-size:20px;margin-bottom: 3%;margin-left: 33%;" disabled>Oglasi korisnika</button>
+            </div>
+            <div class="col-xl-8" style="margin-left:30% ;">
                 {% for oglas in nizMojihOglasa %}
-                 
                     <a href="/{{ oglas.idoglas }}">
                          <div id="oglas" style="display: inline-block; margin-left: 13%;" >
-                            <div class="slika" style="background-color:red ;">
-                                <img  src="/media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
-                            </div>
-                            <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
-                                <p>
-                                    <label for="">Naziv modela: {{ brendovi|index:forloop.counter0}} {{modeli|index:forloop.counter0}}</label>
-                                    <br>
-                                    <label for="">Godiste: {{ oglas.godiste }}</label>
-                                    <br>
-                                    <label for="">Cena: {{ oglas.cena }}</label>
-                                    
-                                    
-        
-                                </p>
-        
+                             <div class="slika" style="background-color:red ;">
+                                 <img  src="/media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="200px" style="border:red solid;" >
+                             </div>
+                             <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
+                                 <p>
+                                     <label for="">Naziv modela: {{ brendovi|index:forloop.counter0}} {{modeli|index:forloop.counter0}}</label>
+                                     <br>
+                                     <label for="">Godiste: {{ oglas.godiste }}</label>
+                                     <br>
+                                     <label for="">Cena: {{ oglas.cena }}</label>
+                                 </p>
                             </div>
                         </div>
                     </a>
                 {% endfor %}
             </div>
-
         </div>
-        
     </div>
-</div>
 
 {% endblock %}
