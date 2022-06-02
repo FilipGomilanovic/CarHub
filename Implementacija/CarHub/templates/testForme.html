@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load crispy_forms_tags %}
 <html lang="en">
-   
+   <!-- POSTAVLJANJE OGLASA -->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +35,7 @@
     <div class="row">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="container-fluid">
-                <a href="#" class="navbar-brand">
+                <a href="/pathTest" class="navbar-brand">
                     {% load static %}
                     <img src={% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
                 </a>
@@ -45,8 +45,8 @@
                            {{user.username}}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-item">Pregled profila</a></li>
-                            <li><a href="#" class="dropdown-item">Poruke</a></li>
+                            <li><a href="/profilKorisnika" class="dropdown-item">Pregled profila</a></li>
+                            <li><a href="/cet/0" class="dropdown-item">Poruke</a></li>
                             <li><a href="/logout" class="dropdown-item">Odjavi se</a></li>
 
                         </ul>
@@ -111,10 +111,6 @@
 
                 <input type="text" name="Grad" style="margin-top: 10px; align-self: center" placeholder="Grad">
 
-<<<<<<< HEAD
-               
-=======
->>>>>>> main
                </div>
 
 

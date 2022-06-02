@@ -52,7 +52,8 @@ def BoostOglasa(request,oglas_id):
         oglas=Oglas.objects.get(idoglas=oglas_id)
         oglas.boost=1;
         oglas.save();
-        return HttpResponseRedirect(oglas_id)
+        return HttpResponseRedirect("/konkretanOglasProdaja/"+str(oglas_id))
+        
 
     
     context = {
@@ -70,26 +71,52 @@ def profilKorisnika(request):
     ukupnoOcena = Ocena.objects.all().filter(korisnik=trenutni).count()
     
     mojiOglasi = MojiOglasi.objects.values_list('oglas_id', flat=True).filter(korisnik_id = trenutni)
+    sacuvaniOglasi= SacuvaniOglasi.objects.values_list('oglas_id', flat=True).filter(korisnik_id = trenutni)
     nizMojihOglasa=[]
+    nizSacuvanihOglasa=[]
     imgs=[]
+    imgs2=[]
     brendovi=[]
+    brendovi2=[]
     modeli=[]
+    modeli2=[]
     nizBrendova=[]
+    nizBrendova2=[]
+    tipovi=[]
+    tipovi2=[]
+   
     for oglas in mojiOglasi:
         o=Oglas.objects.get(idoglas=oglas)
+       
         nizMojihOglasa.append(o);
         nesto = Slike.objects.filter(fk_oglas=oglas)
         imgs.append(nesto.first().slike)
+        tipovi.append(o.tip)
         
         m=Model.objects.get(idmodel=o.model_idmodel.idmodel)
         nizBrendova.append(m)
     for i in nizBrendova:
         brendovi.append(i.brend)
         modeli.append(i.naziv_modela)
+# //////////////////////////////////////////////////
+    for oglas in sacuvaniOglasi:
+        o=Oglas.objects.get(idoglas=oglas)
+       
+        nizSacuvanihOglasa.append(o);
+        nesto = Slike.objects.filter(fk_oglas=oglas)
+        imgs2.append(nesto.first().slike)
+        tipovi2.append(o.tip)
+        
+        m=Model.objects.get(idmodel=o.model_idmodel.idmodel)
+        nizBrendova2.append(m)
+    for i in nizBrendova2:
+        brendovi2.append(i.brend)
+        modeli2.append(i.naziv_modela)
+        
 
 
 
-    sacuvaniOglasi=SacuvaniOglasi.objects.all().filter(korisnik_id=trenutni)
+    
     ocene1 = 0
     ocene2 = 0
     ocene3 = 0
@@ -163,10 +190,15 @@ def profilKorisnika(request):
         'zvezdice': zvezdice,
         'data': data,
         'nizMojihOglasa':nizMojihOglasa,
-        'sacuvaniOglasi':sacuvaniOglasi,
+        'nizSacuvanihOglasa':nizSacuvanihOglasa,
         'slike':imgs,
         'brendovi': brendovi,
         'modeli': modeli,
+        'tipovi':tipovi,
+        'slike2':imgs2,
+        'brendovi2': brendovi2,
+        'modeli2': modeli2,
+        'tipovi2':tipovi2
        
         
 
@@ -359,6 +391,11 @@ def konkretanOglasProdaja(request, oglas_id):
     model_oglasa = oglas.model_idmodel
     lista_slika = list(Slike.objects.filter(fk_oglas=oglas))
     korisnik=MojiOglasi.objects.get(oglas_id=oglas_id).korisnik_id
+    variable=request.POST.get("sacuvaj")
+    if variable:
+        o=Oglas.objects.get(pk=variable)
+        sacuvaniOglasi=SacuvaniOglasi(korisnik_id=request.user,oglas_id=o)
+        sacuvaniOglasi.save();
 
     print(korisnik)
     
@@ -366,6 +403,7 @@ def konkretanOglasProdaja(request, oglas_id):
     # slika1 = lista_slika[0]
     oglas_dict = {
         'brend' : model_oglasa.brend,
+        'link':model_oglasa.carreviewlink,
         'model' : model_oglasa.naziv_modela,
         'cena' : oglas.cena,
         'boost' : oglas.boost,
@@ -374,15 +412,11 @@ def konkretanOglasProdaja(request, oglas_id):
         'kilometraza' : oglas.kilometraza,
         'godiste' : oglas.godiste,
         'karoserija' : oglas.karoserija,
-<<<<<<< HEAD
+        'opis' : oglas.opis,
         'ime':korisnik.username,
         'mail':korisnik.email,
         'broj':korisnik.kontakt_telefon,
-        'id': oglas_id
-        
-=======
-        'opis' : oglas.opis
->>>>>>> main
+        'id':oglas_id
     }
 
     return render(request, 'konkretanOglasProdaja.html', context={'oglas': oglas_dict})
@@ -391,6 +425,7 @@ def konkretanOglasProdaja(request, oglas_id):
 def konkretanOglasRent(request, oglas_id):
     poruka = ""
     datumi = []
+    korisnik=MojiOglasi.objects.get(oglas_id=oglas_id).korisnik_id
     if request.method == "POST":
         datumOd = request.POST['start']
         datumDo = request.POST['end']
@@ -422,11 +457,16 @@ def konkretanOglasRent(request, oglas_id):
         'brend': model_oglasa.brend,
         'model': model_oglasa.naziv_modela,
         'cena': oglas.cena,
+        'grad':oglas.grad,
         'slike': lista_slika,
         'karoserija': oglas.karoserija,
         'godiste': oglas.godiste,
         'datumDanasnji' : datumPocetni,
-        'poruka' : poruka
+        'poruka' : poruka,
+        'ime':korisnik.username,
+        'mail':korisnik.email,
+        'broj':korisnik.kontakt_telefon,
+        'id':oglas_id
     }
 
     return render(request, 'konkretanOglasRent.html', context=oglas_dict)
@@ -465,53 +505,42 @@ def urediProfil(request):
     return render(request, 'urediProfil.html', context=context)
 
 
-<<<<<<< HEAD
+# def postavljanjeOglasa(request):
+#     forma = PostavljanjeOglasa(request.POST, request.FILES)
+#     trenutniKorisnik = request.user
+#     kime = None
+#     pas = None
+#     fon = None
+#     mail = None
+#     form = PromeniSliku(request.POST or None, request.FILES or None)
+#     if form.is_valid():
+#         kime = request.POST['ime1']
+#         pas = request.POST['sifra1']
+#         fon = request.POST.get('telefon1')
+#         mail = request.POST.get('mejl1')
+#         slika = form.cleaned_data.get('slika')
+#         if slika is not None:
+#             trenutniKorisnik.slika = slika
 
-    
+#         if len(kime) > 6:
+#             trenutniKorisnik.username = kime
+#         if len(pas) > 6:
+#             trenutniKorisnik.set_password(pas)
+#         if len(fon) > 6:
+#             trenutniKorisnik.kontakt_telefon = fon
+#         if len(mail) > 6:
+#             trenutniKorisnik.email = mail
+#         trenutniKorisnik.save()
+#     context = {
+#         "forma_promenaSlike": form
+#     }
 
-
-
-def PretragaOglasa(request):
-
-    
-=======
-def postavljanjeOglasa(request):
-    forma = PostavljanjeOglasa(request.POST, request.FILES)
-    trenutniKorisnik = request.user
-    kime = None
-    pas = None
-    fon = None
-    mail = None
-    form = PromeniSliku(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        kime = request.POST['ime1']
-        pas = request.POST['sifra1']
-        fon = request.POST.get('telefon1')
-        mail = request.POST.get('mejl1')
-        slika = form.cleaned_data.get('slika')
-        if slika is not None:
-            trenutniKorisnik.slika = slika
-
-        if len(kime) > 6:
-            trenutniKorisnik.username = kime
-        if len(pas) > 6:
-            trenutniKorisnik.set_password(pas)
-        if len(fon) > 6:
-            trenutniKorisnik.kontakt_telefon = fon
-        if len(mail) > 6:
-            trenutniKorisnik.email = mail
-        trenutniKorisnik.save()
-    context = {
-        "forma_promenaSlike": form
-    }
-
-    return render(request, 'urediProfil.html', context=context)
+#     return render(request, 'urediProfil.html', context=context)
 
 
 def PretragaOglasa(request):
->>>>>>> main
     brendovi = Model.objects.values("brend").distinct()
-    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
+    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela").distinct())
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
@@ -529,18 +558,10 @@ def PretragaOglasa(request):
         # print(naziv_model)
         oglasi = []
         imgs = []
-<<<<<<< HEAD
-=======
-
->>>>>>> main
         models_ids = Model.objects.filter(godisteDo__gte=godiste2).filter(godisteOd__gte=godiste1).filter(
             brend=brend).filter(naziv_modela=naziv_model)
         print(models_ids)
         for model in models_ids:
-<<<<<<< HEAD
-=======
-
->>>>>>> main
             oglasi.extend(list(Oglas.objects.filter(model_idmodel=model).filter(godiste__lte=godiste2).filter(godiste__gte=godiste1).filter(karoserija=karoserija).filter(cena__gte=cenaOd).filter(cena__lte=cenaDo).filter(tip="p")))
         print(oglasi)
 
@@ -579,16 +600,6 @@ def PretragaOglasa(request):
     #ovde ide kod za dobijanje boostovanih oglasa i njihovo slanje nakon GET request-a
     oglasi = []
     imgs = []
-<<<<<<< HEAD
-    oglasi.extend(list(Oglas.objects.filter(boost=1)))
-    print("pretraga oglasa - GET")
-    for oglas in oglasi:
-        nesto = Slike.objects.filter(fk_oglas=oglas)
-        imgs.append(nesto.first().slike)
-
-    dataJSON = dumps(niz)
-    context = {
-=======
     brend_model = [] #lista naziva brenda i modela koju saljem kroz kontekst u slucaju da je get metod
     oglasi.extend(list(Oglas.objects.filter(boost=1)))
 
@@ -608,7 +619,6 @@ def PretragaOglasa(request):
     dataJSON = dumps(niz)
     context = {
         "naziv_brenda_modela_list" : brend_model,
->>>>>>> main
         "slike" : imgs,
         "oglasi" : oglasi,
         "data": dataJSON,
@@ -621,7 +631,7 @@ def PretragaOglasa(request):
 
 def PretragaOglasaRent(request):
     brendovi = Model.objects.values("brend").distinct()
-    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
+    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela").distinct())
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
@@ -733,9 +743,13 @@ def postavljanjeOglasa(request):
             oglas = Oglas(tip="p", cena=cena, boost=0, grad='', slike=slike,
                           snaga=snaga, kilometraza=kilometraza, karoserija=karoserija,
                           godiste=godiste, model_idmodel=model_id.first())
+            id=oglas.idoglas
             oglas.save()
             for img in slike:
                 photo = Slike.objects.create(slike=img, fk_oglas=oglas)
+            mojOglas=MojiOglasi(korisnik_id=request.user,oglas_id=oglas)
+            mojOglas.save()
+            
         else:
             cena = request.POST["cenaIznajmljivanje"];
             grad = request.POST["Grad"]
@@ -745,16 +759,18 @@ def postavljanjeOglasa(request):
             oglas.save()
             mojOglas=MojiOglasi(korisnik_id=request.user,oglas_id=oglas)
             mojOglas.save()
+            
            
             for img in slike:
                 photo = Slike.objects.create(slike = img, fk_oglas = oglas)
+           
         #napraviti razlicite ifove za prodaju i iznajmljivanje
         #ako je prodaja, moze odmag da se postavi oglas
         #ako je iznajmljivanje, treba smisliti nacin za kupljenje datuma i za njihovubacivanje u bazu
         #takodje, mora se naci id_Modela pomocu brenda, modela i godista
 
     brendovi = Model.objects.values("brend").distinct()
-    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela"))
+    brendovi_modeli = list(Model.objects.values("brend", "naziv_modela").distinct())
     niz = []
     for model in brendovi_modeli:
         niz.append([str(model["brend"]), str(model["naziv_modela"])])
@@ -855,12 +871,12 @@ def cet(request, idKor):
                               ne_procitano_Korisnik_2='Y')
                 noviCet.save()
                 por.cet_idcet = noviCet
-                por.timestamp = datetime.datetime.now()
+                por.timestamp = datetime.now()
                 por.save()
             else:
-                trenutniCet.timestamp = datetime.datetime.now()
+                trenutniCet.timestamp = datetime.now()
                 por.cet_idcet = trenutniCet
-                por.timestamp = datetime.datetime.now()
+                por.timestamp = datetime.now()
                 por.save()
                 if trenutniCet.idkorisnika1 == trenutni:
                     trenutniCet.ne_procitano_Korisnik_2 = 'Y'

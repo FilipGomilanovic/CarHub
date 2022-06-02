@@ -34,8 +34,8 @@ Pocetna strana-->
                     {% load static %}
                     <img src= {% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
                 </a>
-                <div class="dropdown">
-                <button type="button" class="btn-danger dropdown-toggle" data-bs-toggle="dropdown">
+                <div class="dropdown" style="margin-right:5% ;">
+                <button type="button" class="btn-danger dropdown-toggle" data-bs-toggle="dropdown" >
                     {{user.username}}
                 </button>
                 <ul class="dropdown-menu">
