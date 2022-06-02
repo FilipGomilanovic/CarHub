@@ -45,16 +45,20 @@
     <div id="cuvanjeOglasa" style="margin-left:7% ;margin-top: -10%;">
         <form method="post">
             {% csrf_token %}
-            <button class="btn" id="buttonCuvanje" type="submit" name="sacuvaj" value="{{oglas.id}}">
-            <img src="/static/star.png" alt="" width="50px" height="50px">
-            <font style="font-size: 20px;">Sacuvaj oglas</font>
-            </button>
+            {% if request.user != oglas.vlasnik %}
+                <button class="btn" id="buttonCuvanje" type="submit" name="sacuvaj" value="{{oglas.id}}">
+                <img src="/static/star.png" alt="" width="50px" height="50px">
+                <font style="font-size: 20px;">Sacuvaj oglas</font>
+                </button>
+
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <a href="/boostOglasa/{{ oglas.id }}"><button class="btn" id="buttonCuvanje" type="button">
-                <img src="/static/munja.png" alt="" width="50px" height="50px">
-                <font style="font-size: 20px;">Boost oglas</font>
-                </button></a>
-            
+            {% endif %}
+            {% if request.user == oglas.vlasnik and oglas.boost == 0 %}
+                <a href="/boostOglasa/{{ oglas.id }}"><button class="btn" id="buttonCuvanje" type="button">
+                    <img src="/static/munja.png" alt="" width="50px" height="50px">
+                    <font style="font-size: 20px;">Boost oglas</font>
+                    </button></a>
+            {% endif %}
             
         </form>
        
@@ -139,10 +143,34 @@
         </label>
         
         <div name="informacije" style="margin-top:10%"  >
-            <input type="text" name="" id="" value="{{oglas.ime}}" disabled>
+            {% if request.user == oglas.vlasnik %}
+                <a href="/profilKorisnika">
+                    <input type="text" name="" id="" value="{{oglas.ime}}" disabled>
+                </a>
+            {% endif %}
+            {% if request.user != oglas.vlasnik %}
+                <a href="/profilDrugogKorisnika/{{ oglas.vlasnik.id }}">
+                    <input type="text" name="" id="" value="{{oglas.ime}}" disabled>
+                </a>
+            {% endif %}
             <input type="text" value="{{oglas.mail}}" disabled>
             <input type="text" value="{{oglas.broj}}" disabled>
-            <button class="btn-danger" style="width: 150px; margin-top:10%">Posalji poruku</button>
+            {% if request.user != oglas.vlasnik %}
+                <a href="/cet/{{ oglas.vlasnik.id }}">
+                    <button class="btn-danger" style="width: 150px; margin-top:10%">Posalji poruku</button>
+                </a>
+                {% if request.user.is_superuser %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button class="btn-danger" value="{{ oglas.id }}" name="oglas_id" style="width: 150px; margin-top:10%">Izbrisi oglas</button>
+                    </form>
+                {% endif %}
+            {% elif request.user == oglas.vlasnik or request.user.is_superuser %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <button class="btn-danger" value="{{ oglas.id }}" name="oglas_id" style="width: 150px; margin-top:10%">Izbrisi oglas</button>
+                </form>
+            {% endif %}
            <h1 style="color: white;">
            
            </h1>

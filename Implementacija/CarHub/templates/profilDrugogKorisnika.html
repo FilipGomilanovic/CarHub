@@ -112,10 +112,10 @@
     </style>
 <div class="container rounded mb-5" style=" margin-top: 50px">
     <div class="row">
-        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;">
+        <div class="col-xl-4 prviRed" style="background-color: rgba(0, 0, 0, 0.89);margin-left: -10%;position: fixed;margin-top: -1%">
             <div class="row">
             <div class="col-md-6 border-right text-center" style="color:white">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
+                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" width="150px" src="/media/{{ profil.slika }}"></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.username }}</label></div>
                 <div class="col-md-12 d-flex flex-column"><label class="labels">{{ profil.email}}</label></div>
                 <div class="col-md-12 d-flex flex-column mb-3"><label class="labels">{{ profil.kontakt_telefon }}</label></div>
@@ -238,7 +238,7 @@
                 {% endif %}
             <div class="p-3 py-5">
                 <div style="text-align: center" class="align-items-center mb-3">
-                    <h4 style="color: white"">Komentari</h4>
+                    <h4 style="color: white">Komentari</h4>
                 </div>
                 <div style="border-style: groove;" class="row mt-3 text-white ">
                     <div class ="col-md-12" style="overflow-y:auto; max-height: 300px">
