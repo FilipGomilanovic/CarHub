@@ -17,7 +17,6 @@ from django.utils.safestring import mark_safe
 from .models import *
 
 
-
 # kreiranje formi
 
 # class NewUserForm(UserCreationForm):
@@ -39,7 +38,6 @@ from .models import *
 #             return user
 
 
-
 class KorisnikNoviForm(UserCreationForm):
     class Meta:
         model = Korisnik  # moramo definisati da ne koristimo default User model, vec nas redefinisan
@@ -55,7 +53,6 @@ class PostavljanjeOglasa(forms.Form):
         ('dzip', 'SUV')
     ]
 
-
     godiste = forms.IntegerField(label="Godiste:", required=False,
                                  widget=forms.TextInput(attrs={'placeholder': 'Unesite godiste'}))
     kilometraza = forms.IntegerField(label="Kilometraza:", required=False,
@@ -64,9 +61,6 @@ class PostavljanjeOglasa(forms.Form):
                                      widget=forms.TextInput(attrs={'placeholder': 'Unesite snagu motora'}))
     karoserija = forms.ChoiceField(choices=CHOICES, required=True, initial=CHOICES[0])
     # slike = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}))
-
-
-
 
 
 class KomentarForm(ModelForm):
@@ -81,30 +75,38 @@ class PorukaForm(ModelForm):
         fields = ['sadrzaj']
 
 
-
 class PromeniSliku(forms.Form):
-    slika = forms.FileField(label="",widget=forms.FileInput(attrs={'placeholder':'Izmeni profilnu sliku'}),required=False)
+    slika = forms.FileField(label="", widget=forms.FileInput(attrs={'placeholder': 'Izmeni profilnu sliku'}),
+                            required=False)
+
 
 class pretragaOglasa(forms.Form):
-     CHOICES=[
-        ('izbor','Izaberi karoseriju'),
-        ('limuzina','Limuzina'),
-        ('karavan','Karavan'),
-        ('hedzbek','Hedzbek'),
-        ('dzip','SUV')
+    CHOICES = [
+        ('izbor', 'Izaberi karoseriju'),
+        ('limuzina', 'Limuzina'),
+        ('karavan', 'Karavan'),
+        ('hedzbek', 'Hedzbek'),
+        ('dzip', 'SUV')
     ]
 
-     karoserija=forms.ChoiceField(choices=CHOICES,required=True,initial=CHOICES[0])
-     godiste1=forms.IntegerField(label="Godiste od:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste od'}))
-     godiste2=forms.IntegerField(label="Godiste do:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite godiste do'}))
-     cena1=forms.IntegerField(label="Cena od:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite cenu od'}))
-     cena2=forms.IntegerField(label="Cena do:", required=False,widget=forms.TextInput(attrs={'placeholder':'Unesite cenu do'}))
-     
+    karoserija = forms.ChoiceField(choices=CHOICES, required=True, initial=CHOICES[0])
+    godiste1 = forms.IntegerField(label="Godiste od:", required=False,
+                                  widget=forms.TextInput(attrs={'placeholder': 'Unesite godiste od'}))
+    godiste2 = forms.IntegerField(label="Godiste do:", required=False,
+                                  widget=forms.TextInput(attrs={'placeholder': 'Unesite godiste do'}))
+    cena1 = forms.IntegerField(label="Cena od:", required=False,
+                               widget=forms.TextInput(attrs={'placeholder': 'Unesite cenu od'}))
+    cena2 = forms.IntegerField(label="Cena do:", required=False,
+                               widget=forms.TextInput(attrs={'placeholder': 'Unesite cenu do'}))
+
+
 class pretragaOglasaRent(forms.Form):
-    
-     grad=forms.CharField(label="Grad",required=True,widget=forms.TextInput(attrs={'placeholder':'Unesite grad'}))
-     datumOd=forms.DateField(label="Datum od",required=False, input_formats=['%d-%m-%Y'], widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum od'}))
-     datumDo=forms.DateField(label="Datum do",required=False, input_formats=['%d-%m-%Y'],widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder':'Unesite datum do'}))
+    grad = forms.CharField(label="Grad", required=True, widget=forms.TextInput(attrs={'placeholder': 'Unesite grad'}))
+    datumOd = forms.DateField(label="Datum od", required=False, input_formats=['%d-%m-%Y'],
+                              widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder': 'Unesite datum od'}))
+    datumDo = forms.DateField(label="Datum do", required=False, input_formats=['%d-%m-%Y'],
+                              widget=forms.DateInput(format='%d-%m-%Y', attrs={'placeholder': 'Unesite datum do'}))
 
-    
 
+class CetSearchForm(forms.Form):
+    term = forms.CharField(max_length=50)

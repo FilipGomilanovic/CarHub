@@ -1,23 +1,7 @@
 {% extends 'base.html' %}
 
-
-{% block header%}
-    <div class="row">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <div class="container-fluid">
-                <a href="/pathTest" class="navbar-brand">
-                    {% load static %}
-                    <img src= {% static "carhublogo.png" %}  alt="Logo" style="width: 100px;" class="rounded">
-                </a>
-                <a href="/prijava" class="navbar-brand">
-                    {% load static %}
-                    <img src={% static "logoAvatar.png" %} alt="Logo" style="width: 40px;" align="right">
-                </a>
-            </div>
-        </nav>
-    </div>
-{% endblock %}
 {% block content%}
+    {% load crispy_forms_tags %}
     {% load static %}
     <script src={% static "skripta.js" %}></script>
     {% load static %}
@@ -25,29 +9,13 @@
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4" align="center" style="padding: 100px;">
-            <div class="box">
-                <form>
+            <div class="box" style="margin-top:5%;">
+                <form method="POST">
                     <div class="input-container">
-                        <input type="text" required=""/>
-                        <label>Korisnicko ime</label>
+                     {% csrf_token %}
+                     {{register_form|crispy}}
                     </div>
-                    <div class="input-container">
-                        <input type="mail" required=""/>
-                        <label>E-mail</label>
-                    </div>
-                    <div class="input-container">
-                        <input type="text" required=""/>
-                        <label>Kontakt telefon</label>
-                    </div>
-                    <div class="input-container">
-                        <input type="password" required=""/>
-                        <label>Lozinka</label>
-                    </div>
-                    <div class="input-container">
-                        <input type="password" required=""/>
-                        <label>Potvrda lozinke</label>
-                    </div>
-                    <button type="button" class="btn">registruj se</button>
+                    <button class="btn" type="submit">Registruj se</button>
                 </form>
             </div>
         </div>

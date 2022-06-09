@@ -8,10 +8,13 @@
                 <div class="card chat-app" style="margin-top:10%;">
                     <div id="plist" class="people-list">
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-search"></i></span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Search...">
+                            <form method="post">
+                                {% csrf_token %}
+                                Search:
+                                {{ searchform.term }}
+                                 <input style="display:none" type="submit" class="sakri" value="biloSta" id="searchKor" name="searchKor">
+                                 <label for="searchKor" class="fa fa-search"></label>
+                            </form>
                         </div>
                         <ul class="list-unstyled chat-list mt-2 mb-0">
                             {% for korisnik in sviKorisnici %}
@@ -87,7 +90,7 @@
                                     {% csrf_token %}
                                     <div class="input-group-prepend">
                                         {% if formaPoruke != 'Nema' %}
-                                            <input style="display:none" type="submit" class="sakri" placeholder="Enter text here..." id="send"></input>
+                                            <input style="display:none" type="submit" name="send" value="biloSta" class="sakri" placeholder="Enter text here..." id="send">
                                             <label for="send" class="fa fa-send"></label>
                                             {{ formaPoruke.sadrzaj }}
                                         {% endif %}
