@@ -1,31 +1,19 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseRedirect, request
+from django.shortcuts import redirect
 from django.shortcuts import render
 
-from django.urls import reverse
 from django.template.defaultfilters import register
 
 from .forms import *
-from django.contrib.auth import login, logout
-from django.contrib import messages
-from django.contrib.auth import login, authenticate  # add this
-from django.contrib.auth.forms import AuthenticationForm  # add this
+from django.contrib import messages, auth
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from json import dumps
-
 import datetime
 from datetime import datetime
-
 from django.http import HttpResponseRedirect
 from django.db.models import Q
-
-from django import template
-
-
-# from CarHub.forms import NewUserForm
 
 
 # Create your views here.
@@ -35,24 +23,23 @@ def index(sequence, position):
     return sequence[position]
 
 
-def Test(request):
-    # return HttpResponse("<h1> CarHub doktoriii</h1>")
+def pocetnaStrana(request):
     return render(request, 'pocetnaStrana.html', {'imeSlike': 'carhublogo.png'})
 
 
 def Ulogovan(request):
-    # return HttpResponse("<h1> CarHub doktoriii</h1>")
-    return render(request, 'pocetnaStranaUlogovan.html')
+    return render(request, 'pocetnaStrana.html')
 
 
 def BoostOglasa(request, oglas_id):
-    # return HttpResponse("<h1> CarHub doktoriii</h1>")
-
     if request.method == 'POST':
         oglas = Oglas.objects.get(idoglas=oglas_id)
         oglas.boost = 1;
         oglas.save();
-        return HttpResponseRedirect("/konkretanOglasProdaja/" + str(oglas_id))
+        if oglas.tip == 'p':
+            return HttpResponseRedirect("/konkretanOglasProdaja/" + str(oglas_id))
+        else:
+            return HttpResponseRedirect("/konkretanOglasRent/" + str(oglas_id))
 
     context = {
 
@@ -251,7 +238,7 @@ def profilDrugogKorisnika(request, korisnik_id):
     if user_id:
         user = Korisnik.objects.get(pk=user_id)
         user.delete()
-        return HttpResponseRedirect('/pathTestUlogovan')
+        return HttpResponseRedirect('/pocetnaStrana')
 
     if request.method == "POST":
         rate = request.POST.get('rate')
@@ -387,7 +374,12 @@ def create_Komentar(request):
 
 
 def konkretanOglasProdaja(request, oglas_id):
-    # namestiti
+    try:
+        vecSacuvan = SacuvaniOglasi.objects.get(korisnik_id=request.user, oglas_id=oglas_id)
+        vecSacuvan = 1
+    except SacuvaniOglasi.DoesNotExist:
+        vecSacuvan = 0
+
     oglas = Oglas.objects.get(pk=oglas_id)
     model_oglasa = oglas.model_idmodel
     lista_slika = list(Slike.objects.filter(fk_oglas=oglas))
@@ -397,6 +389,8 @@ def konkretanOglasProdaja(request, oglas_id):
         o = Oglas.objects.get(pk=variable)
         sacuvaniOglasi = SacuvaniOglasi(korisnik_id=request.user, oglas_id=o)
         sacuvaniOglasi.save();
+        return HttpResponseRedirect(request.path_info)
+
     brisi = request.POST.get('oglas_id')
     if brisi:
         tren_oglas = Oglas.objects.get(pk=brisi)
@@ -421,7 +415,8 @@ def konkretanOglasProdaja(request, oglas_id):
         'mail': korisnik.email,
         'broj': korisnik.kontakt_telefon,
         'id': oglas_id,
-        'vlasnik': oglas.vlasnik_id
+        'vlasnik': oglas.vlasnik_id,
+        'vecSacuvan': vecSacuvan
     }
 
     return render(request, 'konkretanOglasProdaja.html', context={'oglas': oglas_dict})
@@ -436,6 +431,14 @@ def konkretanOglasRent(request, oglas_id):
         o = Oglas.objects.get(pk=variable)
         sacuvaniOglasi = SacuvaniOglasi(korisnik_id=request.user, oglas_id=o)
         sacuvaniOglasi.save();
+        return HttpResponseRedirect(request.path_info)
+
+    brisi = request.POST.get('oglas_id')
+    if brisi:
+        tren_oglas = Oglas.objects.get(pk=brisi)
+        tren_oglas.delete()
+        return HttpResponseRedirect('/profilKorisnika')
+
     if request.method == "POST":
         datumOd = request.POST['start']
         datumDo = request.POST['end']
@@ -468,6 +471,7 @@ def konkretanOglasRent(request, oglas_id):
         'model': model_oglasa.naziv_modela,
         'cena': oglas.cena,
         'grad': oglas.grad,
+        'boost': oglas.boost,
         'slike': lista_slika,
         'karoserija': oglas.karoserija,
         'godiste': oglas.godiste,
@@ -476,7 +480,8 @@ def konkretanOglasRent(request, oglas_id):
         'ime': korisnik.username,
         'mail': korisnik.email,
         'broj': korisnik.kontakt_telefon,
-        'id': oglas_id
+        'id': oglas_id,
+        'vlasnik': oglas.vlasnik_id
     }
 
     return render(request, 'konkretanOglasRent.html', context=oglas_dict)
@@ -591,7 +596,7 @@ def PretragaOglasa(request):
     imgs = []
 
     brend_model = []  # lista naziva brenda i modela koju saljem kroz kontekst u slucaju da je get metod
-    oglasi.extend(list(Oglas.objects.filter(boost=1)))
+    oglasi.extend(list(Oglas.objects.filter(boost=1).filter(tip='p')))
 
     print("pretraga oglasa - GET")
 
@@ -685,7 +690,7 @@ def PretragaOglasaRent(request):
     oglasi = []
     imgs = []
     brend_model = []  # lista naziva brenda i modela koju saljem kroz kontekst u slucaju da je get metod
-    oglasi.extend(list(Oglas.objects.filter(tip='r')))
+    oglasi.extend(list(Oglas.objects.filter(tip='r').filter(boost=1)))
     print("pretraga oglasa - GET")
 
     if len(oglasi) != 0:
@@ -749,12 +754,15 @@ def postavljanjeOglasa(request):
             oglas = Oglas(tip="r", cena=cena, boost=0, grad=grad, slike=slike,
                           snaga=snaga, kilometraza=kilometraza, karoserija=karoserija,
                           godiste=godiste, model_idmodel=model_id.first())
+
+            oglas.vlasnik_id = request.user
             oglas.save()
-            mojOglas = MojiOglasi(korisnik_id=request.user, oglas_id=oglas)
-            mojOglas.save()
 
             for img in slike:
                 photo = Slike.objects.create(slike=img, fk_oglas=oglas)
+
+            mojOglas = MojiOglasi(korisnik_id=request.user, oglas_id=oglas)
+            mojOglas.save()
 
         # napraviti razlicite ifove za prodaju i iznajmljivanje
         # ako je prodaja, moze odmag da se postavi oglas
@@ -775,7 +783,7 @@ def postavljanjeOglasa(request):
         "brendovi": brendovi,
         "forma_postaviOglas": form
     }
-    return render(request=request, template_name='testForme.html', context=context)
+    return render(request=request, template_name='postavljanjeOglasa.html', context=context)
 
 
 def registracija(request):
@@ -783,10 +791,10 @@ def registracija(request):
     if form.is_valid():
         user = form.save()
         login(request, user)
-        return redirect("CarHub:pocetnaStranaUlogovan")
+        return redirect("CarHub:pocetnaStrana")
 
     form = KorisnikNoviForm()
-    return render(request=request, template_name="registracijaProbaDjango.html", context={"register_form": form})
+    return render(request=request, template_name="registracija.html", context={"register_form": form})
     # return render(request,"registracijaProbaDjango.html")
 
 
@@ -800,18 +808,19 @@ def prijava(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"Ulogovani ste kao{username}.")
-                return redirect("CarHub:pocetnaStranaUlogovan")
+                return redirect("CarHub:pocetnaStrana")
             else:
                 messages.error(request, "Netacno ime ili lozinka.")
         else:
             messages.error(request, "Netacno ime ili lozinka.")
     form = AuthenticationForm()
-    return render(request=request, template_name="prijavaProbaDjango.html", context={"login_form": form})
+    return render(request=request, template_name="prijava.html", context={"login_form": form})
 
 
-def logout_view(request):
-    logout(request)
-
+def logout(request):
+    print("Usao")
+    auth.logout(request)
+    return redirect("CarHub:pocetnaStrana")
 
 
 def cet(request, idKor):
@@ -840,20 +849,34 @@ def cet(request, idKor):
             trenutniCet.save()
 
     sviKorisnici = []
-
     cetovi = Cet.objects.order_by('-timestamp').filter(Q(idkorisnika1=trenutni) | Q(idkorisnika2=trenutni))
-    for i in cetovi:
-        if i.idkorisnika1 == trenutni:
-            sviKorisnici.append([i.idkorisnika2, i.ne_procitano_Korisnik_1])
-        else:
-            sviKorisnici.append([i.idkorisnika1, i.ne_procitano_Korisnik_2])
+    searchform = CetSearchForm(data=request.POST or None)
+    if searchform.is_valid():
+        print("search")
+        term = searchform.cleaned_data.get('term')
+        for i in cetovi:
+            if i.idkorisnika1 == trenutni:
+                if term in i.idkorisnika2.username:
+                    sviKorisnici.append([i.idkorisnika2, i.ne_procitano_Korisnik_1])
+            else:
+                if term in i.idkorisnika1.username:
+                    sviKorisnici.append([i.idkorisnika1, i.ne_procitano_Korisnik_2])
+    else:
+        print("nijeSearch")
+        for i in cetovi:
+            if i.idkorisnika1 == trenutni:
+                sviKorisnici.append([i.idkorisnika2, i.ne_procitano_Korisnik_1])
+            else:
+                sviKorisnici.append([i.idkorisnika1, i.ne_procitano_Korisnik_2])
 
     if trenutniCet is None:
         svePoruke = []
     else:
         svePoruke = Poruke.objects.all().filter(cet_idcet=trenutniCet)
 
-    if request.method == 'POST':
+    send = request.POST.get('send')
+    if send:
+        print("usao")
         form = PorukaForm(request.POST or None)
         if form.is_valid():
             por = form.save(commit=False)
@@ -886,7 +909,8 @@ def cet(request, idKor):
         'svePoruke': svePoruke,
         'formaPoruke': form,
         'idKor': CetKorisnik,
-        'id': idKor
+        'id': idKor,
+        'searchform': searchform
     }
     # Popraviti
     if idKor == 0:
