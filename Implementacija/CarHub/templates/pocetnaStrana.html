@@ -23,9 +23,13 @@
             <br> <br>
             <table>
                 <tr>
-                    <td><a href=/pretragaOglasa><button type="button" class="btn btn-danger" style="width: 100px;">BUY</button></a></td>
-                    <td> <a href=/pretragaOglasaRent><button type="button" class="btn btn-danger" style="width: 100px;" >RENT</button></a></td>
-                    <td><a href="/postavljanjeOglasa"><button type="button" class="btn btn-danger" style="width: 100px;">SELL</button></a></td>
+                    <td><a href=/pretragaOglasa><button type="button" class="btn btn-danger" style="width: 100px;">KUPI</button></a></td>
+                    <td> <a href=/pretragaOglasaRent><button type="button" class="btn btn-danger" style="width: 100px;" >IZNAJMI</button></a></td>
+                    {% if user.is_authenticated %}
+                    <td><a href="/postavljanjeOglasa"><button type="button" class="btn btn-danger" style="width: 100px;">PRODAJ</button></a></td>
+                    {% else  %}
+                    <td><a href="#"><button type="button" class="btn btn-danger" style="width: 100px;" disabled>PRODAJ</button></a></td>
+                    {% endif %}
                 </tr>
             </table>
         </div>

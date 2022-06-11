@@ -374,11 +374,13 @@ def create_Komentar(request):
 
 
 def konkretanOglasProdaja(request, oglas_id):
-    try:
-        vecSacuvan = SacuvaniOglasi.objects.get(korisnik_id=request.user, oglas_id=oglas_id)
-        vecSacuvan = 1
-    except SacuvaniOglasi.DoesNotExist:
-        vecSacuvan = 0
+    if request.user.is_authenticated:
+        try:
+            vecSacuvan = SacuvaniOglasi.objects.get(korisnik_id=request.user, oglas_id=oglas_id)
+            vecSacuvan = 1
+        except SacuvaniOglasi.DoesNotExist:
+            vecSacuvan = 0
+    else: vecSacuvan = 0
 
     oglas = Oglas.objects.get(pk=oglas_id)
     model_oglasa = oglas.model_idmodel

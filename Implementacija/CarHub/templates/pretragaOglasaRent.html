@@ -65,20 +65,20 @@
             </div>
         </div>
 
-    <div class="col-sm-8" style="margin-top:1% ;margin-left: 5%;">
+    <div class="col-sm-8" style=" margin-top:1% ;margin-left: 5%;">
         {% for oglas in oglasi %}
             <a href="konkretanOglasRent/{{ oglas.idoglas }}">
-                <div id="oglas">
+                <div id="oglas" style="display: inline-block;margin-left: 5%;">
 
                     <div class="slika">
                         {% if oglas.boost == 1%}
-                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="250px" height="200px" style="border:gold solid;" >
+                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="230px" style="border:gold solid;" >
                         {% else %}
-                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="250px" height="200px" style="border:red solid;" >
+                            <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="300px" height="230px" style="border:red solid;" >
                         {% endif %}
-{#                        <img  src="media/{{ slike|index:forloop.counter0 }}" alt="" width="250px" height="200px" style="border:red solid;" >#}
+                       
                     </div>
-                    <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 250px; color: white;">
+                    <div class="opis" style="background-color:rgba(0, 0, 0, 0.89);; width: 300px; color: white;">
                         <p>
                             {% if naziv_brenda %}
                                 <label for="">Naziv modela: {{ naziv_brenda }} {{ naziv_modela }}</label>
