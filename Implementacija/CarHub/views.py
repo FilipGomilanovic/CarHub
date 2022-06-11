@@ -641,9 +641,12 @@ def PretragaOglasaRent(request):
         brend = request.POST['dropdown_Brend']
         naziv_model = request.POST['dropdown_Model']
         oglasi_pom = []
-        models_ids = Model.objects.filter(brend=brend).filter(naziv_modela=naziv_model)
-        for model in models_ids:
-            oglasi_pom.extend(list(Oglas.objects.filter(grad=grad).filter(tip="r")))
+        oglasi_pom2 = []
+        oglasi_pom2 = list(Oglas.objects.filter(grad=grad).filter(tip="r"))
+        for ogl in oglasi_pom2:
+            if ogl.model_idmodel.brend == brend and ogl.model_idmodel.naziv_modela:
+                oglasi_pom.append(ogl)
+
         print(oglasi_pom)
         oglasi = []
         imgs = []
@@ -666,13 +669,13 @@ def PretragaOglasaRent(request):
                     nesto = Slike.objects.filter(fk_oglas=oglas)
                     imgs.append(nesto.first().slike)
                     # imgs.append((Slike.objects.filter(fk_oglas=oglas)).first().slike)
-                    print(imgs)
+                    #print(imgs)
             else:
                 oglasi = oglasi_pom
                 for oglas in oglasi:
                     nesto = Slike.objects.filter(fk_oglas=oglas)
                     imgs.append(nesto.first().slike)
-                print(oglasi)
+                #print(oglasi)
         else:
             poruka = "Nema oglasa!"
         dataJSON = dumps(niz)
@@ -686,7 +689,7 @@ def PretragaOglasaRent(request):
             "slike": imgs,
             "poruka": poruka
         }
-
+        #print(oglasi)
         return render(request=request, template_name='pretragaOglasaRent.html', context=context)
 
     oglasi = []
